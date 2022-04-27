@@ -5,3 +5,7 @@
 body {
   @apply dark:bg-[#171a1c] dark:text-white;
 }
+
+svg {
+  @apply dark:fill-white hover:cursor-pointer hover:fill-red-400 h-[1em] md:h-[2em] lg:h-[4em];
+}

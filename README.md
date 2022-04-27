@@ -6,7 +6,7 @@ a portfolio thingy i made because i was bored
 - [react](https://github.com/facebook/react) - A declarative, efficient, and flexible JavaScript library for building user interfaces.
 
 ### Installation
-ducki requires [node](https://nodejs.org/) v12+ to run, to know your version run this following command `node --version`
+ducki requires [node](https://nodejs.org/) v14+ to run, to know your version run this following command `node --version`
 
 
 1. **Installing Dependencies**
