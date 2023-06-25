@@ -17,35 +17,30 @@ mod server;
 mod types;
 mod utils;
 
-use crate::types::{BotState, Service};
+use crate::server::build_router;
+use crate::types::{AppState, BotState, Service};
 use crate::utils::try_update_spotify;
-
-struct State;
-impl TypeMapKey for State {
-    type Value = Arc<BotState>;
-}
 
 struct Handler {
     state: Arc<BotState>,
+    user_id: u64,
 }
 
 #[async_trait]
 impl EventHandler for Handler {
     async fn message(&self, ctx: Context, msg: channel::Message) {
         if msg.content == "!ping" {
-            if let Err(e) = msg.channel_id.say(&ctx.http, "Pong!").await {
-                error!("Error sending message: {:?}", e);
-            }
+            let _ = msg.channel_id.say(&ctx.http, "Pong!").await;
         }
     }
 
-    async fn presence_update(&self, ctx: Context, data: Presence) {
-        if data.user.id != self.state.user_id {
+    async fn presence_update(&self, _ctx: Context, data: Presence) {
+        if data.user.id != self.user_id {
             return;
         }
 
-        try_update_spotify(&ctx, &data).await;
-        try_update_status(&ctx, &data).await;
+        try_update_spotify(&data, &self.state).await;
+        try_update_status(&data, &self.state).await;
     }
 
     async fn ready(&self, _: Context, ready: Ready) {
@@ -59,7 +54,7 @@ async fn init(
 ) -> Result<Service, shuttle_service::Error> {
     let token = secret_store.get("DISCORD_TOKEN").unwrap();
     let user_id = secret_store.get("USER_ID").unwrap().parse::<u64>().unwrap();
-    let (_tx, _) = broadcast::channel::<String>(1);
+    let (_tx, _) = broadcast::channel::<String>(16);
 
     let cache = Arc::new(SRwLock::new(None));
     let tx = Arc::new(_tx);
@@ -68,28 +63,19 @@ async fn init(
         tx: Arc::clone(&tx),
         listening_cache: Arc::clone(&cache),
         user_status: Arc::new(SRwLock::new(OnlineStatus::Offline)),
-        user_id,
     });
 
-    let intents = GatewayIntents::GUILD_MESSAGES
-        | GatewayIntents::GUILD_PRESENCES
-        | GatewayIntents::MESSAGE_CONTENT;
-
-    let client = Client::builder(&token, intents)
+    let client = Client::builder(&token, GatewayIntents::GUILD_PRESENCES)
         .event_handler(Handler {
             state: Arc::clone(&state),
+            user_id,
         })
         .await
         .unwrap();
 
-    {
-        let mut data = client.data.write().await;
-        data.insert::<State>(Arc::clone(&state));
-    }
-
     Ok(Service {
         bot: client,
-        router: SyncWrapper::new(server::build_router(crate::types::AppState {
+        router: SyncWrapper::new(build_router(AppState {
             tx: Arc::clone(&tx),
             cache: Arc::clone(&cache),
         })),

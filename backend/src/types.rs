@@ -27,8 +27,6 @@ pub struct BotState {
     pub listening_cache: Arc<RwLock<Option<Song>>>,
     /// The User status (online, offline, etc.)
     pub user_status: Arc<RwLock<OnlineStatus>>,
-    /// The user to track.
-    pub user_id: u64,
 }
 
 #[derive(Clone, Debug)]
