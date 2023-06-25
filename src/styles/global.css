@@ -11,7 +11,7 @@ a {
 }
 
 a:hover {
-  @apply transition-all text-white decoration-highlight;
+  @apply transition-all dark:text-white text-black decoration-highlight;
 }
 
 p {
