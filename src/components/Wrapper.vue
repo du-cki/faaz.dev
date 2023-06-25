@@ -1,7 +1,8 @@
 <script lang="ts">
 export default {
   mounted() {
-    const wrapper: HTMLElement = this.$refs.parent
+    const wrapper = this.$refs.parent as HTMLElement;
+
     const children = wrapper.children
 
     for (let i = 0; i < children.length; i++) { // in a way this is like enumerating.
