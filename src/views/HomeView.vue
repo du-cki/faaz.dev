@@ -94,7 +94,7 @@ export default defineComponent({
               license: elem.license?.name,
               language: elem.language || "Other",
               color:
-                this.color_mapping[elem.language?.toLowerCase()] ||
+                this.color_mapping[elem.language!.toLowerCase() as keyof typeof this.color_mapping] ||
                 import.meta.env.VITE_PROJECT_DEFAULT_COLOR, // sometimes color is null for whatever reason.
               tags: elem.topics,
             });
