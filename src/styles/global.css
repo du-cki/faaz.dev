@@ -22,16 +22,12 @@ h1 {
     @apply text-3xl md:text-4xl font-bold pb-3;
 }
 
-path {
+path, rect {
     @apply stroke-dark-secondary dark:stroke-light-secondary;
 }
 
-ellipse {
+ellipse, circle {
     @apply fill-dark-secondary dark:fill-light-secondary;
-}
-
-circle {
-    @apply fill-black dark:fill-white;
 }
 
 .animate-gradient {
