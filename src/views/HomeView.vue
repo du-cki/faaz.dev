@@ -36,7 +36,6 @@ export default defineComponent({
       ? "ws://127.0.0.1:8000/ws/meow"
       : `wss://${import.meta.env.VITE_APP_BACKEND}/ws/meow`;
 
-    // since i can't really type the connection, i have to do this janky workaround.
     this.connection = new WebSocket(baseUrl);
 
     this.connection.onmessage = (event: MessageEvent) => {
@@ -178,7 +177,7 @@ export default defineComponent({
       </div>
     </div>
 
-    <div class="flex flex-col justify-evenly lg:h-screen p-10 md:p-20 md:py-10">
+    <div class="flex flex-col justify-evenly md:h-screen p-10 md:p-20 md:py-10">
       <div>
         <h1>Expertise</h1>
         <p class="md:w-4/6">
@@ -197,9 +196,9 @@ export default defineComponent({
         <div class="text-right w-full">
           <h1>Projects</h1>
           <p>
-            I work and maintain on a few projects over at my
-            <a href="https://github.com/du-cki">GitHub</a>,
-            Here are a few of my recent Projects.
+            I work and maintain on a few projects over at
+            <a href="https://github.com/du-cki" v-tooltip="'@du-cki'">GitHub</a>,
+            here are my recent Projects
           </p>
           <div class="base flex-col lg:flex-row lg:pt-10 pt-3 w-full">
             <svg v-if="!projects.length" class="pt-6" xmlns="http://www.w3.org/2000/svg" height="100px" width="100px"
