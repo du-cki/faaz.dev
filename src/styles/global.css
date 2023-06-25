@@ -7,11 +7,11 @@ body {
 }
 
 a {
-    @apply underline;
+    @apply underline underline-offset-4;
 }
 
 a:hover {
-    @apply text-highlight underline underline-offset-4;
+    @apply transition-all text-white decoration-highlight;
 }
 
 p {
