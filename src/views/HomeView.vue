@@ -137,7 +137,7 @@ export default defineComponent({
               <ellipse cx="121" cy="101" fill="#000000" rx="13" ry="15" />
             </svg>
           </a>
-          <a href="mailto:me@faaz.dev" v-tooltip="'me@faaz.dev'" target="_blank">
+          <a href="mailto:meow@faaz.dev" v-tooltip="'meow@faaz.dev'" target="_blank">
             <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4 7.00005L10.2 11.65C11.2667 12.45 12.7333 12.45 13.8 11.65L20 7" stroke-width="2"
                 stroke-linecap="round" stroke-linejoin="round" />
