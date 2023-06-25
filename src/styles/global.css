@@ -3,31 +3,33 @@
 @tailwind utilities;
 
 body {
-    @apply bg-light-primary text-light-text dark:bg-dark-primary dark:text-dark-text scroll-smooth select-none;
+  @apply bg-light-primary text-light-text dark:bg-dark-primary dark:text-dark-text scroll-smooth select-none;
 }
 
 a {
-    @apply underline underline-offset-4;
+  @apply underline underline-offset-4;
 }
 
 a:hover {
-    @apply transition-all text-white decoration-highlight;
+  @apply transition-all text-white decoration-highlight;
 }
 
 p {
-    @apply text-gray-500 text-sm md:text-base ;
+  @apply text-gray-500 text-sm md:text-base;
 }
 
 h1 {
-    @apply text-3xl md:text-4xl font-bold pb-3;
+  @apply text-3xl md:text-4xl font-bold pb-3;
 }
 
-path, rect {
-    @apply stroke-dark-secondary dark:stroke-light-secondary;
+path,
+rect {
+  @apply stroke-dark-secondary dark:stroke-light-secondary;
 }
 
-ellipse, circle {
-    @apply fill-dark-secondary dark:fill-light-secondary;
+ellipse,
+circle {
+  @apply fill-dark-secondary dark:fill-light-secondary;
 }
 
 .animate-gradient {
@@ -50,9 +52,8 @@ ellipse, circle {
 }
 
 .uae-flag-text:hover {
-    @apply bg-gradient-to-r from-black via-red-600 to-green-600 bg-clip-text text-transparent animate-gradient transition-all;
+  @apply bg-gradient-to-r from-black via-red-600 to-green-600 bg-clip-text text-transparent animate-gradient transition-all;
 }
-
 
 /* Tooltip custom css */
 .v-popper--theme-album-cover .v-popper__inner {
