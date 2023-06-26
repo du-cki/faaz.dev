@@ -79,8 +79,23 @@ interface Song {
     sync_id: string
 }
 
+enum EventType {
+    Spotify = 1,
+    Status = 2
+}
+
+enum EventState {
+    Stop = 1,
+    Update = 2
+}
+
 export type {
     ListRepositoryPayload,
     Project,
-    Song
+    Song,
 };
+
+export {
+    EventType,
+    EventState
+}

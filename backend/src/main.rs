@@ -18,11 +18,11 @@ mod types;
 mod utils;
 
 use crate::server::build_router;
-use crate::types::{AppState, BotState, Service};
+use crate::types::{AppState, Service, SharedState};
 use crate::utils::try_update_spotify;
 
 struct Handler {
-    state: Arc<BotState>,
+    state: Arc<SharedState>,
     user_id: u64,
 }
 
@@ -54,14 +54,11 @@ async fn init(
 ) -> Result<Service, shuttle_service::Error> {
     let token = secret_store.get("DISCORD_TOKEN").unwrap();
     let user_id = secret_store.get("USER_ID").unwrap().parse::<u64>().unwrap();
-    let (_tx, _) = broadcast::channel::<String>(16);
+    let (tx, _) = broadcast::channel::<String>(16);
 
-    let cache = Arc::new(SRwLock::new(None));
-    let tx = Arc::new(_tx);
-
-    let state = Arc::new(BotState {
-        tx: Arc::clone(&tx),
-        listening_cache: Arc::clone(&cache),
+    let state = Arc::new(SharedState {
+        tx: Arc::new(tx),
+        listening_cache: Arc::new(SRwLock::new(None)),
         user_status: Arc::new(SRwLock::new(OnlineStatus::Offline)),
     });
 
@@ -76,8 +73,7 @@ async fn init(
     Ok(Service {
         bot: client,
         router: SyncWrapper::new(build_router(AppState {
-            tx: Arc::clone(&tx),
-            cache: Arc::clone(&cache),
+            shared_state: Arc::clone(&state),
         })),
     })
 }

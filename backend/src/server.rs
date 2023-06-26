@@ -27,29 +27,51 @@ pub async fn ws_handler(ws: WebSocketUpgrade, State(state): State<AppState>) -> 
 }
 
 pub async fn handle_socket(mut socket: WebSocket, state: AppState) -> () {
-    let cache = {
-        let data = &state.cache;
-        if let Ok(song) = data.clone().read() {
-            song.clone()
-        } else {
-            None
-        }
+    let cached_status = {
+        state
+            .shared_state
+            .user_status
+            .read()
+            .ok()
+            .and_then(|status| Some(status.clone()))
     };
 
-    if let Some(song) = cache {
+    if let Some(status) = cached_status {
+        let payload = json!({
+            "event": 2, // Status
+            "state": 2, // Update
+            "data": {
+                "status": status
+            }
+        });
+
+        let _ = socket.send(Message::Text(payload.to_string())).await;
+    }
+
+    let cached_song = {
+        state
+            .shared_state
+            .listening_cache
+            .clone()
+            .read()
+            .ok()
+            .and_then(|song| song.clone())
+    };
+
+    if let Some(song) = cached_song {
         // just incase if i'm already listening to a song when someone connects to the WS.
-        if let Ok(json) = serde_json::to_string(&song) {
-            let payload = json!({
-                "event": "SPOTIFY",
-                "state": "UPDATE",
-                "song": json
-            });
+        let payload = json!({
+            "event": 1, // Spotify
+            "state": 2, // Update
+            "data": {
+                "song": song
+            }
+        });
 
-            let _ = socket.send(Message::Text(payload.to_string())).await;
-        }
-    };
+        let _ = socket.send(Message::Text(payload.to_string())).await;
+    }
 
-    let mut rx = state.tx.subscribe();
+    let mut rx = state.shared_state.tx.subscribe();
     while let Ok(msg) = rx.recv().await {
         let _ = socket.send(Message::Text(msg)).await;
     }

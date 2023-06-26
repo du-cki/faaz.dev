@@ -4,9 +4,9 @@ use serde_json::json;
 use serenity::model::prelude::ActivityType;
 use serenity::model::prelude::Presence;
 
-use crate::types::{BotState, Song};
+use crate::types::{SharedState, Song};
 
-pub async fn try_update_spotify(data: &Presence, state: &Arc<BotState>) {
+pub async fn try_update_spotify(data: &Presence, state: &Arc<SharedState>) {
     let spotify = data
         .activities
         .iter()
@@ -22,7 +22,7 @@ pub async fn try_update_spotify(data: &Presence, state: &Arc<BotState>) {
 
     if let Some(activity) = spotify {
         if let Some(cached_song) = cached_sp {
-            if Some(cached_song.sync_id) != activity.sync_id {
+            if Some(cached_song.sync_id) == activity.sync_id {
                 return;
             }
         }
@@ -66,25 +66,23 @@ pub async fn try_update_spotify(data: &Presence, state: &Arc<BotState>) {
             }
         }
 
-        if let Ok(json) = serde_json::to_string(&payload) {
-            let resp = json!({
-                "event": "SPOTIFY",
-                "state": "UPDATE",
-                "data": {
-                    "song": json
-                }
-            });
+        let resp = json!({
+            "event": 1, // Spotify
+            "state": 2, // Update
+            "data": {
+                "song": payload
+            }
+        });
 
-            let tx = state.tx.clone();
-            let _ = tx.send(resp.to_string());
-        }
+        let tx = state.tx.clone();
+        let _ = tx.send(resp.to_string());
     } else {
         if let Some(_) = cached_sp {
             // if there is something in the cache and the user has stopped
             // listening to the music, broadcast a "STOP" event and update the cache.
             let payload = json!({
-                "event": "SPOTIFY",
-                "state": "STOP",
+                "event": 1, // Spotify
+                "state": 1, // Stop
                 "data": {}
             });
 
@@ -100,7 +98,7 @@ pub async fn try_update_spotify(data: &Presence, state: &Arc<BotState>) {
     }
 }
 
-pub async fn try_update_status(data: &Presence, state: &Arc<BotState>) {
+pub async fn try_update_status(data: &Presence, state: &Arc<SharedState>) {
     let new_status = data.status;
 
     let user_cached_status = {
@@ -116,8 +114,8 @@ pub async fn try_update_status(data: &Presence, state: &Arc<BotState>) {
             return;
         } else {
             let payload = json!({
-                "event": "STATUS",
-                "state": "UPDATE",
+                "event": 2, // Status
+                "state": 2, // Update
                 "data": {
                     "status": new_status
                 }

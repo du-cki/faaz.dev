@@ -20,7 +20,7 @@ pub struct Song {
 }
 
 #[derive(Clone, Debug)]
-pub struct BotState {
+pub struct SharedState {
     /// The broadcast Sender.
     pub tx: Arc<Sender<String>>,
     /// A cache that contains only one song.
@@ -31,8 +31,7 @@ pub struct BotState {
 
 #[derive(Clone, Debug)]
 pub struct AppState {
-    pub tx: Arc<Sender<String>>,
-    pub cache: Arc<RwLock<Option<Song>>>,
+    pub shared_state: Arc<SharedState>,
 }
 
 pub struct Service {
