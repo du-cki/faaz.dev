@@ -15,7 +15,7 @@ export default defineComponent({
       connection: null as WebSocket | null,
       songData: null as Song | null,
       projects: [] as Project[],
-      userStatus: "offline" as string,
+      userStatus: null as string | null,
       age: moment().diff(import.meta.env.VITE_DATE_OF_BIRTH, "years"),
       // this is just a basic mapping of language: color,
       // its main purpose is cosmetic only but i'd like to get a better solution in the future.
@@ -50,6 +50,12 @@ export default defineComponent({
           console.error(`Got an unexpected event:`, message);
       }
     };
+
+    this.connection.onclose = (_error: Event) => {
+      console.error('Got disconnected, clearing state and attempting to reconnect...'); // TODO: turn this into a toast
+      this.songData = null;
+      this.userStatus = null;
+    }
   },
   unmounted() {
     this.connection?.close();
@@ -158,11 +164,11 @@ export default defineComponent({
         <div class="flex justify-end items-center h-full">
           <div class="text-right">
             <h1 class="text-right">About</h1>
-            <p>
+            <p v-if="userStatus">
               I'm currently
-              <span class="text-black dark:text-white text-bold">
-                {{ userStatus === 'online' ? 'offline' : 'online' }}
-              </span>!
+              <span class="text-black dark:text-white text-bold" v-tooltip="'On Discord!'">
+                {{ userStatus !== 'offline' ? 'online' : 'online' }}
+              </span>{{ userStatus !== 'offline' ? '!' : '.' }}
             </p>
             <p v-if="songData">
               listening to
