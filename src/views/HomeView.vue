@@ -167,7 +167,7 @@ export default defineComponent({
             <p v-if="userStatus">
               I'm currently
               <span class="text-black dark:text-white text-bold" v-tooltip="'On Discord!'">
-                {{ userStatus !== 'offline' ? 'online' : 'online' }}
+                {{ userStatus !== 'offline' ? 'online' : 'offline' }}
               </span>{{ userStatus !== 'offline' ? '!' : '.' }}
             </p>
             <p v-if="songData">
