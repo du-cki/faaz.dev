@@ -171,7 +171,7 @@ export default defineComponent({
               </span>{{ userStatus !== 'offline' ? '!' : '.' }}
             </p>
             <p v-if="songData">
-              listening to
+              Listening to
               <a class="text-black dark:text-white text-bold" :href="songData.track_url" v-tooltip="{
                 content:
                   '<img height=\'200\' width=\'200\' src=\'' +
@@ -181,10 +181,11 @@ export default defineComponent({
                 theme: 'album-cover',
               }" targeti="_blank">{{ songData.title }}</a>
               by
-              <span class="text-black dark:text-white text-bold hover:text-highlight hover:cursor-pointer">
+              <a :href="'https://open.spotify.com/search/' + encodeURIComponent(songData.artists[0]) + '/artists'"
+                class="text-black dark:text-white text-bold hover:text-highlight hover:cursor-pointer">
                 <!-- due to the backend not returning an artist url, this will do. -->
                 {{ songData.artists[0] }}
-              </span>.
+              </a>.
             </p>
           </div>
         </div>
@@ -232,7 +233,7 @@ export default defineComponent({
               </circle>
             </svg>
 
-            <ProjectCard v-for="project in getRecentRepositories" :key="project.repo_name" :data="project" />
+            <ProjectCard v-for=" project  in  getRecentRepositories " :key="project.repo_name" :data="project" />
           </div>
         </div>
       </div>
