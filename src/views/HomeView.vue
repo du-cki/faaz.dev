@@ -31,31 +31,46 @@ export default defineComponent({
     };
   },
   mounted() {
-    const baseUrl = import.meta.env.VITE_IS_DEV
-      ? "ws://127.0.0.1:8000/ws/meow"
-      : `wss://${import.meta.env.VITE_APP_BACKEND}/ws/meow`;
+    this.connectToWS();
+  },
+  methods: {
+    connectToWS: function () {
+      const baseUrl = import.meta.env.VITE_IS_DEV
+        ? "ws://127.0.0.1:8000/ws/meow"
+        : `wss://${import.meta.env.VITE_APP_BACKEND}/ws/meow`;
 
-    this.connection = new WebSocket(baseUrl);
+      this.connection = new WebSocket(baseUrl);
 
-    this.connection.onmessage = (event: MessageEvent) => {
-      const message = JSON.parse(event.data);
+      this.connection.onmessage = (event: MessageEvent) => {
+        const message = JSON.parse(event.data);
 
-      // the break statements are not required at all since it should
-      // be propagated to the "default" case but it doesn't for some reason.
-      switch (message.event) {
-        case EventType.Spotify:
-          this.songData = message.data.song; break;
-        case EventType.Status:
-          this.userStatus = message.data; break;
-        default:
-          console.error(`Got an unexpected event:`, message);
-      }
-    };
+        // the break statements are not required at all since it should
+        // be propagated to the "default" case but it doesn't for some reason.
+        switch (message.event) {
+          case EventType.Spotify:
+            this.songData = message.data.song;
+            break;
+          case EventType.Status:
+            this.userStatus = message.data;
+            break;
+          default:
+            console.error(`Got an unexpected event:`, message);
+        }
+      };
 
-    this.connection.onclose = (_error: Event) => {
-      console.error('Got disconnected, clearing state and attempting to reconnect...'); // TODO: turn this into a toast
-      this.songData = null;
-      this.userStatus = null;
+      this.connection.onclose = (_error: Event) => {
+        console.error(
+          "Got disconnected, clearing state and attempting to reconnect..."
+        ); // TODO: turn this into a toast
+        this.songData = null;
+        this.userStatus = null;
+        
+        this.sleep(1);
+        return this.connectToWS();
+      };
+    },
+    sleep: function (seconds: number) {
+      return new Promise((resolve) => setTimeout(resolve, seconds * 1000));
     }
   },
   unmounted() {
@@ -189,11 +204,10 @@ export default defineComponent({
                   '\'>',
                 html: true,
                 theme: 'album-cover',
-              }" targeti="_blank">{{ songData.title }}</a>
+              }" target="_blank">{{ songData.title }}</a>
               by
               <a :href="'https://open.spotify.com/search/' + encodeURIComponent(songData.artists[0]) + '/artists'"
-                class="text-black dark:text-white font-bold hover:text-highlight hover:cursor-pointer">
-                <!-- due to the backend not returning an artist url, this will do. -->
+                class="text-black dark:text-white font-bold hover:cursor-pointer" target="_blank">
                 {{ songData.artists[0] }}
               </a>.
             </p>
