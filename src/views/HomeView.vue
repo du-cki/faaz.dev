@@ -8,7 +8,7 @@ import ProjectCard from "../components/ProjectCard.vue";
 import FormatTime from "../components/FormatTime.vue";
 
 import type { ListRepositoryPayload, Project, Song, Status } from "../types";
-import { EventType, EventState } from "../types";
+import { EventType } from "../types";
 
 export default defineComponent({
   data() {
@@ -175,10 +175,8 @@ export default defineComponent({
                 {{ userStatus.status !== 'offline' ? ' online' : ' offline' }}
               </span>
               <span v-if="userStatus.status === 'offline'" class="flex">
-                (
-                  last seen
-                  <FormatTime :timestamp="userStatus.last_online" class="mx-1" />
-                ).
+                (last seen
+                <FormatTime :timestamp="userStatus.last_online" class="ml-1" />).
               </span>
             </p>
 
@@ -266,4 +264,3 @@ export default defineComponent({
   @apply flex justify-center items-center;
 }
 </style>
-../types
