@@ -41,7 +41,8 @@ pub async fn handle_socket(mut socket: WebSocket, state: AppState) -> () {
             "event": 2, // Status
             "state": 2, // Update
             "data": {
-                "status": status
+                "status": status.0,
+                "last_online": status.1,
             }
         });
 

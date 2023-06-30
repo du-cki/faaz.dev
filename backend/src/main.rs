@@ -19,7 +19,7 @@ mod utils;
 
 use crate::server::build_router;
 use crate::types::{AppState, Service, SharedState};
-use crate::utils::try_update_spotify;
+use crate::utils::{get_unix_time, try_update_spotify};
 
 struct Handler {
     state: Arc<SharedState>,
@@ -59,7 +59,7 @@ async fn init(
     let state = Arc::new(SharedState {
         tx: Arc::new(tx),
         listening_cache: Arc::new(SRwLock::new(None)),
-        user_status: Arc::new(SRwLock::new(OnlineStatus::Offline)),
+        user_status: Arc::new(SRwLock::new((OnlineStatus::Offline, get_unix_time()))),
     });
 
     let client = Client::builder(&token, GatewayIntents::GUILD_PRESENCES)

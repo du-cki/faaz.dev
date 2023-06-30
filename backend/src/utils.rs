@@ -1,10 +1,22 @@
 use std::sync::Arc;
+use std::time::SystemTime;
+use std::time::UNIX_EPOCH;
 
 use serde_json::json;
 use serenity::model::prelude::ActivityType;
 use serenity::model::prelude::Presence;
+use serenity::model::user::OnlineStatus;
 
 use crate::types::{SharedState, Song};
+
+pub fn get_unix_time() -> u64 {
+    // the only time this would fail is when the system time is behind the UNIX_EPOCH
+    // which shouldn't ever happen and if it does, it'll break other aspects of the backend
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap()
+        .as_secs()
+}
 
 pub async fn try_update_spotify(data: &Presence, state: &Arc<SharedState>) {
     let spotify = data
@@ -110,20 +122,30 @@ pub async fn try_update_status(data: &Presence, state: &Arc<SharedState>) {
     };
 
     if let Some(user_status) = user_cached_status {
-        if new_status == user_status {
+        if new_status == user_status.0 {
             return;
         } else {
+            let last_online = {
+                if new_status == OnlineStatus::Offline {
+                    // in case of mis-fires, i don't want it to reset the time.
+                    get_unix_time()
+                } else {
+                    0u64
+                }
+            };
+
             let payload = json!({
                 "event": 2, // Status
                 "state": 2, // Update
                 "data": {
-                    "status": new_status
+                    "status": new_status,
+                    "last_online": last_online
                 }
             });
 
             {
                 if let Ok(mut lock_write) = state.user_status.write() {
-                    *lock_write = new_status
+                    *lock_write = (new_status, last_online)
                 }
             }
 

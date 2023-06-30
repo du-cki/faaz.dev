@@ -5,8 +5,9 @@ import { defineComponent } from "vue";
 import "floating-vue/dist/style.css"; // the tooltip css.
 import Wrapper from "../components/Wrapper.vue";
 import ProjectCard from "../components/ProjectCard.vue";
+import FormatTime from "../components/FormatTime.vue";
 
-import type { ListRepositoryPayload, Project, Song } from "../types";
+import type { ListRepositoryPayload, Project, Song, Status } from "../types";
 import { EventType, EventState } from "../types";
 
 export default defineComponent({
@@ -15,7 +16,7 @@ export default defineComponent({
       connection: null as WebSocket | null,
       songData: null as Song | null,
       projects: [] as Project[],
-      userStatus: null as string | null,
+      userStatus: null as Status | null,
       age: moment().diff(import.meta.env.VITE_DATE_OF_BIRTH, "years"),
       // this is just a basic mapping of language: color,
       // its main purpose is cosmetic only but i'd like to get a better solution in the future.
@@ -45,7 +46,7 @@ export default defineComponent({
         case EventType.Spotify:
           this.songData = message.data.song; break;
         case EventType.Status:
-          this.userStatus = message.data.status; break;
+          this.userStatus = message.data; break;
         default:
           console.error(`Got an unexpected event:`, message);
       }
@@ -63,6 +64,7 @@ export default defineComponent({
   components: {
     Wrapper,
     ProjectCard,
+    FormatTime,
   },
   computed: {
     getRecentRepositories() {
@@ -164,12 +166,22 @@ export default defineComponent({
         <div class="flex justify-end items-center h-full">
           <div class="text-right">
             <h1 class="text-right">About</h1>
-            <p v-if="userStatus">
+            
+            <!-- I hate what I'm doing here but I'm not thinking straight right now -->
+            <!-- So I'll just leave it be. -->
+            <p v-if="userStatus" class="flex justify-end text-right">
               I'm currently
-              <span class="text-black dark:text-white text-bold" v-tooltip="'On Discord!'">
-                {{ userStatus !== 'offline' ? 'online' : 'offline' }}
-              </span>{{ userStatus !== 'offline' ? '!' : '.' }}
+              <span class="text-black dark:text-white text-bold mx-1">
+                {{ userStatus.status !== 'offline' ? ' online' : ' offline' }}
+              </span>
+              <span v-if="userStatus.status === 'offline'" class="flex">
+                (
+                  last seen
+                  <FormatTime :timestamp="userStatus.last_online" class="mx-1" />
+                ).
+              </span>
             </p>
+
             <p v-if="songData">
               Listening to
               <a class="text-black dark:text-white text-bold" :href="songData.track_url" v-tooltip="{

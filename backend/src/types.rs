@@ -25,8 +25,9 @@ pub struct SharedState {
     pub tx: Arc<Sender<String>>,
     /// A cache that contains only one song.
     pub listening_cache: Arc<RwLock<Option<Song>>>,
-    /// The User status (online, offline, etc.)
-    pub user_status: Arc<RwLock<OnlineStatus>>,
+    /// The user status (online, offline, etc.) and the unix timestamp from
+    /// the last time offline, defaults to 0 when online.
+    pub user_status: Arc<RwLock<(OnlineStatus, u64)>>,
 }
 
 #[derive(Clone, Debug)]
