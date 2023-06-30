@@ -30,7 +30,7 @@ export default {
 <template>
   <p
     ref="parent"
-    class="bg-gray-300 dark:bg-gray-900 text-gray-900 dark:text-gray-100 w-fit px-1"
+    class="bg-gray-300 dark:bg-gray-900 text-gray-900 dark:text-gray-100 w-fit px-1 font-medium"
     v-tooltip="time.format('LLLL')"
   />
 </template>

@@ -171,18 +171,18 @@ export default defineComponent({
             <!-- So I'll just leave it be. -->
             <p v-if="userStatus" class="flex justify-end text-right">
               I'm currently
-              <span class="text-black dark:text-white text-bold mx-1">
+              <span class="text-black dark:text-white font-extrabold mx-1">
                 {{ userStatus.status !== 'offline' ? ' online' : ' offline' }}
               </span>
               <span v-if="userStatus.status === 'offline'" class="flex">
                 (last seen
-                <FormatTime :timestamp="userStatus.last_online" class="ml-1" />).
+                <FormatTime :timestamp="userStatus.last_online" class="ml-1" />)
               </span>
             </p>
 
             <p v-if="songData">
               Listening to
-              <a class="text-black dark:text-white text-bold" :href="songData.track_url" v-tooltip="{
+              <a class="text-black dark:text-white font-bold" :href="songData.track_url" v-tooltip="{
                 content:
                   '<img height=\'200\' width=\'200\' src=\'' +
                   songData.track_image +
@@ -192,11 +192,12 @@ export default defineComponent({
               }" targeti="_blank">{{ songData.title }}</a>
               by
               <a :href="'https://open.spotify.com/search/' + encodeURIComponent(songData.artists[0]) + '/artists'"
-                class="text-black dark:text-white text-bold hover:text-highlight hover:cursor-pointer">
+                class="text-black dark:text-white font-bold hover:text-highlight hover:cursor-pointer">
                 <!-- due to the backend not returning an artist url, this will do. -->
                 {{ songData.artists[0] }}
               </a>.
             </p>
+            
           </div>
         </div>
       </div>
