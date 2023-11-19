@@ -142,7 +142,7 @@ socket.addEventListener('message', ({ data: str }) => {
         </div>
       </div>
 
-      <div class="flex flex-col justify-end text-right">
+      <div class="flex pt-16 md:pt-6 flex-col justify-end text-right">
         <h1>Projects</h1>
         <p>
           I maintain a bunch of projects over at my
@@ -160,7 +160,7 @@ socket.addEventListener('message', ({ data: str }) => {
 
 <style scoped>
 .screen {
-  @apply w-screen min-h-screen flex p-10 md:p-20;
+  @apply w-screen min-h-[100dvh] flex p-10 md:p-20;
 }
 
 .spaced-items>* {
