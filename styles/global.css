@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply dark:bg-dark-mode bg-light-mode select-none;
+}
+
+body,
+span {
+  @apply text-black  dark:text-white;
+}
+
+h1 {
+  @apply font-extrabold text-3xl md:text-4xl pb-3;
+}
+
+p {
+  @apply text-gray-500;
+}
+
+a {
+  @apply underline underline-offset-4 transition-all text-gray-500 hover:decoration-highlight hover:text-black dark:hover:text-white;
+}
+
+.text {
+  @apply dark:text-white text-black;
+}
+
+svg > path,
+svg > rect {
+  @apply stroke-black dark:stroke-white;
+}
+
+svg > ellipse {
+  @apply fill-black dark:fill-white;
+}
+
+/* Tooltip custom css */
+.v-popper__inner {
+  @apply p-6 m-0;
+}
