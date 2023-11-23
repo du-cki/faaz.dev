@@ -44,11 +44,11 @@ onUnmounted(() => {
       <p class="flex">
         by
         <span
-          v-for="artist in spotify.artists"
+          v-for="(artist, item) in spotify.artists"
           :key="artist"
           class="text font-extrabold line-clamp-1 pl-1 underline"
         >
-          {{ `${artist},` }}
+          {{ `${artist}${item < spotify.artists.length - 1 ? ', ' : ''}` }}
         </span>
       </p>
 
