@@ -163,4 +163,8 @@ socket.addEventListener('message', ({ data: str }) => {
 .spaced-items > * {
   @apply mr-3;
 }
+
+a > svg {
+  @apply transition-all hover:opacity-80;
+}
 </style>
