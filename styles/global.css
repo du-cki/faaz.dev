@@ -40,3 +40,13 @@ svg > ellipse {
 .v-popper__inner {
   @apply p-6 m-0;
 }
+
+.v-popper--theme-glass {
+  .v-popper__inner {
+    @apply backdrop-blur-lg bg-light-mode/90 dark:bg-dark-mode/70 m-0 p-0 rounded-lg;
+  }
+
+  .v-popper__arrow-inner {
+    @apply backdrop-blur-lg bg-light-mode/90 dark:bg-dark-mode/70 m-0 p-0;
+  }
+}

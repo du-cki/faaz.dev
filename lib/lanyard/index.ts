@@ -1,8 +1,10 @@
 import { StatusResponse } from './types'
 
+const BASE_URL = 'api.lanyard.rest'
+
 class LanyardClient {
   subscribe (users: string[]) {
-    const socket = new WebSocket('wss://api.lanyard.rest/socket')
+    const socket = new WebSocket(`wss://${BASE_URL}/socket`)
 
     socket.addEventListener('open', () => {
       socket.send(
@@ -27,7 +29,7 @@ class LanyardClient {
   }
 
   async get_status (user: string): Promise<StatusResponse> {
-    const req = await fetch(`https://api.lanyard.rest/v1/users/${user}`)
+    const req = await fetch(`https://${BASE_URL}/v1/users/${user}`)
 
     if (!req.ok) {
       throw new Error(

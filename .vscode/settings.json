@@ -1,5 +1,6 @@
 {
     "eslint.format.enable": true,
     "editor.indentSize": "tabSize",
-    "editor.tabSize": 1
+    "editor.tabSize": 2,
+    "typescript.tsdk": "node_modules/typescript/lib"
 }

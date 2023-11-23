@@ -1,6 +1,9 @@
-import { Spotify } from 'lib/lanyard/types'
+import { SpotifyPayload } from 'lib/lanyard/types'
 
 type Option<T> = T | null;
+type Spotify = SpotifyPayload & {
+  artists: string[];
+};
 
 interface Owner {
   login: string;
@@ -76,7 +79,7 @@ interface Project {
 
 interface Status {
   status?: string;
-  spotify?: Option<Spotify & { artists: string[] }>;
+  spotify?: Option<Spotify>;
   // last_offline: number;
 }
 
@@ -90,6 +93,16 @@ enum EventState {
   Update = 2,
 }
 
-export type { Option, ListRepositoryPayload, Project, Status }
+export type {
+  Option,
+  Spotify,
+  ListRepositoryPayload,
+  Project,
+  Status,
+  SpotifyPayload
+}
 
-export { EventType, EventState }
+export {
+  EventType,
+  EventState
+}

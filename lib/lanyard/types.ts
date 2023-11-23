@@ -30,7 +30,7 @@ interface DiscordUser {
   avatar: string
 }
 
-interface Spotify {
+interface SpotifyPayload {
   track_id: string,
   timestamps: {
     start: number,
@@ -48,7 +48,7 @@ interface StatusData {
   active_on_discord_web: boolean,
   listening_to_spotify: boolean,
   kv: { string: string }
-  spotify: Spotify,
+  spotify: SpotifyPayload,
   discord_user: DiscordUser,
   discord_status: 'online' | 'dnd' | 'idle' | 'offline',
   activities: DiscordActivity[]
@@ -63,4 +63,4 @@ interface LanyardWSResponse {
   [key: string]: StatusData
 }
 
-export type { StatusResponse, LanyardWSResponse, StatusData, Spotify }
+export type { StatusResponse, LanyardWSResponse, StatusData, SpotifyPayload }

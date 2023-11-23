@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import moment from 'moment'
 
-import { getRecentProjects, sp } from '~/utils/functions'
+import { getRecentProjects, st, sa } from '~/utils/functions'
 import type { Status } from '~/utils/types'
 
 import LanyardClient from '~/lib/lanyard'
@@ -85,31 +85,28 @@ socket.addEventListener('message', ({ data: str }) => {
             </p>
             <div v-else class="animate-pulse h-5 w-40 bg-gray-700 rounded" />
 
-            <p v-if="status.spotify">
-              Listening to
-              <a
-                v-tooltip="{
-                  content:
-                    '<img height=\'200\' width=\'200\' src=\'' +
-                    status.spotify.album_art_url +
-                    '\'>',
-                  html: true,
-                }"
-                class="text font-extrabold"
-                :href="sp(status.spotify.track_id)"
-              >
-                {{ status.spotify.song }}
-              </a>
-              by
-              <a
-                class="text font-extrabold"
-                :href="'https://open.spotify.com/search/' +
-                  encodeURIComponent(status.spotify.artists[0]) +
-                  '/artists'
-                "
-              >
-                {{ status.spotify.artists[0] }}
-              </a>
+            <p v-if="status.spotify" class="flex">
+              <VMenu placement="top-end" theme="glass">
+                Listening to
+                <a
+                  class="text font-extrabold"
+                  :href="st(status.spotify.track_id)"
+                >
+                  {{ status.spotify.song }}
+                </a>
+
+                <template #popper>
+                  <SpotifyEmbed :spotify="status.spotify" />
+                </template>
+
+                by
+                <a
+                  class="text font-extrabold"
+                  :href="sa(status.spotify.artists[0])"
+                >
+                  {{ status.spotify.artists[0] }}
+                </a>.
+              </VMenu>
             </p>
           </div>
         </div>
@@ -163,7 +160,7 @@ socket.addEventListener('message', ({ data: str }) => {
   @apply w-screen min-h-[100dvh] flex p-10 md:p-20;
 }
 
-.spaced-items>* {
+.spaced-items > * {
   @apply mr-3;
 }
 </style>

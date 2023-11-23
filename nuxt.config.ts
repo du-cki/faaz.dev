@@ -17,6 +17,10 @@ export default defineNuxtConfig({
     'floating-vue/nuxt'
   ],
 
+  plugins: [
+    '@/plugins/floating-vue'
+  ],
+
   app: {
     head: {
       charset: 'utf-8',

@@ -34,11 +34,16 @@ const getRecentProjects = async (): Promise<Project[]> => {
   }))
 }
 
-const sp = (trackId: string) => {
+const st = (trackId: string) => {
   return `https://open.spotify.com/track/${trackId}`
+}
+
+const sa = (artistName: string) => {
+  return `https://open.spotify.com/search/${encodeURIComponent(artistName)}/artists`
 }
 
 export {
   getRecentProjects,
-  sp
+  st,
+  sa
 }
