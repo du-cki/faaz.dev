@@ -35,20 +35,24 @@ onUnmounted(() => {
 
 <template>
   <div class="flex justify-center items-center p-2 w-96">
-    <img :src="spotify.album_art_url" class="h-20 w-20 mr-3 rounded-lg">
+    <img :src="spotify.album_art_url" class="h-24 w-24 mr-3 rounded-lg">
 
     <div class="w-full">
       <span class="text font-extrabold line-clamp-1">
         {{ spotify.song }}
       </span>
-      <p class="line-clamp-1">
+
+      <p class="line-clamp-1 text-sm">
         by
-        <span
-          v-for="(artist, item) in spotify.artists"
-          :key="artist"
-          class="text font-extrabold"
-        >
-          {{ `${artist}${item < spotify.artists.length - 1 ? ', ' : ''}` }}
+        <span class="text font-extrabold text-base">
+          {{ `${spotify.artists.join(', ')}` }}
+        </span>
+      </p>
+
+      <p class="line-clamp-1 text-sm">
+        on
+        <span class="text font-extrabold text-base">
+          {{ spotify.album }}
         </span>
       </p>
 
