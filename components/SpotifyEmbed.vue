@@ -35,7 +35,7 @@ onUnmounted(() => {
 
 <template>
   <div class="flex justify-center items-center p-2 w-96">
-    <img :src="spotify.album_art_url" class="h-20 w-20 mr-3">
+    <img :src="spotify.album_art_url" class="h-20 w-20 mr-3 rounded-lg">
 
     <div class="w-full">
       <span class="text font-extrabold line-clamp-1">
