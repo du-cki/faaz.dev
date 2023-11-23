@@ -1,4 +1,5 @@
 import { SpotifyPayload } from 'lib/lanyard/types'
+import { Image } from 'lib/lastfm/types'
 
 type Option<T> = T | null;
 type Spotify = SpotifyPayload & {
@@ -83,14 +84,27 @@ interface Status {
   // last_offline: number;
 }
 
-enum EventType {
-  Spotify = 1,
-  Status = 2,
+interface Track {
+  name: string,
+  artist: string,
+  image: Image[],
+  url: string,
+  album?: string,
+  playcount?: string
 }
 
-enum EventState {
-  Stop = 1,
-  Update = 2,
+interface Artist {
+  name: string,
+  image: Image[],
+  url: string,
+  playcount: string
+}
+
+interface SongsResponse {
+  topTracks: Track[],
+  recentTracks: Track[],
+  topArtists: Artist[],
+  last_updated_at: number
 }
 
 export type {
@@ -99,10 +113,7 @@ export type {
   ListRepositoryPayload,
   Project,
   Status,
-  SpotifyPayload
-}
-
-export {
-  EventType,
-  EventState
+  Track,
+  Artist,
+  SongsResponse
 }

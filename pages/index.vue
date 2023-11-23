@@ -86,7 +86,7 @@ socket.addEventListener('message', ({ data: str }) => {
             <div v-else class="animate-pulse h-5 w-40 bg-gray-700 rounded" />
 
             <p v-if="status.spotify">
-              <VMenu placement="top-end" theme="glass">
+              <VMenu placement="top" theme="glass">
                 Listening to
                 <a
                   class="text font-extrabold"

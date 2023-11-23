@@ -44,6 +44,7 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    LAST_FM_API_KEY: process.env.LAST_FM_API_KEY,
     public: {
       IS_DEV: process.env.IS_DEV,
       PROJECT_DEFAULT_COLOR: process.env.PROJECT_DEFAULT_COLOR,
