@@ -4,8 +4,6 @@ import type { Period, RecentArtistsResponse, RecentTracksResponse, TopTracksResp
 
 const BASE_URL = 'http://ws.audioscrobbler.com/2.0'
 
-// http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=du_cki&api_key=5d49215f4d43786f1d6c65b8b8c22e27&format=json&limit=10
-
 class LastFMClient {
   private user: string
   private apiKey: string
