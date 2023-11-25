@@ -3,26 +3,34 @@ import moment from 'moment'
 import type { Option, Spotify } from '~/utils/types'
 
 const props = defineProps<{
-  spotify: Spotify
+  spotify: Spotify,
 }>()
 
 // eslint-disable-next-line import/no-named-as-default-member
 const fmtTime = (duration: number) => moment.utc(duration).format('mm:ss')
 
-const getProgress = ({ start, end }: { start: number, end: number}) => {
+const calculateProgress = ({ start, end }: { start: number, end: number}) => {
+  let startTime = Date.now() - start
+  const endTime = end - start
+
+  if (startTime >= endTime) { startTime = endTime }
+
   return {
-    start: fmtTime(Date.now() - start),
-    end: fmtTime(end - start),
-    perc: Math.round(Math.min(((Date.now() - start) / (end - start)) * 100, 100))
+    start: fmtTime(startTime),
+    end: fmtTime(endTime),
+    perc: Math.round((startTime / endTime) * 100)
   }
 }
 
-const progress = ref(getProgress(props.spotify.timestamps))
+const progress = ref(
+  calculateProgress(props.spotify.timestamps)
+)
+
 let activeInterval: Option<NodeJS.Timer> = null
 
 onMounted(() => {
   activeInterval = setInterval(() => {
-    progress.value = getProgress(props.spotify.timestamps)
+    progress.value = calculateProgress(props.spotify.timestamps)
   }, 1000)
 })
 
@@ -34,8 +42,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex justify-center items-center p-2 w-96">
-    <img :src="spotify.album_art_url" class="h-24 w-24 mr-3 rounded-lg">
+  <div class="flex justify-center items-center p-2 ">
+    <img
+      :src="spotify.album_art_url"
+      class="w-24 h-24 mr-3 rounded-lg"
+    >
 
     <div class="w-full">
       <span class="text font-extrabold line-clamp-1">
@@ -62,10 +73,12 @@ onUnmounted(() => {
           :style="{ width: `${progress.perc}%` }"
         />
       </div>
-      <div class="flex justify-between w-full text-xs pt-1">
+
+      <div class="flex justify-between w-full text-xs mt-1">
         <p class="text font-bold">
           {{ progress.start }}
         </p>
+
         <p class="text font-bold">
           {{ progress.end }}
         </p>

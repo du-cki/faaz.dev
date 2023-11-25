@@ -43,10 +43,10 @@ svg > ellipse {
 
 .v-popper--theme-glass {
   .v-popper__inner {
-    @apply backdrop-blur-lg bg-light-mode/90 dark:bg-dark-mode/70 m-0 p-0 rounded-lg;
+    @apply backdrop-blur-lg m-0 p-0 w-[22rem] sm:w-96 rounded-lg;
   }
 
   .v-popper__arrow-inner {
-    @apply backdrop-blur-lg bg-light-mode/90 dark:bg-dark-mode/70 m-0 p-0;
+    @apply backdrop-blur-lg m-0 p-0;
   }
 }
