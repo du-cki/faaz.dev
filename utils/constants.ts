@@ -1,3 +1,8 @@
+import GithubLogoVue from '~/components/logos/GithubLogo.vue'
+import DiscordLogoVue from '~/components/logos/DiscordLogo.vue'
+import MailLogoVue from '~/components/logos/MailLogo.vue'
+import KeyLogoVue from '~/components/logos/KeyLogo.vue'
+
 // this is just a basic mapping of language: color,
 // its main purpose is cosmetic only but i'd like to get a better solution in the future.
 const languageColourMapping = {
@@ -15,6 +20,34 @@ const languageColourMapping = {
   'c++': '#F34B7D'
 }
 
+const socials: Array<{
+  hoverText: string
+  icon: any
+  url: string
+}> = [
+  {
+    hoverText: '@du-cki',
+    icon: GithubLogoVue,
+    url: 'https://github.com/du-cki'
+  },
+  {
+    hoverText: '@du_cki',
+    icon: DiscordLogoVue,
+    url: 'https://discord.com/users/651454696208465941'
+  },
+  {
+    hoverText: 'meow@faaz.dev',
+    icon: MailLogoVue,
+    url: 'mailto:meow@faaz.dev'
+  },
+  {
+    hoverText: 'Public Key',
+    icon: KeyLogoVue,
+    url: '/key.pbk'
+  }
+]
+
 export {
-  languageColourMapping
+  languageColourMapping,
+  socials
 }

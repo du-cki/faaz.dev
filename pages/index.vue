@@ -1,47 +1,62 @@
 <script lang="ts" setup>
 import moment from 'moment'
 
+import { socials } from '~/utils/constants'
 import { getRecentProjects, st, sa } from '~/utils/functions'
-import type { Status } from '~/utils/types'
+import type { Option, Status } from '~/utils/types'
 
 import LanyardClient from '~/lib/lanyard'
 import type { StatusData } from '~/lib/lanyard/types'
 
+const lanyard = new LanyardClient()
 const config = useRuntimeConfig()
 
 const age = moment().diff(config.public.DATE_OF_BIRTH as string, 'years')
+const status: Ref<Option<Status>> = ref(null)
+
 const projects = await getRecentProjects()
 
-const status: Ref<Status> = ref({})
+const connectSocket = () => {
+  const socket = lanyard.subscribe([
+    config.public.USER_ID
+  ])
 
-const lanyard = new LanyardClient()
-const socket = lanyard.subscribe([
-  config.public.USER_ID
-])
+  socket.addEventListener('message', ({ data: str }) => {
+    const msg: { op: number, d: StatusData } = JSON.parse(str)
 
-socket.addEventListener('message', ({ data: str }) => {
-  let { d }: { d: StatusData } = JSON.parse(str)
+    if (msg.op !== 0) { return }
 
-  // @ts-ignore
-  if (d[config.public.USER_ID]) {
+    let d = msg.d
     // @ts-ignore
-    d = d[config.public.USER_ID]
-  }
-
-  const isOnline = d.active_on_discord_desktop || d.active_on_discord_mobile || d.active_on_discord_web
-  status.value.status = isOnline ? 'online' : 'offline'
-
-  if (d.listening_to_spotify) {
-    const spotify = d.spotify
-
-    status.value.spotify = {
-      ...spotify,
-      artists: spotify.artist.split('; ')
+    if (d[config.public.USER_ID]) {
+      // @ts-ignore
+      d = d[config.public.USER_ID]
     }
-  } else {
-    status.value.spotify = null
-  }
-})
+
+    if (status.value == null) { status.value = {} }
+
+    const isOnline = d.active_on_discord_desktop || d.active_on_discord_mobile || d.active_on_discord_web
+    status.value.status = isOnline ? 'online' : 'offline'
+
+    if (d.listening_to_spotify) {
+      const spotify = d.spotify
+
+      status.value.spotify = {
+        ...spotify,
+        artists: spotify.artist.split('; ')
+      }
+    } else {
+      status.value.spotify = null
+    }
+  })
+
+  socket.addEventListener('close', () => {
+    status.value = null
+    connectSocket()
+  })
+}
+
+connectSocket()
 </script>
 
 <template>
@@ -57,18 +72,9 @@ socket.addEventListener('message', ({ data: str }) => {
           Emirates who loves programming both professionally and as a hobby.
         </p>
 
-        <div class="flex w-fit items-center spaced-items">
-          <a v-tooltip="'@du-cki'" href="https://github.com/du-cki" class="ml-1">
-            <GithubLogo />
-          </a>
-          <a v-tooltip="'@du_cki'" href="https://discord.com/users/651454696208465941">
-            <DiscordLogo />
-          </a>
-          <a v-tooltip="'meow@faaz.dev'" href="mailto:meow@faaz.dev">
-            <MailLogo />
-          </a>
-          <a v-tooltip="'Public Key'" href="/key.pbk">
-            <KeyLogo />
+        <div class="flex items-center spaced-items">
+          <a v-for="social in socials" :key="social.url" :href="social.url" :v-tooltip="social.hoverText">
+            <component :is="social.icon" />
           </a>
         </div>
       </div>
@@ -77,15 +83,16 @@ socket.addEventListener('message', ({ data: str }) => {
         <div class="flex flex-col text-right">
           <h1>About</h1>
           <div>
-            <p v-if="status.status" class="flex justify-end">
+            <p v-if="status" class="flex justify-end">
               I'm currently
               <span class="text font-extrabold px-1">
                 {{ status.status }}
               </span>
             </p>
-            <div v-else class="animate-pulse h-5 w-40 bg-gray-700 rounded" />
 
-            <p v-if="status.spotify">
+            <div v-else class="animate-pulse h-5 w-full bg-gray-700 rounded" />
+
+            <p v-if="status?.spotify">
               <VMenu placement="top" theme="glass">
                 Listening to
                 <a
