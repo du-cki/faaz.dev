@@ -1,3 +1,4 @@
+import defaultTheme from 'tailwindcss/defaultTheme'
 import type { Config } from 'tailwindcss'
 
 export default <Partial<Config>>{
@@ -12,6 +13,10 @@ export default <Partial<Config>>{
         'light-text': 'black',
         highlight: '#f85b85'
       }
+    },
+    screens: {
+      xs: '480px',
+      ...defaultTheme.screens
     }
   }
 }
