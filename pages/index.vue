@@ -73,7 +73,12 @@ connectSocket()
         </p>
 
         <div class="flex items-center spaced-items">
-          <a v-for="social in socials" :key="social.url" :href="social.url" :v-tooltip="social.hoverText">
+          <a
+            v-for="social in socials"
+            :key="social.url"
+            v-tooltip="social.hoverText"
+            :href="social.url"
+          >
             <component :is="social.icon" />
           </a>
         </div>
