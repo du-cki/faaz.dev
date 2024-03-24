@@ -23,6 +23,18 @@ export default defineNuxtConfig({
 
   app: {
     head: {
+      link: [
+        {
+          key: 'apple-touch-icon',
+          rel: 'apple-touch-icon',
+          href: '/apple-touch-icon.png'
+        },
+        {
+          key: 'manifest',
+          rel: 'manifest',
+          href: '/web-manifest.json'
+        }
+      ],
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
       title: 'faaz.dev',
