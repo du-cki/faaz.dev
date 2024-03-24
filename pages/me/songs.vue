@@ -9,9 +9,11 @@ const data: SongsResponse = await req.json()
 
 <template>
   <div class="p-10 md:p-20">
-    <h2 class="flex gap-1 text-gray-400">
-      ( Last Updated
-      <FormatTime :timestamp="data.last_updated_at" />)
+    <h2 class="flex gap-1 text-gray-400 py-3">
+      (
+      Last Updated
+      <FormatTime :timestamp="data.last_updated_at" />
+      )
     </h2>
 
     <div>
