@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { utc } from 'moment'
+import moment from 'moment'
 import type { Option, Spotify } from '~/utils/types'
 
 const props = defineProps<{
   spotify: Spotify,
 }>()
 
-const fmtTime = (duration: number) => utc(duration).format('mm:ss')
+// eslint-disable-next-line import/no-named-as-default-member
+const fmtTime = (duration: number) => moment.utc(duration).format('mm:ss')
 
 const calculateProgress = ({ start, end }: { start: number, end: number}) => {
   let startTime = Date.now() - start
