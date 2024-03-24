@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import type { SongsResponse } from '~/utils/types'
 
+useSeoMeta({
+  title: 'Songs - faaz.dev',
+  ogTitle: 'Songs - faaz.dev'
+})
+
 const req = await fetch('/api/songs')
 if (!req.ok) { throw new Error('Failed to fetch songs') }
 

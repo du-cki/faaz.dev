@@ -16,6 +16,11 @@ const status: Ref<Option<Status>> = ref(null)
 
 const projects = await getRecentProjects()
 
+useSeoMeta({
+  title: 'Home - faaz.dev',
+  ogTitle: 'Home - faaz.dev'
+})
+
 const connectSocket = () => {
   const socket = lanyard.subscribe([
     config.public.USER_ID
@@ -87,14 +92,13 @@ connectSocket()
 
       <div class="text-right">
         <h1>About</h1>
-        <p v-if="status">
+        <p>
           I'm currently
-          <span class="text font-extrabold px-1">
+          <span v-if="status" class="text font-extrabold">
             {{ status.status }}
           </span>
+          <span v-else class="h-10 w-24 animate-pulse after:content-['Loading...']" />
         </p>
-
-        <div v-else class="animate-pulse h-5 w-full bg-gray-700 rounded" />
 
         <p v-if="status?.spotify" class="flex justify-end gap-1">
           Listening to
