@@ -1,5 +1,4 @@
 import LastFM from '~/lib/lastfm'
-
 import { type SongsResponse } from '~/utils/types'
 
 const LASTFM_STORAGE = useStorage('lastfm')

@@ -22,7 +22,7 @@ const data: SongsResponse = await req.json()
       </h1>
 
       <div class="flex flex-wrap justify-between">
-        <SongCard v-for="song in data.recentTracks" :key="song.url" class="m-1" :item="song" />
+        <SongCard v-for="song in data.recentTracks" :key="song.url" class="m-1" :item="song" :type="'track'" />
       </div>
     </div>
 
@@ -35,7 +35,7 @@ const data: SongsResponse = await req.json()
       </h1>
 
       <div class="flex flex-wrap justify-between">
-        <SongCard v-for="song in data.topTracks" :key="song.url" class="m-1" :item="song" />
+        <SongCard v-for="song in data.topTracks" :key="song.url" class="m-1" :item="song" :type="'track'" />
       </div>
     </div>
 
@@ -48,7 +48,7 @@ const data: SongsResponse = await req.json()
       </h1>
 
       <div class="flex flex-wrap justify-between">
-        <SongCard v-for="song in data.topArtists" :key="song.url" class="m-1" :item="song" />
+        <SongCard v-for="song in data.topArtists" :key="song.url" class="m-1" :item="song" :type="'artist'" />
       </div>
     </div>
   </div>
