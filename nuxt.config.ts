@@ -25,15 +25,20 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      title: 'faaz.dev',
+      title: 'Faaz M',
       base: {
         target: '_blank'
       },
       meta: [
         {
-          hid: 'description',
+          key: 'description',
           name: 'description',
           content: "I'm a self-taught full-stack developer, who loves tinkering with stuff."
+        },
+        {
+          key: 'color-scheme',
+          name: 'color-scheme',
+          content: '#FFD1DC'
         }
       ]
     }
