@@ -84,25 +84,25 @@ interface Status {
   // last_offline: number;
 }
 
-interface Track {
+type Track = {
   name: string,
-  artist: string,
   image: Image[],
-  url: string,
+  artist: string | undefined,
+  url: string
   album?: string,
-  playcount?: string
+  playcount?: number
 }
 
-interface Artist {
+type Artist = {
   name: string,
   image: Image[],
   url: string,
-  playcount: string
+  playcount: number
 }
 
-interface SongsResponse {
-  topTracks: Track[],
+type SongsResponse = {
   recentTracks: Track[],
+  topTracks: Track[],
   topArtists: Artist[],
   last_updated_at: number
 }

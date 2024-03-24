@@ -1,4 +1,4 @@
-import { StatusResponse } from './types'
+import { StatusResponse, StatusData } from './types'
 
 const BASE_URL = 'api.lanyard.rest'
 
@@ -42,3 +42,5 @@ class LanyardClient {
 }
 
 export default LanyardClient
+
+export type { StatusData }

@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import moment from 'moment'
+import { utc } from 'moment'
 import type { Option, Spotify } from '~/utils/types'
 
 const props = defineProps<{
   spotify: Spotify,
 }>()
 
-// eslint-disable-next-line import/no-named-as-default-member
-const fmtTime = (duration: number) => moment.utc(duration).format('mm:ss')
+const fmtTime = (duration: number) => utc(duration).format('mm:ss')
 
 const calculateProgress = ({ start, end }: { start: number, end: number}) => {
   let startTime = Date.now() - start
@@ -42,10 +41,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex justify-center items-center p-2 ">
+  <div class="flex justify-center items-center p-2">
     <img
       :src="spotify.album_art_url"
       class="w-24 h-24 mr-3 rounded-lg"
+      width="96px"
+      height="96px"
     >
 
     <div class="w-full">

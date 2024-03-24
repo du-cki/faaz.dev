@@ -67,12 +67,13 @@ connectSocket()
           Halla! I'm
           <span class="text-highlight font-extrabold">faaz</span>.
         </h1>
+
         <p class="pb-3 md:w-4/6">
           I am a {{ age }} year old full-stack developer from the United Arab
           Emirates who loves programming both professionally and as a hobby.
         </p>
 
-        <div class="flex items-center spaced-items">
+        <div class="flex items-center gap-2">
           <a
             v-for="social in socials"
             :key="social.url"
@@ -84,44 +85,41 @@ connectSocket()
         </div>
       </div>
 
-      <div class="flex justify-end">
-        <div class="flex flex-col text-right">
-          <h1>About</h1>
-          <div>
-            <p v-if="status" class="flex justify-end">
-              I'm currently
-              <span class="text font-extrabold px-1">
-                {{ status.status }}
-              </span>
-            </p>
+      <div class="text-right">
+        <h1>About</h1>
+        <p v-if="status">
+          I'm currently
+          <span class="text font-extrabold px-1">
+            {{ status.status }}
+          </span>
+        </p>
 
-            <div v-else class="animate-pulse h-5 w-full bg-gray-700 rounded" />
+        <div v-else class="animate-pulse h-5 w-full bg-gray-700 rounded" />
 
-            <p v-if="status?.spotify">
-              <VMenu placement="top" theme="glass">
-                Listening to
-                <a
-                  class="text font-extrabold"
-                  :href="st(status.spotify.track_id)"
-                >
-                  {{ status.spotify.song }}
-                </a>
+        <p v-if="status?.spotify" class="flex justify-end gap-1">
+          Listening to
 
-                <template #popper>
-                  <SpotifyEmbed :spotify="status.spotify" />
-                </template>
+          <VMenu placement="top-end" theme="glass">
+            <a
+              class="text font-extrabold"
+              :href="st(status.spotify.track_id)"
+            >
+              {{ status.spotify.song }}
+            </a>
 
-                by
-                <a
-                  class="text font-extrabold"
-                  :href="sa(status.spotify.artists[0])"
-                >
-                  {{ status.spotify.artists[0] }}
-                </a>.
-              </VMenu>
-            </p>
-          </div>
-        </div>
+            <template #popper>
+              <SpotifyEmbed :spotify="status.spotify" />
+            </template>
+          </VMenu>
+
+          by
+          <a
+            class="text font-extrabold"
+            :href="sa(status.spotify.artists[0])"
+          >
+            {{ status.spotify.artists[0] }}
+          </a>
+        </p>
       </div>
     </div>
 
@@ -140,7 +138,7 @@ connectSocket()
           programming.
         </p>
 
-        <div class="flex mt-3 spaced-items">
+        <div class="flex mt-3 gap-3">
           <PythonLogo />
           <JavascriptLogo />
           <RustLogo />
@@ -169,11 +167,7 @@ connectSocket()
 
 <style scoped>
 .screen {
-  @apply w-screen min-h-[100dvh] flex p-10 md:p-20;
-}
-
-.spaced-items > * {
-  @apply mr-3;
+  @apply w-screen supports-[height:100dvh]:min-h-[100dvh] min-h-screen flex p-10 md:p-20;
 }
 
 a > svg {

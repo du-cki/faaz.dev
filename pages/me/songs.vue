@@ -8,7 +8,12 @@ const data: SongsResponse = await req.json()
 </script>
 
 <template>
-  <div class="main">
+  <div class="p-10 md:p-20">
+    <h2 class="flex gap-1 text-gray-400">
+      ( Last Updated
+      <FormatTime :timestamp="data.last_updated_at" />)
+    </h2>
+
     <div>
       <h1 class="font-semibold">
         Recently Played
@@ -46,9 +51,3 @@ const data: SongsResponse = await req.json()
     </div>
   </div>
 </template>
-
-<style>
-.main {
-  @apply p-10 md:p-20;
-}
-</style>
