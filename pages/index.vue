@@ -100,10 +100,10 @@ connectSocket()
           <span v-else class="h-10 w-24 animate-pulse after:content-['Loading...']" />
         </p>
 
-        <p v-if="status?.spotify" class="flex justify-end gap-1">
-          Listening to
+        <div v-if="status?.spotify" class="flex flex-wrap items-center justify-end gap-1">
+          <p>Listening to</p>
 
-          <VMenu placement="top-end" theme="glass">
+          <VMenu placement="top-end" theme="glass" class="flex items-center">
             <a
               class="text font-extrabold"
               :href="st(status.spotify.track_id)"
@@ -116,14 +116,14 @@ connectSocket()
             </template>
           </VMenu>
 
-          by
+          <p>by</p>
           <a
             class="text font-extrabold"
             :href="sa(status.spotify.artists[0])"
           >
             {{ status.spotify.artists[0] }}
           </a>
-        </p>
+        </div>
       </div>
     </div>
 
