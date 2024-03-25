@@ -10,6 +10,27 @@ const req = await fetch('/api/songs')
 if (!req.ok) { throw new Error('Failed to fetch songs') }
 
 const data: SongsResponse = await req.json()
+
+const categories = [
+  {
+    name: 'Recently Played',
+    items: data.recentTracks,
+    type: 'track'
+  },
+  {
+    name: 'Top Tracks',
+    subText: '(of the week)',
+    items: data.topTracks,
+    type: 'track'
+  },
+  {
+    name: 'Top Artists',
+    subText: '(of the week)',
+    items: data.topArtists,
+    type: 'artist'
+  }
+]
+
 </script>
 
 <template>
@@ -21,39 +42,16 @@ const data: SongsResponse = await req.json()
       )
     </h2>
 
-    <div>
+    <div v-for="category in categories" :key="category.name" class="pt-10">
       <h1 class="font-semibold">
-        Recently Played
-      </h1>
-
-      <div class="flex flex-wrap justify-between">
-        <SongCard v-for="song in data.recentTracks" :key="song.url" class="m-1" :item="song" :type="'track'" />
-      </div>
-    </div>
-
-    <div class="pt-10">
-      <h1 class="font-semibold">
-        Top Tracks
-        <span class="text-gray-500 text-sm">
-          (of the week)
+        {{ category.name }}
+        <span v-if="category.subText" class="text-gray-500 text-sm">
+          {{ category.subText }}
         </span>
       </h1>
 
       <div class="flex flex-wrap justify-between">
-        <SongCard v-for="song in data.topTracks" :key="song.url" class="m-1" :item="song" :type="'track'" />
-      </div>
-    </div>
-
-    <div class="pt-10">
-      <h1 class="font-semibold">
-        Top Artists
-        <span class="text-gray-500 text-sm">
-          (of the week)
-        </span>
-      </h1>
-
-      <div class="flex flex-wrap justify-between">
-        <SongCard v-for="song in data.topArtists" :key="song.url" class="m-1" :item="song" :type="'artist'" />
+        <SongCard v-for="song in category.items" :key="song.url" class="m-1" :item="song" :type="category.type" />
       </div>
     </div>
   </div>
