@@ -76,12 +76,12 @@ onUnmounted(() => {
         />
       </div>
 
-      <div class="flex justify-between w-full text-xs mt-1">
-        <p class="text font-bold">
+      <div class="flex justify-between w-full mt-1">
+        <p class="text font-bold text-xs">
           {{ progress.start }}
         </p>
 
-        <p class="text font-bold">
+        <p class="text font-bold text-xs">
           {{ progress.end }}
         </p>
       </div>

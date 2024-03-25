@@ -70,7 +70,7 @@ connectSocket()
       <div>
         <h1 class="no-underline">
           Halla! I'm
-          <span class="text-highlight font-extrabold">faaz</span>.
+          <span class="text-highlight font-extrabold">Faaz</span>.
         </h1>
 
         <p class="pb-3 md:w-4/6">
@@ -78,7 +78,7 @@ connectSocket()
           Emirates who loves programming both professionally and as a hobby.
         </p>
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-3">
           <a
             v-for="social in socials"
             :key="social.url"
@@ -153,12 +153,12 @@ connectSocket()
         </div>
       </div>
 
-      <div class="flex pt-16 md:pt-6 flex-col justify-end text-right">
+      <div class="flex mt-16 md:mt-14 flex-col justify-end text-right">
         <h1>Projects</h1>
         <p>
           I maintain a bunch of projects over at my
           <a href="https://github.com/du-cki">GitHub</a>. Here are some of my
-          recent contributions:
+          recent contributions
         </p>
 
         <div class="flex flex-col lg:flex-row pt-3">
@@ -177,4 +177,5 @@ connectSocket()
 a > svg {
   @apply transition-all hover:opacity-80;
 }
+
 </style>

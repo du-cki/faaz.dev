@@ -39,7 +39,7 @@ defineProps<{
         </div>
 
         <div class="text-left">
-          <p class="text-clip line-clamp-3">
+          <p class="text-clip line-clamp-3 text-base">
             {{ project.description }}
           </p>
         </div>

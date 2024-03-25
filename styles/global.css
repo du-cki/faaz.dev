@@ -7,24 +7,20 @@ body {
 }
 
 body,
-span {
-  @apply text-black  dark:text-white;
+span, .text {
+  @apply text-black dark:text-white;
 }
 
 h1 {
-  @apply font-extrabold text-3xl md:text-4xl pb-3;
+  @apply font-extrabold text-3xl md:text-4xl pb-2;
 }
 
-p {
-  @apply text-gray-500;
+p, a {
+  @apply text-gray-400 text-lg md:text-xl;
 }
 
 a {
-  @apply underline underline-offset-4 transition-all text-gray-500 hover:decoration-highlight hover:text-black dark:hover:text-white;
-}
-
-.text {
-  @apply dark:text-white text-black;
+  @apply underline underline-offset-4 transition-all hover:decoration-highlight hover:text-black dark:hover:text-white;
 }
 
 svg > path,
