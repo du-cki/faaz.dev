@@ -17,7 +17,7 @@ const data: SongsResponse = await req.json()
     <h2 class="flex gap-1 text-gray-400 py-3">
       (
       Last Updated
-      <FormatTime :timestamp="data.last_updated_at" />
+      <FormatTime :timestamp="data.last_updated_at" class="text-base" />
       )
     </h2>
 
