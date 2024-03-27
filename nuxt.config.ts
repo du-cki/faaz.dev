@@ -1,11 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  ssr: false,
   spaLoadingTemplate: false,
+  ssr: true,
 
   components: [
     { global: true, path: '@/components' },
-    { global: true, path: '@/components/logos' }
+    { global: true, path: '@/components/logos' },
+    { global: true, path: '@/components/segments' }
+
   ],
 
   css: [
@@ -13,6 +15,7 @@ export default defineNuxtConfig({
   ],
 
   modules: [
+    'nuxt-og-image',
     '@nuxtjs/tailwindcss',
     'floating-vue/nuxt'
   ],
@@ -64,7 +67,6 @@ export default defineNuxtConfig({
     LAST_FM_API_KEY: process.env.LAST_FM_API_KEY,
     public: {
       IS_DEV: process.env.IS_DEV,
-      PROJECT_DEFAULT_COLOR: process.env.PROJECT_DEFAULT_COLOR,
       DATE_OF_BIRTH: process.env.DATE_OF_BIRTH,
       USER_ID: process.env.USER_ID
     }

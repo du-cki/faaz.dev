@@ -2,8 +2,6 @@ import { languageColourMapping } from './constants'
 
 import type { ListRepositoryPayload, Project } from './types'
 
-const config = useRuntimeConfig()
-
 const getRecentProjects = async (): Promise<Project[]> => {
   const req = await fetch(
     'https://api.github.com/users/du-cki/repos?type=owner&sort=updated&per_page=3',
@@ -36,7 +34,7 @@ const getRecentProjects = async (): Promise<Project[]> => {
         data
           .language!.toLowerCase()
           .replace(' ', '_') as keyof typeof languageColourMapping
-      ] || config.public.PROJECT_DEFAULT_COLOR,
+      ] || '#ADADAD',
     tags: data.topics
   }))
 }

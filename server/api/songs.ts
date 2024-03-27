@@ -4,7 +4,7 @@ import { type SongsResponse } from '~/utils/types'
 const LASTFM_STORAGE = useStorage('lastfm')
 
 export default defineEventHandler(async (event) => {
-  const isMinifiedResponse = getQuery(event).minified || false
+  const isMinifiedResponse = getQuery(event).minified === 'true' || false
 
   const storage: any = await LASTFM_STORAGE.getItem(isMinifiedResponse ? 'cache:minified' : 'cache')
   if (storage && storage.last_updated_at > (Date.now() - 5 * 60 * 1000)) {
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     config.LAST_FM_API_KEY
   )
 
-  const rt = await client.getRecentTracks(30)
+  const rt = await client.getRecentTracks((isMinifiedResponse ? 15 : 30) - 1)
 
   const response: SongsResponse = {
     recentTracks: rt.recenttracks.track.map(t => ({

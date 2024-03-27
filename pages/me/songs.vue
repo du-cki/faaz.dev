@@ -6,53 +6,77 @@ useSeoMeta({
   ogTitle: 'Songs - faaz.dev'
 })
 
-const req = await fetch('/api/songs')
-if (!req.ok) { throw new Error('Failed to fetch songs') }
-
-const data: SongsResponse = await req.json()
-
-const categories = [
+const categories = ref([
   {
     name: 'Recently Played',
-    items: data.recentTracks,
+    items: [],
     type: 'track'
   },
   {
     name: 'Top Tracks',
     subText: '(of the week)',
-    items: data.topTracks,
+    items: [],
     type: 'track'
   },
   {
     name: 'Top Artists',
     subText: '(of the week)',
-    items: data.topArtists,
+    items: [],
     type: 'artist'
   }
-]
+])
 
+const lastUpdatedAt = ref(null)
+
+onMounted(async () => {
+  const req = await fetch('/api/songs')
+  if (!req.ok) { throw new Error('Failed to fetch songs') }
+
+  const data: SongsResponse = await req.json()
+
+  categories.value[0].items = data.recentTracks
+  categories.value[1].items = data.topTracks
+  categories.value[2].items = data.topArtists
+  lastUpdatedAt.value = data.last_updated_at
+})
 </script>
 
 <template>
-  <div class="p-10 md:p-20">
-    <h2 class="flex gap-1 text-gray-400 py-3">
-      (
-      Last Updated
-      <FormatTime :timestamp="data.last_updated_at" class="text-base" />
-      )
-    </h2>
-
+  <MeBase
+    title="Songs"
+    description="My latest activity on LastFM."
+  >
     <div v-for="category in categories" :key="category.name" class="pt-10">
-      <h1 class="font-semibold">
+      <h1 class="font-bold text-3xl">
         {{ category.name }}
-        <span v-if="category.subText" class="text-gray-500 text-sm">
+        <span v-if="category.subText" class="text-gray-500 text-sm font-semibold">
           {{ category.subText }}
         </span>
       </h1>
 
-      <div class="flex flex-wrap justify-between">
-        <SongCard v-for="song in category.items" :key="song.url" class="m-1" :item="song" :type="category.type" />
+      <div
+        v-if="category.items.length > 0"
+        class="flex flex-wrap justify-between"
+      >
+        <SongCard
+          v-for="song in category.items"
+          :key="song.url"
+          :item="song"
+          :type="category.type"
+        />
+      </div>
+
+      <div
+        v-else
+        class="flex flex-wrap justify-between"
+      >
+        <SongCard
+          v-for="i in 15"
+          :key="i"
+          :item="{}"
+          :type="'skeletal'"
+        />
       </div>
     </div>
-  </div>
+  </MeBase>
 </template>

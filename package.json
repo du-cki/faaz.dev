@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
-    "@nuxt/devtools": "latest",
+    "@nuxt/devtools": "^1.1.4",
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/eslint-config-typescript": "^11.0.0",
@@ -20,7 +20,8 @@
     "eslint": "^8.24.0",
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-vue": "^9.5.1",
-    "nuxt": "^3.6.1",
+    "nuxt": "^3.10.3",
+    "nuxt-og-image": "3.0.0-rc.47",
     "postcss": "^8.4.24"
   },
   "dependencies": {

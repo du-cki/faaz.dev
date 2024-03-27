@@ -1,7 +1,7 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import type {
   Project
-} from '../utils/types'
+} from '~/utils/types'
 
 defineProps<{
   project: Project
@@ -9,50 +9,46 @@ defineProps<{
 </script>
 
 <template>
-  <div class="base-color flex flex-col justify-between w-full my-2 py-2 px-2 rounded-md">
-    <div>
-      <div class="flex items-center ">
-        <RepositoryLogo />
+  <div class="flex flex-col justify-around w-full base-color p-2 my-2 rounded-md">
+    <div class="flex items-center gap-2">
+      <RepositoryLogo />
 
-        <span class="px-2">
-          <a :href="project.owner_url" class="no-underline">
-            {{ project.owner }}
-          </a>/<a :href="project.repo_url" class="font-bold text  hover:text-highlight">
-            {{ project.repo_name }}
-          </a>
-        </span>
+      <span>
+        <a :href="project.owner_url" class="no-underline">
+          {{ project.owner }}
+        </a>/<a :href="project.repo_url" class="text hover:text-highlight font-bold">
+          {{ project.repo_name }}
+        </a>
+      </span>
 
-        <LicenseLogo v-if="project.license" v-tooltip="project.license" />
-      </div>
-
-      <div>
-        <div class="flex flex-wrap py-2">
-          <a
-            v-for="tag in project.tags"
-            :key="tag"
-            :href="`https://github.com/topics/${tag}`"
-            class="bg-gray-300 text-black hover:text-black px-2 mr-1 rounded no-underline"
-            target="_blank"
-          >
-            {{ tag }}
-          </a>
-        </div>
-
-        <div class="text-left">
-          <p class="text-clip line-clamp-3 text-base">
-            {{ project.description }}
-          </p>
-        </div>
-      </div>
+      <LicenseLogo v-if="project.license" v-tooltip="project.license" />
     </div>
 
-    <div class="pt-3 flex items-center justify-between w-full">
-      <div class="w-full flex items-center">
+    <div class="flex flex-wrap py-2">
+      <a
+        v-for="tag in project.tags"
+        :key="tag"
+        :href="`https://github.com/topics/${tag}`"
+        class="bg-gray-300 text-black hover:text-black px-2 mr-1 rounded no-underline text-base"
+        target="_blank"
+      >
+        {{ tag }}
+      </a>
+    </div>
+
+    <div class="text-left">
+      <p class="text-clip line-clamp-3 text-base">
+        {{ project.description }}
+      </p>
+    </div>
+
+    <div class="flex items-center w-full mt-3">
+      <div class="flex items-center w-full">
         <div class="w-3 h-3 mr-2 rounded-full" :style="{ backgroundColor: project.color }" />
         {{ project.language }}
       </div>
 
-      <div class="flex items-center justify-end mr-1 flex-row w-full">
+      <div class="flex items-center mr-1">
         <a :href="`https://github.com/${project.owner}/${project.repo_name}/stargazers`" target="_blank" class="pr-2">
           <svg height="16" width="16" viewBox="0 0 16 16">
             <path
@@ -68,7 +64,7 @@ defineProps<{
 
 <style scoped>
 .base-color {
-  @apply bg-[#EEEEEE] dark:bg-[#0C0909] ;
+  @apply bg-[#EEEEEE] dark:bg-[#0C0909];
 }
 
 path {
