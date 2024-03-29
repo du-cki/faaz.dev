@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { getRecentProjects } from '~/utils/functions'
+import { getProjects } from '~/utils/functions'
 
 const projects = ref([])
 
 onMounted(async () => {
-  projects.value = await getRecentProjects()
+  projects.value = await getProjects()
 })
 </script>
 
@@ -45,6 +45,12 @@ onMounted(async () => {
 
       <div class="flex flex-col lg:flex-row pt-3 justify-evenly gap-2">
         <ProjectCard v-for="project in projects" :key="project.repo_name" :project="project" />
+      </div>
+
+      <div class="text-right">
+        <NuxtLink to="/me/projects" class="hover:cursor-pointer no-underline text-sm">
+          Show More
+        </NuxtLink>
       </div>
     </div>
   </div>

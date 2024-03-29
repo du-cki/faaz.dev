@@ -6,13 +6,12 @@ const props = defineProps<{
 
 useSeoMeta({
   title: `${props.title} - faaz.dev`,
-  ogTitle: props.title,
-  ogDescription: props.description
+  ogTitle: props.title
 })
 
 defineOgImageComponent('MePage', {
   title: props.title,
-  description: props.description,
+  description: props.description
 })
 </script>
 

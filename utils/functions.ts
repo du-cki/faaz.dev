@@ -2,9 +2,9 @@ import { languageColourMapping } from './constants'
 
 import type { ListRepositoryPayload, Project } from './types'
 
-const getRecentProjects = async (): Promise<Project[]> => {
+const getProjects = async (limit: number = 3): Promise<Project[]> => {
   const req = await fetch(
-    'https://api.github.com/users/du-cki/repos?type=owner&sort=updated&per_page=3',
+    `https://api.github.com/users/du-cki/repos?type=owner&sort=updated&per_page=${limit}`,
     {
       headers: {
         accept: 'application/vnd.github+json'
@@ -32,7 +32,7 @@ const getRecentProjects = async (): Promise<Project[]> => {
     color:
       languageColourMapping[
         data
-          .language!.toLowerCase()
+          .language?.toLowerCase()
           .replace(' ', '_') as keyof typeof languageColourMapping
       ] || '#ADADAD',
     tags: data.topics
@@ -49,4 +49,4 @@ const sa = (artistName: string) => {
   )}/artists`
 }
 
-export { getRecentProjects, st, sa }
+export { getProjects, st, sa }

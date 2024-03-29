@@ -44,7 +44,7 @@ onMounted(async () => {
 <template>
   <MeBase
     title="Songs"
-    description="My latest activity on LastFM."
+    description="My latest music activity on LastFM."
   >
     <div v-for="category in categories" :key="category.name" class="pt-10">
       <h1 class="font-bold text-3xl">

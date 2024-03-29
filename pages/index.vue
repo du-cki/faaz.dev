@@ -6,7 +6,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <div>
+  <div class="overflow-x-clip">
     <IndexHero />
     <IndexMedian />
     <IndexMusic />
