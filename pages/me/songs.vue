@@ -56,7 +56,7 @@ onMounted(async () => {
 
       <div
         v-if="category.items.length > 0"
-        class="flex flex-wrap justify-between"
+        class="flex flex-wrap gap-3"
       >
         <SongCard
           v-for="song in category.items"
@@ -68,7 +68,7 @@ onMounted(async () => {
 
       <div
         v-else
-        class="flex flex-wrap justify-between"
+        class="flex flex-wrap gap-3"
       >
         <SongCard
           v-for="i in 15"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { SongsResponse } from '~/utils/types'
 
-const songs = ref([])
+const songs: Ref<SongsResponse['recentTracks']> = ref([])
 
 onMounted(async () => {
   const req = await fetch('/api/songs?minified=true')
@@ -21,7 +21,7 @@ onMounted(async () => {
 
     <div
       v-if="songs.length > 0"
-      class="flex flex-wrap justify-between"
+      class="flex flex-wrap gap-3"
     >
       <SongCard
         v-for="song in songs"
@@ -33,7 +33,7 @@ onMounted(async () => {
 
     <div
       v-else
-      class="flex flex-wrap justify-between"
+      class="flex flex-wrap gap-3"
     >
       <SongCard
         v-for="i in 15"
@@ -44,7 +44,7 @@ onMounted(async () => {
     </div>
 
     <div class="text-right">
-      <NuxtLink to="/me/songs" class="hover:cursor-pointer no-underline text-sm">
+      <NuxtLink to="/me/songs" class="hover:cursor-pointer no-underline text-sm font-semibold">
         Show More
       </NuxtLink>
     </div>

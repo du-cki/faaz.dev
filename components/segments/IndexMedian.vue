@@ -48,7 +48,7 @@ onMounted(async () => {
       </div>
 
       <div class="text-right">
-        <NuxtLink to="/me/projects" class="hover:cursor-pointer no-underline text-sm">
+        <NuxtLink to="/me/projects" class="hover:cursor-pointer no-underline text-sm font-semibold">
           Show More
         </NuxtLink>
       </div>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { twMerge } from 'tailwind-merge'
 import type { Track, Artist } from '~/utils/types'
 
 const props = defineProps<{
@@ -16,12 +17,17 @@ if (url === LAST_FM_PLACEHOLDER_IMAGE) {
 </script>
 
 <template>
-  <div class="bg-light-secondary dark:bg-dark-secondary rounded-lg flex p-2 items-center m-1 w-full md:w-96">
+  <div
+    :class="twMerge(
+      'flex items-center w-full md:w-96 lg:w-80 rounded-lg p-2',
+      'bg-light-secondary dark:bg-dark-secondary'
+    )"
+  >
     <img
       ref="coverImage"
       class="rounded-lg w-20 h-16 mr-3"
       loading="lazy"
-      :class="{'animate-pulse bg-gray-600': type === 'skeletal'}"
+      :class="twMerge(type === 'skeletal' && 'animate-pulse bg-gray-600' )"
       :src="url"
     >
 
