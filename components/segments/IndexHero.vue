@@ -105,10 +105,12 @@ onUnmounted(() => {
         <span v-else class="h-10 w-24 animate-pulse after:content-['Loading...']" />
       </p>
 
-      <div v-if="status?.spotify" class="flex flex-wrap items-center justify-end gap-1">
-        <p>Listening to</p>
+      <div v-if="status?.spotify" class="inline">
+        <p class="inline">
+          Listening to
+        </p>
 
-        <VMenu placement="top-end" theme="glass" class="flex items-center">
+        <VMenu placement="top-end" theme="glass" class="inline">
           <a
             class="text font-extrabold"
             :href="st(status.spotify.track_id)"
@@ -121,9 +123,12 @@ onUnmounted(() => {
           </template>
         </VMenu>
 
-        <p>by</p>
+        <p class="inline">
+          by
+        </p>
+
         <a
-          class="text font-extrabold"
+          class="text font-extrabold inline"
           :href="sa(status.spotify.artists[0])"
         >
           {{ status.spotify.artists[0] }}

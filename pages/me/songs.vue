@@ -13,13 +13,13 @@ const categories = ref([
     type: 'track'
   },
   {
-    name: 'Top Tracks',
+    name: 'Top Track Plays',
     subText: '(of the week)',
     items: [],
     type: 'track'
   },
   {
-    name: 'Top Artists',
+    name: 'Top Artist Plays',
     subText: '(of the week)',
     items: [],
     type: 'artist'

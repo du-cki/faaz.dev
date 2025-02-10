@@ -13,7 +13,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="screen h-max flex-col">
+  <div class="screen flex-col">
     <h1>Music</h1>
     <p class="md:w-4/6 mb-5">
       I'm a big fan of music! I enjoy listening to a wide range of genres and songs. Here are the tracks I've been listening to lately.

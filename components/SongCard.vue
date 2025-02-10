@@ -27,7 +27,7 @@ if (url === LAST_FM_PLACEHOLDER_IMAGE) {
       ref="coverImage"
       class="rounded-lg w-20 h-16 mr-3"
       loading="lazy"
-      :class="twMerge(type === 'skeletal' && 'animate-pulse bg-gray-600' )"
+      :class="twMerge(type === 'skeletal' && 'animate-pulse bg-gray-600 border-2 border-gray-300 dark:border-gray-700' )"
       :src="url"
     >
 
@@ -57,12 +57,9 @@ if (url === LAST_FM_PLACEHOLDER_IMAGE) {
           <div v-else-if="type === 'skeletal'" class="bg-gray-600 py-2 w-1/4 rounded-lg" />
         </div>
 
-        <p
-          v-if="item.playcount"
-          class="bg-cyan-600 py-0.5 w-1/4 mx-1 rounded-lg font-extrabold text-xs text text-center"
-        >
-          {{ `${item.playcount} PLAYS` }}
-        </p>
+        <span v-if="item.playcount" class="bg-cyan-600 w-1/4 rounded-lg font-extrabold text-xs text text-center p-1">
+          {{ item.playcount }}
+        </span>
       </div>
     </div>
   </div>
