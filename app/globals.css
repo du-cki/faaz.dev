@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme {
+  --color-highlight: #F85B85;
+  --color-light-mode: #FFFFFF;
+  --color-light-text: black;
+  --color-dark-mode: #111111;
+  --color-dark-text: white;
+
+  --color-dark-card: #0C0909;
+  --color-light-card: #EEEEEE;
+}
+
+body {
+  @apply dark:bg-dark-mode bg-light-mode select-none;
+}
+
+body {
+  @apply text-black dark:text-white;
+}
+
+h1 {
+  @apply font-extrabold text-3xl md:text-4xl;
+}
+
+p,
+a {
+  @apply text-gray-400 text-lg md:text-xl;
+}
+
+.text {
+  @apply !text-black dark:!text-white;
+}
+
+.card {
+  @apply bg-light-card/90 dark:bg-dark-card/90 border-2 border-gray-400/10 shadow-lg;
+}
+
+a {
+  @apply underline underline-offset-4 transition-all hover:decoration-highlight hover:text-black dark:hover:text-white hover:cursor-pointer;
+}
+
+svg>path,
+svg>rect {
+  @apply stroke-black dark:stroke-white;
+}
+
+svg>ellipse {
+  @apply fill-black dark:fill-white;
+}
