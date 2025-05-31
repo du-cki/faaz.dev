@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: templateMetadata.title?.template.replace("%s", "Home"),
 };
 
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
 export default async function Home() {
   return <HomePage />;
 }
