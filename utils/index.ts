@@ -39,27 +39,45 @@ type ActivityCover = {
   expiry: number;
 }
 
-export const getActivityCover = async (activityId: string): Promise<Option<string>> => {
-  const covers = JSON.parse(localStorage.getItem(ACTIVITY_COVER_KEY) || "[]") as ActivityCover[];
 
-  const cover = covers.filter(
-    (cover: ActivityCover) => cover.expiry > Date.now()
-  ).find(
-    (cover: ActivityCover) => cover.activityId === activityId
-  );
+export const getActivityCover = async (activityId: string): Promise<Option<string>> => {
+  const now = Date.now();
+  let covers: ActivityCover[] = [];
+
+  try {
+    covers = JSON.parse(localStorage.getItem(ACTIVITY_COVER_KEY) || "[]");
+  } catch {
+    covers = [];
+  }
+
+  covers = covers.filter(cover => cover.expiry > now);
+  const cover = covers.find(cover => cover.activityId === activityId);
 
   if (cover) {
+    if (cover.iconHash.endsWith(".png")) {
+      return cover.iconHash;
+    }
+
     return `https://cdn.discordapp.com/app-icons/${activityId}/${cover.iconHash}.webp`;
   }
 
-  const activity = await fetchActivityDetails(activityId)
-  if (!activity || !activity.icon) {
+  const activity = await fetchActivityDetails(activityId);
+  if (!activity || (activity.name !== "Xbox" && !activity.icon)) {
     return null;
   }
 
-  const expiry = Date.now() + ACTIVITY_COVER_EXPIRY;
-  covers.push({ activityId, iconHash: activity.icon, expiry } satisfies ActivityCover);
+  let iconHash = activity.icon;
+  if (activity.name === "Xbox") {
+    iconHash = "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Xbox_one_logo.svg/480px-Xbox_one_logo.svg.png";
+  }
+
+  const expiry = now + ACTIVITY_COVER_EXPIRY;
+  covers.push({ activityId, iconHash, expiry });
   localStorage.setItem(ACTIVITY_COVER_KEY, JSON.stringify(covers));
 
+  if (iconHash.endsWith(".png")) {
+    return iconHash;
+  }
+
   return `https://cdn.discordapp.com/app-icons/${activityId}/${activity.icon}.webp`;
-}
+};
