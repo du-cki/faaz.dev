@@ -3,11 +3,14 @@ import React from "react";
 import Section from "@/components/common/Section";
 import Segment from "./Segment";
 
-import type { SongsResponse } from "@/utils/types";
 import Item from "@/components/common/Item";
 
+import { BASE_URL } from "@/utils/constants";
+
+import type { SongsResponse } from "@/utils/types";
+
 async function getMusicData(): Promise<SongsResponse> {
-  const req = await fetch("http://localhost:3000/api/music?minified=true");
+  const req = await fetch(`${BASE_URL}/api/music?minified=true`);
 
   if (!req.ok) {
     const errorMessage = await req.text();
