@@ -123,6 +123,7 @@ export default function Introduction() {
               <a
                 href={to}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="*:hover:scale-110 *:hover:rotate-12 *:transition-all *:duration-300"
                 data-tooltip-content={tooltip}
                 data-tooltip-place="top"
@@ -171,11 +172,18 @@ export default function Introduction() {
                   data-tooltip-id="spotify-track-tooltip"
                   className="font-extrabold text"
                   href={st(spotify.sync_id!)}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {spotify.details}
                 </a>{" "}
                 by{" "}
-                <a className="font-extrabold text" href={sa(spotify.state)}>
+                <a
+                  className="font-extrabold text"
+                  href={sa(spotify.state)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {spotify.state.split("; ")[0]}
                 </a>
                 .

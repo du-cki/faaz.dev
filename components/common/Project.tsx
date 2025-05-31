@@ -33,7 +33,15 @@ export default function Project({ details }: Props) {
     <div className="card flex flex-col w-full p-4 text-left rounded-lg">
       <div className="space-x-2 *:inline-block">
         <Repository className="scale-125" />
-        <a className="text font-bold">{details.repo_name}</a>
+
+        <a
+          className="text font-bold"
+          href={details.repo_url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {details.repo_name}
+        </a>
       </div>
 
       <p className="flex-1 my-2 line-clamp-2">{details.description}</p>

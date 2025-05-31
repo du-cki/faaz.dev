@@ -25,12 +25,21 @@ export default async function About() {
         title="Expertise"
         description={
           <>
-            Proficient in <a href="https://www.python.org">Python</a> and{" "}
-            <a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a>,
-            with expertise in data analysis, machine learning and web
+            Proficient in{" "}
+            <a href="https://www.python.org" target="_blank">
+              Python
+            </a>{" "}
+            and{" "}
+            <a href="https://en.wikipedia.org/wiki/JavaScript" target="_blank">
+              JavaScript
+            </a>
+            , with expertise in data analysis, machine learning and web
             development. I'm currently learning{" "}
-            <a href="https://www.rust-lang.org">Rust</a> for its speed, memory
-            safety, and concurrency features for systems programming.
+            <a href="https://www.rust-lang.org" target="_blank">
+              Rust
+            </a>{" "}
+            for its speed, memory safety, and concurrency features for systems
+            programming.
           </>
         }
       >

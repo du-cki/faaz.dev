@@ -20,13 +20,23 @@ export default function Item({ music }: Props) {
         />
 
         <div>
-          <a href={music.url} className="text font-extrabold line-clamp-1">
+          <a
+            href={music.url}
+            className="text font-extrabold line-clamp-1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {music.name}
           </a>
 
           <p className="!text-sm">
             by{" "}
-            <a href={la(music.url)} className="!text-sm text font-semibold">
+            <a
+              href={la(music.url)}
+              className="!text-sm text font-semibold"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {music.artist}
             </a>
           </p>
