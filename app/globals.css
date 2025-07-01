@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+
+h1 {
+    @apply text-2xl font-light mb-4 font-serif;
+}
+
+p {
+    @apply text-gray-600 text-lg leading-relaxed mb-6 max-w-2xl font-light;
+}
