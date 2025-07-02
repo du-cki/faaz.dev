@@ -78,16 +78,14 @@ export default function LeftSide() {
           ))}
 
           {/* Placeholder until i figure out what to put here by default */}
-          {otherActivities.length === 0 && !spotify && (
-            <Activity
-              icon={
-                <Gamepad className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" />
-              }
-              status="Playing"
-              text="Marvel Rivals"
-              type="playing"
-            />
-          )}
+          <Activity
+            icon={
+              <Gamepad className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" />
+            }
+            status="Recently Played"
+            text="Marvel Rivals"
+            type="playing"
+          />
         </div>
       </section>
 
