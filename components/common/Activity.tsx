@@ -36,7 +36,7 @@ function SpotifyActivity({ text, artist, href, timestamps }: SpotifyActivity) {
   });
 
   return (
-    <div className="bg-gray-50 rounded-lg overflow-clip group">
+    <div className="select-none bg-gray-50 rounded-lg overflow-clip group">
       <div className="flex items-start gap-3 p-4">
         <Music className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" />
 
@@ -74,7 +74,7 @@ export default function Activity(activity: Props) {
   }
 
   return (
-    <div className="flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+    <div className="select-none flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
       {activity.icon}
 
       <div>
