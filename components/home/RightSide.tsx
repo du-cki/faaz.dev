@@ -20,16 +20,22 @@ const getTimeForTimezone = (tz: string): string => {
 const getMockWakaTimeData = () => {
   return {
     total_seconds: 127800,
-    daily_average: 25200,
     languages: [
-      { name: "TypeScript", percent: 45.2, total_seconds: 57726 },
-      { name: "Python", percent: 28.1, total_seconds: 35912 },
-      { name: "Rust", percent: 15.3, total_seconds: 19553 },
-      { name: "HTML", percent: 2.7, total_seconds: 3451 },
-    ],
-    projects: [
-      { name: "du-cki/Estella", percent: 34.2, total_seconds: 43708 },
-      { name: "du-cki/faaz.dev", percent: 28.9, total_seconds: 36934 },
+      {
+        name: "TypeScript",
+        percent: 45,
+        total_seconds: 57726,
+        colour: "#3178C6",
+      },
+      { name: "Python", percent: 24, total_seconds: 35912, colour: "#FFD43B" },
+      { name: "Rust", percent: 15, total_seconds: 19553, colour: "#DEA584" },
+      { name: "HTML", percent: 12, total_seconds: 3451, colour: "#E34C26" },
+      {
+        name: "Emacs Lisp",
+        percent: 4,
+        total_seconds: 35912,
+        colour: "#C065DB",
+      },
     ],
   };
 };
@@ -99,52 +105,39 @@ export default function RightSide() {
             </div>
 
             <div className="text-xs text-gray-500">
-              Daily avg: {formatTime(wakaTimeData.daily_average)}
+              Daily average: {formatTime(wakaTimeData.total_seconds / 7)}
             </div>
           </div>
 
           <div>
-            <div className="text-md font-semibold text-gray-700 mb-2">
+            <span className="text-md font-semibold text-gray-700">
               Languages
-            </div>
+            </span>
 
-            <div className="space-y-2">
-              {wakaTimeData.languages.slice(0, 3).map((lang, index) => (
+            <div className="flex items-center rounded-lg overflow-clip mt-2">
+              {wakaTimeData.languages.map(({ name, percent, colour }) => (
                 <div
-                  key={index}
-                  className="flex items-center justify-between text-sm"
-                >
-                  <span className="text-gray-600">{lang.name}</span>
-                  <div className="flex items-center gap-2">
-                    <div className="w-16 bg-gray-200 rounded-full h-1.5">
-                      <div
-                        className="bg-pink-500 h-1.5 rounded-full"
-                        style={{ width: `${lang.percent}%` }}
-                      ></div>
-                    </div>
-                    <span className="text-gray-500 text-xs w-8">
-                      {lang.percent.toFixed(0)}%
-                    </span>
-                  </div>
-                </div>
+                  key={name}
+                  style={{ width: `${percent}%`, backgroundColor: colour }}
+                  className="h-2.5 hover:scale-110 transition-all"
+                />
               ))}
             </div>
-          </div>
 
-          <div>
-            <div className="text-md font-semibold text-gray-700 mb-2">
-              Projects
-            </div>
+            <div className="flex flex-wrap space-x-3 space-y-1 mt-2 select-none">
+              {wakaTimeData.languages.map(({ name, colour, percent }) => (
+                <div key={name} className="flex items-center">
+                  <div
+                    className="rounded-full w-2 h-2 mr-2"
+                    style={{ backgroundColor: colour }}
+                  />
 
-            <div className="space-y-2">
-              {wakaTimeData.projects.slice(0, 2).map((project, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between text-sm"
-                >
-                  <span className="text-gray-600 truncate">{project.name}</span>
-                  <span className="text-gray-500 text-xs">
-                    {formatTime(project.total_seconds)}
+                  <span className="text-xs font-medium! hover:text-gray-600 transition-all">
+                    {name}
+
+                    <span className="text-gray-500 ml-3">
+                      {percent.toFixed(0)}%
+                    </span>
                   </span>
                 </div>
               ))}
