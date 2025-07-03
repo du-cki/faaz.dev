@@ -7,11 +7,17 @@ import RightSide from "./RightSide";
 
 import Socials from "./Socials";
 
-import { DATE_OF_BIRTH } from "@/utils/constants";
 import { getArticle } from "@/utils";
+import { DATE_OF_BIRTH, github } from "@/utils/constants";
 
-export default function HomePage() {
+export default async function HomePage() {
   const year_of_birth = moment().diff(DATE_OF_BIRTH, "years");
+
+  const projects = await github.getRepositories("du-cki", {
+    type: "owner",
+    sort: "updated",
+    per_page: "5",
+  });
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-20 space-y-12">
@@ -32,7 +38,7 @@ export default function HomePage() {
 
       <div className="grid lg:grid-cols-3 gap-12">
         <div className="lg:col-span-2 space-y-16">
-          <LeftSide />
+          <LeftSide projects={projects} />
         </div>
 
         <div className="space-y-8 ">

@@ -12,7 +12,13 @@ import Experience from "../common/Experience";
 
 import { DISCORD_USER_ID, lanyard } from "@/utils/constants";
 
-export default function LeftSide() {
+import type { Project as ProjectT } from "@/lib/github/types";
+
+type Props = {
+  projects: ProjectT[];
+};
+
+export default function LeftSide({ projects }: Props) {
   const [activities, setActivities] = useState<DiscordActivity[]>([]);
 
   useEffect(() => {
@@ -72,35 +78,24 @@ export default function LeftSide() {
         </div>
       </section>
 
-      <section>
-        <h1>Projects</h1>
+      {projects && (
+        <section>
+          <h1>Projects</h1>
 
-        <div className="space-y-3">
-          <Project
-            name="Uma"
-            description="The Uma Programming Language"
-            href="https://github.com/du-cki/Uma"
-            tags={["programming-language", "rust"]}
-            year={2023}
-          />
-
-          <Project
-            name="css-tweaks"
-            description="A minimal web UI for generating sharable Discord CSS tweak URLs."
-            href="https://github.com/du-cki/css-tweaks"
-            tags={["discord", "css"]}
-            year={2025}
-          />
-
-          <Project
-            name="Kana"
-            description="A personal utility bot for servers I like on discord."
-            href="https://github.com/du-cki/Kana"
-            tags={["python", "discordpy"]}
-            year={2022}
-          />
-        </div>
-      </section>
+          <div className="space-y-3">
+            {projects.map((project) => (
+              <Project
+                key={project.repo_url}
+                name={project.repo_name}
+                description={project.description}
+                href={project.repo_url}
+                tags={project.tags}
+                year={project.year}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       <section>
         <h1>Experience</h1>

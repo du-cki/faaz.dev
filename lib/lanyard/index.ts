@@ -1,5 +1,7 @@
 import { StatusResponse, StatusData } from "./types";
 
+import { USER_AGENT } from "@/utils/constants";
+
 const BASE_URL = "api.lanyard.rest";
 
 type Callback = (data: StatusData) => unknown;
@@ -37,7 +39,11 @@ class LanyardClient {
   }
 
   async get_status(user: string): Promise<StatusResponse> {
-    const req = await fetch(`https://${BASE_URL}/v1/users/${user}`);
+    const req = await fetch(`https://${BASE_URL}/v1/users/${user}`, {
+      headers: {
+        "User-Agent": USER_AGENT,
+      },
+    });
 
     if (!req.ok) {
       throw new Error(`${req.status}: ${req.statusText}`);

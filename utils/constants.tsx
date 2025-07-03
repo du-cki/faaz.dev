@@ -1,3 +1,4 @@
+import GithubClient from "@/lib/github";
 import LanyardClient from "@/lib/lanyard";
 
 import type { DiscordStatus } from "@/lib/lanyard/types";
@@ -38,4 +39,7 @@ export const STATUS_COLORS: Record<DiscordStatus, string> = {
 export const DATE_OF_BIRTH = process.env.NEXT_PUBLIC_DATE_OF_BIRTH!;
 export const DISCORD_USER_ID = process.env.NEXT_PUBLIC_DISCORD_USER_ID!;
 
+export const USER_AGENT = "faaz.dev (github.com/du-cki/faaz.dev)";
+
 export const lanyard = new LanyardClient();
+export const github = new GithubClient();
