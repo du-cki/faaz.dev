@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 
-import LanyardClient from "@/lib/lanyard";
 import type { DiscordActivity, StatusData } from "@/lib/lanyard/types";
 
 import { Gamepad } from "lucide-react";
@@ -11,35 +10,19 @@ import Activity from "../common/Activity";
 import Project from "../common/Project";
 import Experience from "../common/Experience";
 
+import { DISCORD_USER_ID, lanyard } from "@/utils/constants";
+
 export default function LeftSide() {
   const [activities, setActivities] = useState<DiscordActivity[]>([]);
 
-  const userId = process.env.NEXT_PUBLIC_DISCORD_USER_ID!;
-
   useEffect(() => {
-    const lanyard = new LanyardClient();
-    const socket = lanyard.subscribe([userId]);
-
-    socket.addEventListener("message", ({ data: event }) => {
-      const message: { op: number; d: StatusData } = JSON.parse(event);
-
-      if (message.op !== 0) return;
-
-      let data = message.d;
-      // @ts-expect-error should be fine
-      if (data[userId]) {
-        // @ts-expect-error should be fine
-        data = data[userId];
-      }
-
+    lanyard.add_callback((data: StatusData) => {
+      console.log({ data });
       setActivities(data.activities);
-
-      return () => {
-        setActivities([]);
-        socket.close();
-      };
     });
-  }, [userId]);
+
+    lanyard.connect(DISCORD_USER_ID);
+  }, []);
 
   const spotify = activities.find(
     (activity) => activity.type == 2 && activity.name == "Spotify"

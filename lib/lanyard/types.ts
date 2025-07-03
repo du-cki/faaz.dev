@@ -1,3 +1,5 @@
+export type DiscordStatus = "online" | "dnd" | "idle" | "offline";
+
 export type DiscordActivity = {
   type: number;
   timestamps: {
@@ -47,10 +49,10 @@ export type StatusData = {
   active_on_discord_desktop: boolean;
   active_on_discord_web: boolean;
   listening_to_spotify: boolean;
-  kv: { string: string };
+  kv: Record<string, string>;
   spotify: SpotifyPayload;
   discord_user: DiscordUser;
-  discord_status: "online" | "dnd" | "idle" | "offline";
+  discord_status: DiscordStatus;
   activities: DiscordActivity[];
 };
 
@@ -58,6 +60,8 @@ export type StatusResponse = {
   success: boolean;
   data: StatusData;
 };
+
+export type MeKV = { timezone: string; region: string; updated_at: string };
 
 export type LanyardWSResponse = {
   [key: string]: StatusData;

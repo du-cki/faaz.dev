@@ -1,9 +1,18 @@
-import LeftSide from "./LeftSide";
+import React from "react";
 
-import { SOCIALS } from "@/utils/constants";
+import moment from "moment";
+
+import LeftSide from "./LeftSide";
 import RightSide from "./RightSide";
 
+import Socials from "./Socials";
+
+import { DATE_OF_BIRTH } from "@/utils/constants";
+import { getArticle } from "@/utils";
+
 export default function HomePage() {
+  const year_of_birth = moment().diff(DATE_OF_BIRTH, "years");
+
   return (
     <div className="max-w-4xl mx-auto px-6 py-20 space-y-12">
       <section>
@@ -13,21 +22,12 @@ export default function HomePage() {
         </h1>
 
         <p>
-          I am an 18 year old full-stack developer from the United Arab Emirates
-          who loves programming both professionally and as a hobby.
+          I am {getArticle(year_of_birth)} {year_of_birth} year old full-stack
+          developer from the United Arab Emirates who loves programming both
+          professionally and as a hobby.
         </p>
 
-        <div className="flex gap-4 mb-8">
-          {SOCIALS.map(({ name, href, icon }) => (
-            <a
-              key={name}
-              href={href}
-              className="text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              {icon}
-            </a>
-          ))}
-        </div>
+        <Socials />
       </section>
 
       <div className="grid lg:grid-cols-3 gap-12">

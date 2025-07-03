@@ -2,20 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 
-import moment from "moment-timezone";
-
 import { Clock, MapPin } from "lucide-react";
-
-const parseUtcOffset = (offset: number): string => {
-  return `${offset > 0 ? "GMT+" : "GMT-"}${Math.abs(offset / 60)}`;
-};
-
-const getTimeForTimezone = (tz: string): string => {
-  const time = moment().tz(tz);
-  const offset = parseUtcOffset(time.utcOffset());
-
-  return `${time.format("hh:mm A")} (${offset})`;
-};
+import { lanyard, STATUS_COLORS } from "@/utils/constants";
+import { DiscordStatus, MeKV, StatusData } from "@/lib/lanyard/types";
+import { getTimeForTimezone } from "@/utils";
 
 const getMockWakaTimeData = () => {
   return {
@@ -51,16 +41,34 @@ const formatTime = (seconds: number): string => {
 };
 
 export default function RightSide() {
-  const tz = "Asia/Dubai";
-  const [currentTime, setCurrentTime] = useState(getTimeForTimezone(tz));
+  const [KV, setKV] = useState<Option<MeKV>>(null);
+  const [status, setStatus] = useState<Option<DiscordStatus>>(null);
+
+  const [currentTime, setCurrentTime] = useState<Option<string>>(null);
 
   useEffect(() => {
+    lanyard.add_callback((data: StatusData) => {
+      if (data.kv && data.kv.me) {
+        setKV(JSON.parse(data.kv.me));
+      }
+
+      if (data.discord_status) {
+        setStatus(data.discord_status);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!KV?.timezone) return;
+
+    setCurrentTime(getTimeForTimezone(KV.timezone)); // set inital time
+
     const interval = setInterval(() => {
-      setCurrentTime(getTimeForTimezone(tz));
-    }, 1000 * 60);
+      setCurrentTime(getTimeForTimezone(KV.timezone));
+    }, 1000 * 10);
 
     return () => clearInterval(interval);
-  });
+  }, [KV]);
 
   const wakaTimeData = getMockWakaTimeData();
 
@@ -70,20 +78,34 @@ export default function RightSide() {
         <h1>About</h1>
 
         <div className="space-y-3 text-sm">
-          <div className="flex items-center gap-1 font-semibold">
-            <span className="text-gray-600">I&apos;m currently</span>
-            <span className="text-green-600">online</span>
-          </div>
+          <span className="font-semibold block">
+            I&apos;m currently{" "}
+            {status ? (
+              <span style={{ color: STATUS_COLORS[status] }}>{status}</span>
+            ) : (
+              <div className="h-2.5 bg-gray-200 rounded-full w-10 inline-block" />
+            )}
+            .
+          </span>
 
           <div className="flex items-center gap-2 text-gray-600">
             <MapPin className="w-4 h-4" />
-            <span>United Arab Emirates</span>
+
+            {KV?.region ? (
+              <span>{KV.region}</span>
+            ) : (
+              <div className="h-4 my-[2px] bg-gray-200 rounded-full w-28" />
+            )}
           </div>
 
           <div className="flex items-center gap-2 text-gray-600">
             <Clock className="w-4 h-4" />
 
-            <span>{currentTime}</span>
+            {currentTime ? (
+              <span>{currentTime}</span>
+            ) : (
+              <div className="h-4 my-[2px] bg-gray-200 rounded-full w-20" />
+            )}
           </div>
         </div>
       </section>
