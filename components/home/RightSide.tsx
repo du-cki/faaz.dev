@@ -2,10 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 
-import { Clock, MapPin } from "lucide-react";
-import { lanyard, STATUS_COLORS } from "@/utils/constants";
-import { DiscordStatus, MeKV, StatusData } from "@/lib/lanyard/types";
-import { getTimeForTimezone } from "@/utils";
+import { Tooltip } from "react-tooltip";
+import { Clock, Clock2, MapPin } from "lucide-react";
+
+import { getRelativeTime, getTimeForTimezone } from "@/utils";
+
+import { DISCORD_USER_ID, lanyard, STATUS_COLORS } from "@/utils/constants";
+import type { DiscordStatus, MeKV, StatusData } from "@/lib/lanyard/types";
 
 const getMockWakaTimeData = () => {
   return {
@@ -46,6 +49,23 @@ export default function RightSide() {
 
   const [currentTime, setCurrentTime] = useState<Option<string>>(null);
 
+  const updateTime = () =>
+    KV && setCurrentTime(getTimeForTimezone(KV.timezone));
+
+  const updateKV = async () => {
+    setStatus(null);
+    setKV(null);
+
+    setCurrentTime(null);
+
+    const { data } = await lanyard.get_status(DISCORD_USER_ID);
+
+    if (data.kv.me) setKV(JSON.parse(data.kv.me));
+    if (data.discord_status) setStatus(data.discord_status);
+
+    updateTime();
+  };
+
   useEffect(() => {
     lanyard.add_callback((data: StatusData) => {
       if (data.kv && data.kv.me) {
@@ -61,8 +81,6 @@ export default function RightSide() {
   useEffect(() => {
     if (!KV?.timezone) return;
 
-    const updateTime = () => setCurrentTime(getTimeForTimezone(KV.timezone));
-
     updateTime(); // update inital time
 
     const interval = setInterval(() => {
@@ -70,14 +88,29 @@ export default function RightSide() {
     }, 1000 * 10);
 
     return () => clearInterval(interval);
-  }, [KV]);
+  });
 
   const wakaTimeData = getMockWakaTimeData();
 
   return (
     <>
       <section>
-        <h1>About</h1>
+        <Tooltip id="about-tooltip" style={{ padding: 5 }} />
+
+        <h1>
+          About{" "}
+          {KV?.updated_at && (
+            <Clock2
+              className="w-4 h-4 ml-1 inline-block text-gray-600 hover:text-black transition-all"
+              data-tooltip-id="about-tooltip"
+              data-tooltip-content={`last updated ${getRelativeTime(
+                KV.updated_at
+              )}`}
+              data-tooltip-place="top"
+              onClick={() => updateKV()}
+            />
+          )}
+        </h1>
 
         <div className="space-y-3 text-sm">
           <span className="font-semibold block">

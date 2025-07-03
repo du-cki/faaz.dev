@@ -33,6 +33,10 @@ const parseUtcOffset = (offset: number): string => {
   return `${offset > 0 ? "GMT+" : "GMT-"}${Math.abs(offset / 60)}`;
 };
 
+export const getRelativeTime = (date: string): string => {
+  return moment(date).fromNow();
+};
+
 export const getTimeForTimezone = (tz: string): string => {
   const time = moment().tz(tz);
   const offset = parseUtcOffset(time.utcOffset());

@@ -1,4 +1,4 @@
-import { StatusResponse, StatusData } from "./types";
+import { StatusResponse, StatusData, MeKV } from "./types";
 
 const BASE_URL = "api.lanyard.rest";
 
