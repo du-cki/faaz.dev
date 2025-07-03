@@ -61,10 +61,12 @@ export default function RightSide() {
   useEffect(() => {
     if (!KV?.timezone) return;
 
-    setCurrentTime(getTimeForTimezone(KV.timezone)); // set inital time
+    const updateTime = () => setCurrentTime(getTimeForTimezone(KV.timezone));
+
+    updateTime(); // update inital time
 
     const interval = setInterval(() => {
-      setCurrentTime(getTimeForTimezone(KV.timezone));
+      updateTime();
     }, 1000 * 10);
 
     return () => clearInterval(interval);
