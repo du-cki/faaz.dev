@@ -51,10 +51,11 @@ export default function LeftSide({ projects }: Props) {
               timestamps={spotify.timestamps}
               href={spotify.sync_id!}
               type="spotify"
+              delay={0}
             />
           )}
 
-          {otherActivities.map((activity) => (
+          {otherActivities.map((activity, i) => (
             <Activity
               key={activity.id}
               icon={
@@ -63,6 +64,7 @@ export default function LeftSide({ projects }: Props) {
               status="Playing"
               text={activity.name}
               type="playing"
+              delay={i + (spotify ? 1 : 0)}
             />
           ))}
 
@@ -74,6 +76,7 @@ export default function LeftSide({ projects }: Props) {
             status="Recently Played"
             text="Marvel Rivals"
             type="playing"
+            delay={activities.length + 1}
           />
         </div>
       </section>

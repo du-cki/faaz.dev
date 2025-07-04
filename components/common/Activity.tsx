@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 
+import clsx from "clsx";
+
 import { Music } from "lucide-react";
 
-import type { DiscordActivity } from "@/lib/lanyard/types";
 import { calculatePercentage, st } from "@/utils";
+import type { DiscordActivity } from "@/lib/lanyard/types";
 
 type SpotifyActivity = {
   type: "spotify";
@@ -12,6 +14,7 @@ type SpotifyActivity = {
   artist: string;
   href: string;
   timestamps: DiscordActivity["timestamps"];
+  delay?: number;
 };
 
 type BaseActivity = {
@@ -20,11 +23,21 @@ type BaseActivity = {
   status: string;
   text: string;
   icon: React.ReactNode;
+  delay?: number;
 };
 
 type Props = SpotifyActivity | BaseActivity;
 
-function SpotifyActivity({ text, artist, href, timestamps }: SpotifyActivity) {
+const commonClasses =
+  "select-none gap-3 bg-gray-50 rounded-lg transform transition-all duration-500 ease-out overflow-clip";
+
+function SpotifyActivity({
+  text,
+  artist,
+  href,
+  timestamps,
+  delay,
+}: SpotifyActivity) {
   const [perc, setPerc] = useState(calculatePercentage(timestamps));
 
   useEffect(() => {
@@ -36,7 +49,12 @@ function SpotifyActivity({ text, artist, href, timestamps }: SpotifyActivity) {
   });
 
   return (
-    <div className="select-none bg-gray-50 rounded-lg overflow-clip group">
+    <div
+      className={clsx(commonClasses, "group")}
+      style={{
+        animation: `slideDown 0.6s ease-out ${(delay || 0) * 0.1}s both`,
+      }}
+    >
       <div className="flex items-start gap-3 p-4">
         <Music className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" />
 
@@ -61,7 +79,7 @@ function SpotifyActivity({ text, artist, href, timestamps }: SpotifyActivity) {
       </div>
 
       <div
-        className="h-0.5 bg-gray-200 group-hover:h-1 group-hover:bg-green-500 transition-all"
+        className="h-1 bg-gray-200 group-hover:bg-green-500 transition-all rounded-r-full"
         style={{ width: `${perc}%` }}
       />
     </div>
@@ -74,7 +92,14 @@ export default function Activity(activity: Props) {
   }
 
   return (
-    <div className="select-none flex items-start gap-3 p-4 bg-gray-50 rounded-lg">
+    <div
+      className={clsx(commonClasses, "flex items-start p-4")}
+      style={{
+        animation: `slideDown 0.6s ease-out ${
+          (activity.delay || 0) * 0.1
+        }s both`,
+      }}
+    >
       {activity.icon}
 
       <div>
