@@ -15,6 +15,8 @@ export default function Socials() {
         <a
           key={name}
           href={href}
+          target="_blank"
+          rel="noopener noreferrer"
           className="text-gray-600 hover:text-gray-900 transition-colors"
           data-tooltip-content={name}
           data-tooltip-place="top"

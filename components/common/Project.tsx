@@ -27,6 +27,8 @@ export default function Project({
 
           <a
             href={href}
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-gray-400 hover:text-gray-600 transition-colors"
           >
             <ExternalLink className="w-4 h-4" />
