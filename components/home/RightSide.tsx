@@ -118,7 +118,7 @@ export default function RightSide() {
             {status ? (
               <span style={{ color: STATUS_COLORS[status] }}>{status}</span>
             ) : (
-              <div className="h-4 bg-gray-200 animate-pulse rounded-full w-14 inline-block translate-y-0.5" />
+              <div className="h-3.5 bg-gray-200 animate-pulse rounded-full w-14 inline-block translate-y-0.5" />
             )}
             .
           </span>
