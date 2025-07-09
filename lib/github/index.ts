@@ -14,6 +14,9 @@ class GithubClient {
         headers: {
           "User-Agent": USER_AGENT,
         },
+        next: {
+          revalidate: 60,
+        },
       }
     );
 
