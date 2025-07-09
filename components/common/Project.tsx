@@ -20,7 +20,9 @@ export default function Project({
   return (
     <div className="border-l-2 border-gray-200 pl-6 pb-3">
       <div className="flex items-start justify-between mb-2">
-        <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
+        <h3 className="text-lg font-semibold text-gray-900 font-sans!">
+          {name}
+        </h3>
 
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-500 font-medium">{year}</span>
