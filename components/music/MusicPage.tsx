@@ -9,7 +9,6 @@ import { ArrowLeft } from "lucide-react";
 import MusicItem from "../common/MusicItem";
 import Page from "../common/Page";
 
-import { BASE_URL } from "@/utils/constants";
 import type { MusicResponse } from "@/app/api/music/route";
 
 export default function MusicPage() {
@@ -17,7 +16,7 @@ export default function MusicPage() {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(`${BASE_URL}/api/music?minified=false`);
+      const response = await fetch("/api/music?minified=false");
       const data = await response.json();
       setLastFmData(data);
     })();

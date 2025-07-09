@@ -60,7 +60,6 @@ export const STATUS_COLORS: Record<DiscordStatus, string> = {
 
 export const DATE_OF_BIRTH = process.env.NEXT_PUBLIC_DATE_OF_BIRTH!;
 export const DISCORD_USER_ID = process.env.NEXT_PUBLIC_DISCORD_USER_ID!;
-export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL!;
 
 export const USER_AGENT = "faaz.dev (github.com/du-cki/faaz.dev)";
 
