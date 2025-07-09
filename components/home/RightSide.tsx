@@ -150,7 +150,7 @@ export default function RightSide() {
         <h2 className="text-2xl font-medium mb-4">This Week</h2>
 
         <div className="space-y-4">
-          <div className="bg-gray-50 rounded-lg p-4">
+          <div className="bg-gray-50 rounded-lg shadow-md p-4">
             <div className="text-sm text-gray-500 mb-1">Total Coding Time</div>
 
             <div className="text-lg font-semibold text-gray-900">

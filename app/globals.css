@@ -14,5 +14,5 @@ h1 {
 }
 
 p {
-  @apply text-gray-600 text-lg leading-relaxed mb-6 max-w-2xl font-light;
+  @apply text-gray-600 text-lg leading-relaxed max-w-2xl font-light;
 }

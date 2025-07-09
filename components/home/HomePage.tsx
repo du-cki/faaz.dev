@@ -28,7 +28,7 @@ export default async function HomePage() {
           <span className="text-pink-500 font-medium">Faaz</span>!
         </h1>
 
-        <p>
+        <p className="mb-6">
           I am {getArticle(year_of_birth)} {year_of_birth} year old full-stack
           developer from the United Arab Emirates who loves programming both
           professionally and as a hobby.

@@ -13,7 +13,7 @@ export default function Link({ icon, text, href, description }: Props) {
   return (
     <NextLink
       href={href}
-      className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group"
+      className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group shadow-md"
     >
       {icon}
 

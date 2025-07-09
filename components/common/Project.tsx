@@ -38,7 +38,7 @@ export default function Project({
         </div>
       </div>
 
-      <p className="text-gray-600 font-medium!">{description}</p>
+      <p className="text-gray-600 font-medium! mb-6">{description}</p>
 
       <div className="flex flex-wrap gap-2">
         {tags.map((tag) => (

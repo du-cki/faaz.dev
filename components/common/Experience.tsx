@@ -23,7 +23,7 @@ export default function Experience({ name, role, description, period }: Props) {
         </span>
       </div>
 
-      <p className="text-gray-600 font-medium!">{role}</p>
+      <p className="text-gray-600 font-medium! mb-6">{role}</p>
 
       <p className="text-gray-600 font-medium!">{description}</p>
     </div>

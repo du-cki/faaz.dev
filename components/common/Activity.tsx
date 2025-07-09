@@ -33,7 +33,7 @@ type SkeletonActivity = {
 type Props = SpotifyActivity | BaseActivity | SkeletonActivity;
 
 const commonClasses =
-  "select-none gap-3 bg-gray-50 rounded-lg transform transition-all duration-500 ease-out overflow-clip";
+  "select-none gap-3 bg-gray-50 rounded-lg transform transition-all duration-500 ease-out overflow-clip shadow-md";
 
 function SpotifyActivity({
   text,
