@@ -29,6 +29,12 @@ export const st = (trackId: string): string => {
   return `https://open.spotify.com/track/${trackId}`;
 };
 
+export const si = (raw_url: string): string => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, id] = raw_url.split(":");
+  return `https://i.scdn.co/image/${id}`;
+};
+
 const parseUtcOffset = (offset: number): string => {
   return `${offset > 0 ? "GMT+" : "GMT-"}${Math.abs(offset / 60)}`;
 };

@@ -3,12 +3,13 @@
 import React, { useEffect, useState } from "react";
 
 import { Tooltip } from "react-tooltip";
-import { Clock, Clock2, MapPin } from "lucide-react";
+import { Clock, Clock2, MapPin, Music } from "lucide-react";
 
 import { getRelativeTime, getTimeForTimezone } from "@/utils";
 
 import { DISCORD_USER_ID, lanyard, STATUS_COLORS } from "@/utils/constants";
 import type { DiscordStatus, MeKV, StatusData } from "@/lib/lanyard/types";
+import Link from "../common/Link";
 
 const getMockWakaTimeData = () => {
   return {
@@ -118,7 +119,7 @@ export default function RightSide() {
             {status ? (
               <span style={{ color: STATUS_COLORS[status] }}>{status}</span>
             ) : (
-              <div className="h-3.5 bg-gray-200 animate-pulse rounded-full w-14 inline-block translate-y-0.5" />
+              <div className="h-3.5 bg-gray-200 animate-pulse rounded-md w-14 inline-block translate-y-0.5" />
             )}
             .
           </span>
@@ -129,7 +130,7 @@ export default function RightSide() {
             {KV?.region ? (
               <span>{KV.region}</span>
             ) : (
-              <div className="h-4 my-[2px] bg-gray-200 animate-pulse rounded-full w-28" />
+              <div className="h-4 my-[2px] bg-gray-200 animate-pulse rounded-md w-28" />
             )}
           </div>
 
@@ -139,19 +140,14 @@ export default function RightSide() {
             {currentTime ? (
               <span>{currentTime}</span>
             ) : (
-              <div className="h-4 my-[2px] bg-gray-200 animate-pulse rounded-full w-20" />
+              <div className="h-4 my-[2px] bg-gray-200 animate-pulse rounded-md w-20" />
             )}
           </div>
         </div>
       </section>
 
       <section>
-        <h2
-          className="text-2xl font-medium mb-4"
-          style={{ fontFamily: "Playfair Display, serif" }}
-        >
-          This Week
-        </h2>
+        <h2 className="text-2xl font-medium mb-4">This Week</h2>
 
         <div className="space-y-4">
           <div className="bg-gray-50 rounded-lg p-4">
@@ -200,6 +196,21 @@ export default function RightSide() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 className="text-2xl font-medium mb-4">Explore</h2>
+
+        <div>
+          <Link
+            icon={
+              <Music className="w-5 h-5 text-gray-600 group-hover:text-gray-800" />
+            }
+            text="Music"
+            href="/music"
+            description="My top songs and artists"
+          />
         </div>
       </section>
     </>

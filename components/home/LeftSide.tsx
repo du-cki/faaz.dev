@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 import type { DiscordActivity, StatusData } from "@/lib/lanyard/types";
 
-import { Gamepad } from "lucide-react";
+import { Gamepad, Moon } from "lucide-react";
 
 import Activity from "../common/Activity";
 import Project from "../common/Project";
@@ -19,22 +19,21 @@ type Props = {
 };
 
 export default function LeftSide({ projects }: Props) {
-  const [activities, setActivities] = useState<DiscordActivity[]>([]);
+  const [activities, setActivities] = useState<Option<DiscordActivity[]>>(null);
 
   useEffect(() => {
     lanyard.add_callback((data: StatusData) => {
-      console.log({ data });
       setActivities(data.activities);
     });
 
     lanyard.connect(DISCORD_USER_ID);
   }, []);
 
-  const spotify = activities.find(
+  const spotify = activities?.find(
     (activity) => activity.type == 2 && activity.name == "Spotify"
   );
 
-  const otherActivities = activities.filter(
+  const otherActivities = activities?.filter(
     (activity) => activity.type != 2 || activity.name != "Spotify"
   );
 
@@ -44,40 +43,41 @@ export default function LeftSide({ projects }: Props) {
         <h1>What I&apos;m upto</h1>
 
         <div className="space-y-3">
-          {spotify && (
-            <Activity
-              text={spotify.details}
-              artist={spotify.state.split("; ").join(", ")}
-              timestamps={spotify.timestamps}
-              href={spotify.sync_id!}
-              type="spotify"
-              delay={0}
-            />
+          {activities === null ? (
+            <>
+              <Activity type="skeleton" />
+              <Activity type="skeleton" />
+            </>
+          ) : activities.length === 0 ? (
+            <div className="flex justify-center items-center flex-col gap-2 bg-gray-50 rounded-lg p-4 border-dashed border-2 border-gray-200 h-[172px]">
+              <Moon className="w-10 h-10 text-gray-600" />
+            </div>
+          ) : (
+            <>
+              {spotify && (
+                <Activity
+                  text={spotify.details}
+                  artist={spotify.state.split("; ").join(", ")}
+                  timestamps={spotify.timestamps}
+                  href={spotify.sync_id!}
+                  album_art={spotify.assets.large_image!}
+                  type="spotify"
+                />
+              )}
+
+              {otherActivities?.map((activity) => (
+                <Activity
+                  key={activity.id}
+                  icon={
+                    <Gamepad className="w-10 h-10 text-gray-600 mt-0.5 flex-shrink-0" />
+                  }
+                  status="Playing"
+                  text={activity.name}
+                  type="playing"
+                />
+              ))}
+            </>
           )}
-
-          {otherActivities.map((activity, i) => (
-            <Activity
-              key={activity.id}
-              icon={
-                <Gamepad className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" />
-              }
-              status="Playing"
-              text={activity.name}
-              type="playing"
-              delay={i + (spotify ? 1 : 0)}
-            />
-          ))}
-
-          {/* Placeholder until i figure out what to put here by default */}
-          <Activity
-            icon={
-              <Gamepad className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" />
-            }
-            status="Recently Played"
-            text="Marvel Rivals"
-            type="playing"
-            delay={activities.length + 1}
-          />
         </div>
       </section>
 

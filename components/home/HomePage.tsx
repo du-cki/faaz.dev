@@ -9,6 +9,7 @@ import Socials from "./Socials";
 
 import { getArticle } from "@/utils";
 import { DATE_OF_BIRTH, github } from "@/utils/constants";
+import Page from "../common/Page";
 
 export default async function HomePage() {
   const year_of_birth = moment().diff(DATE_OF_BIRTH, "years");
@@ -16,11 +17,11 @@ export default async function HomePage() {
   const projects = await github.getRepositories("du-cki", {
     type: "owner",
     sort: "updated",
-    per_page: "5",
+    per_page: "3",
   });
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-20 space-y-12">
+    <Page>
       <section>
         <h1 className="text-5xl!">
           Hello, I&apos;m{" "}
@@ -45,6 +46,6 @@ export default async function HomePage() {
           <RightSide />
         </div>
       </div>
-    </div>
+    </Page>
   );
 }

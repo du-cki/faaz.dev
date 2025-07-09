@@ -42,7 +42,7 @@ export default function Project({
         {tags.map((tag) => (
           <span
             key={tag}
-            className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded font-semibold"
+            className="select-none text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded font-semibold"
           >
             {tag}
           </span>

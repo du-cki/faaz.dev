@@ -4,8 +4,9 @@ import clsx from "clsx";
 
 import { Music } from "lucide-react";
 
-import { calculatePercentage, st } from "@/utils";
+import { calculatePercentage, si, st } from "@/utils";
 import type { DiscordActivity } from "@/lib/lanyard/types";
+import Image from "next/image";
 
 type SpotifyActivity = {
   type: "spotify";
@@ -14,7 +15,7 @@ type SpotifyActivity = {
   artist: string;
   href: string;
   timestamps: DiscordActivity["timestamps"];
-  delay?: number;
+  album_art: string;
 };
 
 type BaseActivity = {
@@ -23,10 +24,13 @@ type BaseActivity = {
   status: string;
   text: string;
   icon: React.ReactNode;
-  delay?: number;
 };
 
-type Props = SpotifyActivity | BaseActivity;
+type SkeletonActivity = {
+  type: "skeleton";
+};
+
+type Props = SpotifyActivity | BaseActivity | SkeletonActivity;
 
 const commonClasses =
   "select-none gap-3 bg-gray-50 rounded-lg transform transition-all duration-500 ease-out overflow-clip";
@@ -36,7 +40,7 @@ function SpotifyActivity({
   artist,
   href,
   timestamps,
-  delay,
+  album_art,
 }: SpotifyActivity) {
   const [perc, setPerc] = useState(calculatePercentage(timestamps));
 
@@ -49,14 +53,21 @@ function SpotifyActivity({
   });
 
   return (
-    <div
-      className={clsx(commonClasses, "group")}
-      style={{
-        animation: `slideDown 0.6s ease-out ${(delay || 0) * 0.1}s both`,
-      }}
-    >
+    <div className={clsx(commonClasses, "group")}>
       <div className="flex items-start gap-3 p-4">
-        <Music className="w-5 h-5 text-gray-600 mt-0.5 flex-shrink-0" />
+        <div className="relative shadow-lg">
+          <Image
+            src={si(album_art)}
+            alt={`${text}'s album art`}
+            width={40}
+            height={40}
+            className={clsx("w-10 h-10 rounded object-cover flex-shrink-0")}
+          />
+
+          <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1">
+            <Music className="w-3 h-3 text-gray-600" />
+          </div>
+        </div>
 
         <div>
           <div className="text-sm text-gray-500 mb-1 font-semibold">
@@ -91,15 +102,21 @@ export default function Activity(activity: Props) {
     return <SpotifyActivity {...activity} />;
   }
 
+  if (activity.type === "skeleton") {
+    return (
+      <div className={clsx(commonClasses, "flex items-start p-4")}>
+        <div className="bg-gray-200 animate-pulse w-10 h-10 rounded" />
+
+        <div>
+          <div className="bg-gray-200 animate-pulse mb-1 h-[20px] w-20 rounded-md" />
+          <div className="bg-gray-200 animate-pulse h-[24px] w-36 rounded-md" />
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div
-      className={clsx(commonClasses, "flex items-start p-4")}
-      style={{
-        animation: `slideDown 0.6s ease-out ${
-          (activity.delay || 0) * 0.1
-        }s both`,
-      }}
-    >
+    <div className={clsx(commonClasses, "flex items-start p-4")}>
       {activity.icon}
 
       <div>

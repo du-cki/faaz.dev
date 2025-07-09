@@ -1,26 +1,18 @@
 @import "tailwindcss";
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-serif;
+}
+
 h1 {
-  @apply text-2xl font-light mb-4 font-serif;
+  @apply text-2xl font-light mb-4;
 }
 
 p {
   @apply text-gray-600 text-lg leading-relaxed mb-6 max-w-2xl font-light;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-    max-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-bottom: 0;
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-    max-height: 200px;
-  }
 }
