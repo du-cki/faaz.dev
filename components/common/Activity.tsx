@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 
 import clsx from "clsx";
 
+import Image from "next/image";
 import { Music } from "lucide-react";
 
 import { calculatePercentage, si, st } from "@/utils";
+
 import type { DiscordActivity } from "@/lib/lanyard/types";
-import Image from "next/image";
 
 type SpotifyActivity = {
   type: "spotify";
