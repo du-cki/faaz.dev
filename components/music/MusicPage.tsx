@@ -100,7 +100,7 @@ export default function MusicPage() {
       </section>
 
       <section>
-        <h1 className="text-gray-700">Recent Tracks (Last 7 days)</h1>
+        <h1 className="text-gray-700">Recent Tracks</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {lastFmData ? (
