@@ -11,8 +11,15 @@ import CodingStats from "./CodingStats";
 
 import { getRelativeTime, getTimeForTimezone } from "@/utils";
 
-import { DISCORD_USER_ID, lanyard, STATUS_COLORS } from "@/utils/constants";
+import {
+  DISCORD_USER_ID,
+  FRIENDS,
+  lanyard,
+  STATUS_COLORS,
+} from "@/utils/constants";
+
 import type { DiscordStatus, MeKV, StatusData } from "@/lib/lanyard/types";
+import Image from "next/image";
 
 export default function RightSide() {
   const [KV, setKV] = useState<Option<MeKV>>(null);
@@ -117,9 +124,32 @@ export default function RightSide() {
       <CodingStats />
 
       <section>
+        <h2 className="text-2xl font-medium mb-4">Friends</h2>
+
+        <div className="space-y-2">
+          {FRIENDS.map(({ name, githubId, href }) => (
+            <Link
+              key={name}
+              icon={
+                <Image
+                  src={`https://avatars.githubusercontent.com/u/${githubId}`}
+                  alt=""
+                  className="w-10 h-10 rounded-lg shadow-lg"
+                  height={40}
+                  width={40}
+                />
+              }
+              text={name}
+              href={href}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section>
         <h2 className="text-2xl font-medium mb-4">Explore</h2>
 
-        <div>
+        <div className="space-y-2">
           <Link
             icon={
               <Music className="w-5 h-5 text-gray-600 group-hover:text-gray-800" />

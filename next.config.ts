@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       new URL("https://i.scdn.co/image/**"),
       new URL("https://lastfm.freetls.fastly.net/i/u/**"),
+      new URL("https://avatars.githubusercontent.com/u/**"),
     ],
   },
 };

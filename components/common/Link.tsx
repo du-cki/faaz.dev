@@ -6,14 +6,15 @@ type Props = {
   icon: React.ReactNode;
   text: string;
   href: string;
-  description: string;
+  description?: string;
 };
 
 export default function Link({ icon, text, href, description }: Props) {
   return (
     <NextLink
       href={href}
-      className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group shadow-md"
+      className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors group shadow-md"
+      target={href.startsWith("/") ? "_self" : "_blank"}
     >
       {icon}
 
