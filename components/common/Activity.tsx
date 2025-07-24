@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 
 import Image from "next/image";
-import { Music } from "lucide-react";
+import { Gamepad, Music } from "lucide-react";
 
-import { calculatePercentage, si, st } from "@/utils";
+import { ai, calculatePercentage, si, st } from "@/utils";
 
 import type { DiscordActivity } from "@/lib/lanyard/types";
 
@@ -22,9 +22,10 @@ type SpotifyActivity = {
 type BaseActivity = {
   type: "playing";
 
+  id: string;
   status: string;
   text: string;
-  icon: React.ReactNode;
+  assets: DiscordActivity["assets"];
 };
 
 type SkeletonActivity = {
@@ -62,24 +63,24 @@ function SpotifyActivity({
             alt={`${text}'s album art`}
             width={40}
             height={40}
-            className={clsx("w-10 h-10 rounded object-cover flex-shrink-0")}
+            className={clsx("w-12 h-12 rounded object-cover flex-shrink-0")}
           />
 
           <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1">
-            <Music className="w-3 h-3 text-gray-600" />
+            <Music className="w-3.5 h-3.5 text-gray-600" />
           </div>
         </div>
 
         <div>
           <div className="text-sm text-gray-500 mb-1 font-semibold">
-            Now Playing
+            Listening to
           </div>
 
           <a
             href={st(href)}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-900 font-semibold"
+            className="text-gray-900 font-semibold hover:text-pink-500 transition-colors"
           >
             {text}
           </a>
@@ -106,7 +107,7 @@ export default function Activity(activity: Props) {
   if (activity.type === "skeleton") {
     return (
       <div className={clsx(commonClasses, "flex items-start p-4")}>
-        <div className="bg-gray-200 animate-pulse w-10 h-10 rounded" />
+        <div className="bg-gray-200 animate-pulse w-12 h-12 rounded" />
 
         <div>
           <div className="bg-gray-200 animate-pulse mb-1 h-[20px] w-20 rounded-md" />
@@ -118,7 +119,31 @@ export default function Activity(activity: Props) {
 
   return (
     <div className={clsx(commonClasses, "flex items-start p-4")}>
-      {activity.icon}
+      {activity.assets?.large_image ? (
+        <div className="relative shadow-lg">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={ai(activity.id, activity.assets.large_image)}
+            alt={activity.text}
+            width={40}
+            height={40}
+            className={clsx("w-12 h-12 rounded object-cover flex-shrink-0")}
+          />
+
+          {activity.assets.small_image && (
+            <div className="absolute -bottom-1 -right-1 bg-gray-50 rounded-full">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={ai(activity.id, activity.assets.small_image)}
+                alt={activity.text}
+                className="w-5 h-5 text-gray-600 rounded-full border-gray-50 border-2"
+              />
+            </div>
+          )}
+        </div>
+      ) : (
+        <Gamepad className="w-12 h-12 text-gray-600 mt-0.5 flex-shrink-0" />
+      )}
 
       <div>
         <div className="text-sm text-gray-500 mb-1 font-semibold">

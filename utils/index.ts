@@ -35,6 +35,16 @@ export const si = (raw_url: string): string => {
   return `https://i.scdn.co/image/${id}`;
 };
 
+export const ai = (activity_id: string, image_id: string): string => {
+  if (image_id.startsWith("mp:external")) {
+    const chunks = image_id.split("/").slice(3); // we don't want the first three elements
+
+    return `https://${chunks.join("/")}`;
+  }
+
+  return `https://cdn.discordapp.com/app-assets/${activity_id}/${image_id}.png`;
+};
+
 const parseUtcOffset = (offset: number): string => {
   return `${offset > 0 ? "GMT+" : "GMT-"}${Math.abs(offset / 60)}`;
 };

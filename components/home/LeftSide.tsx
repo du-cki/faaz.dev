@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 
 import type { DiscordActivity, StatusData } from "@/lib/lanyard/types";
 
-import { Gamepad, Moon } from "lucide-react";
+import { Moon } from "lucide-react";
 
 import Activity from "../common/Activity";
 import Project from "../common/Project";
@@ -68,9 +68,8 @@ export default function LeftSide({ projects }: Props) {
               {otherActivities?.map((activity) => (
                 <Activity
                   key={activity.id}
-                  icon={
-                    <Gamepad className="w-10 h-10 text-gray-600 mt-0.5 flex-shrink-0" />
-                  }
+                  id={activity.application_id}
+                  assets={activity.assets}
                   status="Playing"
                   text={activity.name}
                   type="playing"
