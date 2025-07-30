@@ -127,7 +127,7 @@ export default function RightSide() {
         <h2 className="text-2xl font-medium mb-4">Friends</h2>
 
         <div className="space-y-2">
-          {FRIENDS.map(({ name, githubId, href }) => (
+          {FRIENDS.map(({ name, githubUsername, githubId, href }) => (
             <Link
               key={name}
               icon={
@@ -140,6 +140,7 @@ export default function RightSide() {
                 />
               }
               text={name}
+              description={`@${githubUsername}`}
               href={href}
             />
           ))}

@@ -65,8 +65,18 @@ export const DATE_OF_BIRTH = process.env.NEXT_PUBLIC_DATE_OF_BIRTH!;
 export const DISCORD_USER_ID = process.env.NEXT_PUBLIC_DISCORD_USER_ID!;
 
 export const FRIENDS = [
-  { name: "Willi", githubId: 83978878, href: "https://itswilli.dev/" },
-  { name: "Dep", githubId: 70801324, href: "https://deprecating.xyz/" },
+  {
+    name: "Willi",
+    githubUsername: "itswilliboy",
+    githubId: 83978878,
+    href: "https://itswilli.dev/",
+  },
+  {
+    name: "Dep",
+    githubUsername: "depreca1ed",
+    githubId: 70801324,
+    href: "https://deprecating.xyz/",
+  },
 ];
 
 export const USER_AGENT = "faaz.dev (github.com/du-cki/faaz.dev)";
