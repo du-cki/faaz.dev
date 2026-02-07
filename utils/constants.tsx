@@ -48,7 +48,7 @@ export const FRIENDS = [
   },
   {
     name: "Dep",
-    githubUsername: "depreca1ed",
+    githubUsername: "Deprecatism",
     githubId: 70801324,
     href: "https://deprecating.xyz/",
   },
