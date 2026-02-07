@@ -1,5 +1,4 @@
-import WakatimeClient from "@/lib/wakatime";
-import { languageColourMapping } from "@/utils/constants";
+import WakatimeClient, { DEFAULT_LANGUAGE_COLOR } from "@/lib/wakatime";
 
 export type StatsResponse = {
   total_seconds: number;
@@ -14,80 +13,57 @@ export type StatsResponse = {
 
 export async function GET() {
   const client = new WakatimeClient(process.env.WAKATIME_API_KEY!);
-  const {
-    data: { languages: rawLangs },
-  } = await client.getStats();
 
-  // I would rely on the "total_seconds" field here but for some reason,
-  // it's inaccurate, so I just calculate it myself.
-  const totalSec = rawLangs.reduce(
-    (sum, { total_seconds }) => sum + total_seconds,
-    0
-  );
+  const [languageColors, { data }] = await Promise.all([
+    client.getLanguageColors(),
+    client.getStats(),
+  ]);
 
-  const { buckets, otherSecs } = rawLangs.reduce<{
-    buckets: Record<string, { secs: number; colour: string; rawPerc: number }>;
-    otherSecs: number;
-  }>(
-    (acc, { name, total_seconds: secs }) => {
-      const colour =
-        languageColourMapping[
-          name.toLowerCase() as keyof typeof languageColourMapping
-        ];
+  const languagesRaw = data?.languages || [];
+  const total_seconds = data.total_seconds;
 
-      const rawPerc = (secs / totalSec) * 100;
+  const languages: StatsResponse["languages"] = {};
 
-      if (colour && rawPerc >= 1) {
-        acc.buckets[name] = {
-          secs,
-          colour,
-          rawPerc,
-        };
-      } else {
-        acc.otherSecs += secs;
-      }
-      return acc;
-    },
-    { buckets: {}, otherSecs: 0 }
-  );
+  let otherSeconds = 0;
+  for (const lang of languagesRaw) {
+    const name = lang.name;
+    const seconds = lang.total_seconds;
+    const colour = languageColors[name.toLowerCase()] ?? DEFAULT_LANGUAGE_COLOR;
+    const percentage = total_seconds ? (seconds / total_seconds) * 100 : 0;
 
-  const result: StatsResponse["languages"] = {};
-
-  let roundedSum = 0;
-
-  for (const [name, { secs, colour, rawPerc }] of Object.entries(buckets)) {
-    const pct = Math.round(rawPerc);
-    result[name] = { total_seconds: secs, colour, percentage: pct };
-
-    roundedSum += pct;
+    if (percentage >= 1) {
+      languages[name] = {
+        total_seconds: seconds,
+        colour,
+        percentage,
+      };
+    } else {
+      otherSeconds += seconds;
+    }
   }
 
-  const otherRaw = (otherSecs / totalSec) * 100;
-  let otherPct = Math.round(otherRaw);
-  roundedSum += otherPct;
-
-  const drift = 100 - roundedSum;
-
-  if (otherSecs > 0) {
-    otherPct += drift;
-  } else if (drift !== 0) {
-    const largest = Object.entries(buckets).reduce((a, b) =>
-      a[1].rawPerc > b[1].rawPerc ? a : b
-    )[0];
-
-    result[largest].percentage += drift;
-  }
-
-  if (otherSecs > 0) {
-    result.Other = {
-      total_seconds: otherSecs,
-      colour: languageColourMapping.default,
-      percentage: otherPct,
+  if (otherSeconds > 0) {
+    languages["Other"] = {
+      total_seconds: otherSeconds,
+      colour: DEFAULT_LANGUAGE_COLOR,
+      percentage: total_seconds ? (otherSeconds / total_seconds) * 100 : 0,
     };
   }
 
-  return Response.json({
-    total_seconds: totalSec,
-    languages: result,
-  } satisfies StatsResponse);
+  let roundedSum = 0;
+
+  for (const name in languages) {
+    languages[name].percentage = Math.round(languages[name].percentage);
+    roundedSum += languages[name].percentage;
+  }
+
+  if (Math.abs(roundedSum - 100) > 0) {
+    const maxLang = Object.entries(languages).reduce((a, b) =>
+      a[1].percentage > b[1].percentage ? a : b
+    )[0];
+
+    languages[maxLang].percentage -= roundedSum - 100;
+  }
+
+  return Response.json({ total_seconds, languages });
 }

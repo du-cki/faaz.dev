@@ -29,34 +29,6 @@ export const SOCIALS: { name: string; href: string; icon: React.ReactNode }[] =
     },
   ];
 
-export const languageColourMapping = {
-  rust: "#DEA584",
-  python: "#FFD43B",
-  html: "#E34C26",
-  javascript: "#F0DB4F",
-  typescript: "#3178C6",
-  vue: "#41B883",
-  css: "#563d7C",
-  ruby: "#701516",
-  c: "#555555",
-  emacs_lisp: "#C065DB",
-  "c#": "#178600",
-  "c++": "#F34B7D",
-  shell: "#89E051",
-  jinja: "#A52A22",
-  go: "#00ADD8",
-  makefile: "#427819",
-  default: "#555555",
-  "git config": "#F44D27",
-  json: "#292929",
-  docker: "#0db7ed",
-  bash: "#89e051",
-  sql: "#e38c00",
-  lua: "#000080",
-  yaml: "#CB171E",
-  markdown: "#083fa1",
-};
-
 export const STATUS_COLORS: Record<DiscordStatus, string> = {
   online: "#41b682",
   idle: "#f5a623",

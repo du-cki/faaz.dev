@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 
 import type { StatsResponse } from "@/app/api/stats/route";
 
+type LangEntry = [string, { percentage: number; colour: string }];
+
 const formatTime = (seconds: number): string => {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
@@ -50,6 +52,7 @@ function CodingTimeCard({
 
 export default function CodingStats() {
   const [wakaTimeData, setWakaTimeData] = useState<Option<StatsResponse>>();
+  const [langEntries, setLangEntries] = useState<LangEntry[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -57,6 +60,12 @@ export default function CodingStats() {
       const data = await req.json();
 
       setWakaTimeData(data);
+
+      const entries = Object.entries(data.languages ?? {}).sort(
+        ([a], [b]) => (a === "Other" ? 1 : 0) - (b === "Other" ? 1 : 0)
+      ) as LangEntry[];
+
+      setLangEntries(entries);
     })();
   }, []);
 
@@ -82,43 +91,39 @@ export default function CodingStats() {
           <CodingTimeCard type={"skeleton"} />
         )}
 
-        {wakaTimeData && (
+        {langEntries.length > 0 && (
           <div>
             <span className="text-md font-semibold text-gray-700">
               Languages
             </span>
 
             <div className="flex items-center rounded-lg overflow-clip mt-2">
-              {Object.entries(wakaTimeData?.languages || {}).map(
-                ([name, { percentage, colour }]) => (
-                  <div
-                    key={name}
-                    style={{ width: `${percentage}%`, backgroundColor: colour }}
-                    className="h-2.5 hover:scale-110 transition-all"
-                  />
-                ),
-              )}
+              {langEntries.map(([name, { percentage, colour }]) => (
+                <div
+                  key={name}
+                  style={{ width: `${percentage}%`, backgroundColor: colour }}
+                  className="h-2.5 hover:scale-110 transition-all"
+                />
+              ))}
             </div>
 
             <div className="flex flex-wrap space-x-3 space-y-1 mt-2 select-none">
-              {Object.entries(wakaTimeData?.languages || {}).map(
-                ([name, { percentage, colour }]) => (
-                  <div key={name} className="flex items-center">
-                    <div
-                      className="rounded-full w-2 h-2 mr-2"
-                      style={{ backgroundColor: colour }}
-                    />
+              {langEntries.map(([name, { percentage, colour }]) => (
+                <div key={name} className="flex items-center">
+                  <div
+                    className="rounded-full w-2 h-2 mr-2"
+                    style={{ backgroundColor: colour }}
+                  />
 
-                    <span className="text-xs font-medium! hover:text-gray-600 transition-all">
-                      {name}
+                  <span className="text-xs font-medium! hover:text-gray-600 transition-all">
+                    {name}
 
-                      <span className="text-gray-500 ml-3">
-                        {percentage.toFixed(0)}%
-                      </span>
+                    <span className="text-gray-500 ml-3">
+                      {percentage.toFixed(0)}%
                     </span>
-                  </div>
-                ),
-              )}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         )}

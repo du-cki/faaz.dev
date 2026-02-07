@@ -49,3 +49,18 @@ export type WakatimeStatsResponse = WakatimeResponse<{
   username: string;
   writes_only: boolean;
 }>;
+
+export type ProgramLanguage = {
+  id: string;
+  name: string;
+  color: string;
+  is_verified: boolean;
+  created_at: string;
+  modified_at: string;
+};
+
+export type WakatimeProgramLanguagesResponse = {
+  data: ProgramLanguage[];
+  total: number;
+  total_pages: number;
+};
