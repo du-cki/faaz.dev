@@ -60,8 +60,16 @@ export default function CodingStats() {
     })();
   }, []);
 
+  if (!wakaTimeData) {
+    return <section></section>;
+  }
+
   return (
-    <section>
+    <motion.section
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ ease: "easeInOut", duration: 0.5 }}
+    >
       <h2 className="text-2xl font-medium mb-4">This Week</h2>
 
       <div className="space-y-4">
@@ -75,11 +83,7 @@ export default function CodingStats() {
         )}
 
         {wakaTimeData && (
-          <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ ease: "easeInOut", duration: 0.5 }}
-          >
+          <div>
             <span className="text-md font-semibold text-gray-700">
               Languages
             </span>
@@ -92,7 +96,7 @@ export default function CodingStats() {
                     style={{ width: `${percentage}%`, backgroundColor: colour }}
                     className="h-2.5 hover:scale-110 transition-all"
                   />
-                )
+                ),
               )}
             </div>
 
@@ -113,12 +117,12 @@ export default function CodingStats() {
                       </span>
                     </span>
                   </div>
-                )
+                ),
               )}
             </div>
-          </motion.div>
+          </div>
         )}
       </div>
-    </section>
+    </motion.section>
   );
 }

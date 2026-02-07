@@ -52,6 +52,9 @@ export const languageColourMapping = {
   docker: "#0db7ed",
   bash: "#89e051",
   sql: "#e38c00",
+  lua: "#000080",
+  yaml: "#CB171E",
+  markdown: "#083fa1",
 };
 
 export const STATUS_COLORS: Record<DiscordStatus, string> = {
