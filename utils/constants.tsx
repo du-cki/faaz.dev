@@ -50,7 +50,7 @@ export const FRIENDS = [
     name: "Dep",
     githubUsername: "Deprecatism",
     githubId: 70801324,
-    href: "https://deprecating.xyz/",
+    href: "https://deppie-dev.vercel.app/",
   },
 ];
 
