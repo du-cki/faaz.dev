@@ -10,6 +10,7 @@ type Track = {
   url: string;
   album?: string;
   playcount?: number;
+  loved?: boolean;
 };
 
 type Artist = {
@@ -69,9 +70,10 @@ export async function GET(request: NextRequest) {
     recentTracks: rt.recenttracks.track.map((t) => ({
       name: t.name,
       image: t.image,
-      artist: t.artist["#text"],
+      artist: t.artist.name,
       album: t.album["#text"],
       url: t.url,
+      loved: t.loved == '1'
     })),
     topTracks: [],
     topArtists: [],

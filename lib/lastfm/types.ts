@@ -42,6 +42,7 @@ type Track = {
   date: Date;
   duration?: string;
   playcount?: number;
+  loved: '1' | '0';
 };
 
 type Artist = {

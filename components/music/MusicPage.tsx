@@ -56,6 +56,7 @@ export default function MusicPage() {
                   artist={track.artist!}
                   href={track.url}
                   playcount={track.playcount!}
+
                 />
               ))
           ) : (
@@ -111,8 +112,9 @@ export default function MusicPage() {
                 name={track.name}
                 artist={track.artist!}
                 href={track.url}
-                cover={track.image[1]["#text"]}
+                cover={track.image.at(-1)?.["#text"]}
                 playcount={track.playcount!}
+                loved={track.loved}
               />
             ))
           ) : (

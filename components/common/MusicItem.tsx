@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 
+import clsx from "clsx";
+import { Heart } from "lucide-react";
+
 import { randomInt } from "@/utils";
 
 type SkeletonItem = {
@@ -16,6 +19,7 @@ type MusicItem = {
   artist?: string;
   playcount?: number;
   cover?: string;
+  loved?: boolean;
 };
 
 type Props = SkeletonItem | MusicItem;
@@ -83,7 +87,10 @@ export default function MusicItem(item: Props) {
       href={item.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group shadow-md"
+      className={clsx(
+        "block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group shadow-md",
+        item.loved && "border-red-600 border-2 border-"
+      )}
     >
       <div className="flex items-center justify-between">
         <div className="min-w-0 flex-1 flex">
@@ -116,6 +123,10 @@ export default function MusicItem(item: Props) {
               {item.playcount} plays
             </span>
           </div>
+        )}
+
+        {item.loved && (
+          <Heart className="text-red-600 fill-red-600" />
         )}
       </div>
     </a>

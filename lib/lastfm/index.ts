@@ -56,7 +56,7 @@ class LastFMClient {
     limit: number = 15,
     page: number = 1,
     from: number = 0,
-    extended: 0 | 1 = 0
+    extended: 0 | 1 = 1
   ): Promise<RecentTracksResponse> {
     const params = new URLSearchParams({
       method: "user.getrecenttracks",
