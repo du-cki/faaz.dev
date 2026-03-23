@@ -89,7 +89,7 @@ export default function MusicGrid() {
                 name={track.name}
                 artist={track.artist!}
                 href={track.url}
-                cover={track.image.at(-1)?.["#text"]}
+                cover={track.image[1]["#text"] || track.image[0]["#text"]}
                 playcount={track.playcount!}
                 loved={track.loved}
               />
