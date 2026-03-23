@@ -10,22 +10,15 @@ import type {
 
 import { USER_AGENT } from "../../utils/constants";
 
-const BASE_URL = "http://ws.audioscrobbler.com/2.0";
-
 class LastFMClient {
   private user: string;
   private apiKey: string;
-  private revalidateRequests: number;
 
-  constructor(
-    user: string,
-    apiKey: string,
-    revalidateRequests: number = 15 * 60
-  ) {
+  private BASE_URL = "http://ws.audioscrobbler.com/2.0";
+
+  constructor(user: string, apiKey: string) {
     this.apiKey = apiKey;
     this.user = user;
-
-    this.revalidateRequests = revalidateRequests;
   }
 
   private async request<T>(params: URLSearchParams): Promise<T> {
@@ -33,7 +26,7 @@ class LastFMClient {
     params.set("api_key", this.apiKey);
     params.set("format", "json");
 
-    const resp = await fetch(`${BASE_URL}/?${params.toString()}`, {
+    const resp = await fetch(`${this.BASE_URL}/?${params.toString()}`, {
       headers: {
         "User-Agent": USER_AGENT,
       },
@@ -52,7 +45,7 @@ class LastFMClient {
     limit: number = 15,
     page: number = 1,
     from: number = 0,
-    extended: 0 | 1 = 1
+    extended: 0 | 1 = 1,
   ): Promise<RecentTracksResponse> {
     const params = new URLSearchParams({
       method: "user.getrecenttracks",
@@ -68,7 +61,7 @@ class LastFMClient {
   async getTopArtists(
     period: Period,
     limit: number = 15,
-    page: number = 1
+    page: number = 1,
   ): Promise<RecentArtistsResponse> {
     const params = new URLSearchParams({
       method: "user.gettopartists",
@@ -83,7 +76,7 @@ class LastFMClient {
   async getTopTracks(
     period: Period,
     limit: number = 15,
-    page: number = 1
+    page: number = 1,
   ): Promise<TopTracksResponse> {
     const params = new URLSearchParams({
       method: "user.gettoptracks",

@@ -2,19 +2,19 @@ import { USER_AGENT } from "../../utils/constants";
 
 import type { StatusResponse, StatusData } from "./types";
 
-const BASE_URL = "api.lanyard.rest";
-
 type Callback = (data: StatusData) => unknown;
 
 class LanyardClient {
-  callbacks: Callback[];
+  private callbacks: Callback[];
+
+  private BASE_URL = "api.lanyard.rest";
 
   constructor() {
     this.callbacks = [];
   }
 
   subscribe(users: string[]) {
-    const socket = new WebSocket(`wss://${BASE_URL}/socket`);
+    const socket = new WebSocket(`wss://${this.BASE_URL}/socket`);
 
     socket.addEventListener("open", () => {
       socket.send(
@@ -23,14 +23,14 @@ class LanyardClient {
           d: {
             subscribe_to_ids: users,
           },
-        })
+        }),
       );
 
       setInterval(() => {
         socket.send(
           JSON.stringify({
             op: 3,
-          })
+          }),
         );
       }, 30000);
     });
@@ -39,7 +39,7 @@ class LanyardClient {
   }
 
   async get_status(user: string): Promise<StatusResponse> {
-    const req = await fetch(`https://${BASE_URL}/v1/users/${user}`, {
+    const req = await fetch(`https://${this.BASE_URL}/v1/users/${user}`, {
       headers: {
         "User-Agent": USER_AGENT,
       },
@@ -82,7 +82,7 @@ class LanyardClient {
 
     return socket;
   }
-  }
+}
 
 export default LanyardClient;
 

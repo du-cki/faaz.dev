@@ -1,21 +1,21 @@
 import { USER_AGENT } from "../../utils/constants";
+
 import type { ListRepositoryPayload, Project } from "./types";
 
 class GithubClient {
+  private BASE_URL = "https://api.github.com";
+
   async getRepositories(
     user: string,
-    options: { type: string; sort: string; per_page: string }
+    options: { type: string; sort: string; per_page: string },
   ): Promise<Project[]> {
     const params = new URLSearchParams(options);
 
-    const req = await fetch(
-      `https://api.github.com/users/${user}/repos?${params}`,
-      {
-        headers: {
-          "User-Agent": USER_AGENT,
-        },
-      }
-    );
+    const req = await fetch(`${this.BASE_URL}/users/${user}/repos?${params}`, {
+      headers: {
+        "User-Agent": USER_AGENT,
+      },
+    });
 
     if (!req.ok) {
       throw new Error(`${req.status}: ${req.statusText}`);
@@ -39,7 +39,7 @@ class GithubClient {
         tags: data.topics,
         fork: data.fork,
         year: Number(data.created_at.split("-")[0]),
-      })
+      }),
     );
   }
 }

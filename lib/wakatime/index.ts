@@ -8,16 +8,16 @@ import type {
 export const DEFAULT_LANGUAGE_COLOR = "#555555";
 
 class WakatimeClient {
-  BASE_URL = "https://wakatime.com/api/v1";
+  private token: string;
 
-  token: string;
+  private BASE_URL = "https://wakatime.com/api/v1";
 
   constructor(token: string) {
     this.token = Buffer.from(token).toString("base64");
   }
 
   async getStats(
-    range: string = "last_7_days"
+    range: string = "last_7_days",
   ): Promise<WakatimeStatsResponse> {
     const req = await fetch(`${this.BASE_URL}/users/current/stats/${range}`, {
       headers: {
