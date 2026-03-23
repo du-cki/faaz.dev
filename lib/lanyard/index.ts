@@ -1,6 +1,6 @@
-import { StatusResponse, StatusData } from "./types";
+import { USER_AGENT } from "../../utils/constants";
 
-import { USER_AGENT } from "@/utils/constants";
+import type { StatusResponse, StatusData } from "./types";
 
 const BASE_URL = "api.lanyard.rest";
 
@@ -82,7 +82,7 @@ class LanyardClient {
 
     return socket;
   }
-}
+  }
 
 export default LanyardClient;
 

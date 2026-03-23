@@ -1,0 +1,71 @@
+---
+import { Icon } from "astro-icon/components";
+
+interface Props {
+  title: string;
+  description: string;
+  subtitle?: string;
+  href?: string;
+  date?: string | number;
+  period?: {
+    start: string;
+    end: string;
+  };
+  tags?: string[];
+}
+
+const {
+  title,
+  description,
+  subtitle,
+  href,
+  date,
+  period,
+  tags = [],
+} = Astro.props;
+---
+
+<div class="border-l-2 border-gray-200 pl-6 pb-3">
+  <div class="flex items-start justify-between mb-2">
+    <h3 class="text-lg font-semibold text-gray-900 font-sans!">
+      {title}
+    </h3>
+
+    <div class="flex items-center gap-2">
+      <span class="text-sm text-gray-500 font-medium">
+        {period ? `${period.start} - ${period.end}` : date}
+      </span>
+
+      {
+        href && (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <Icon name="lucide:external-link" class="w-4 h-4" />
+          </a>
+        )
+      }
+    </div>
+  </div>
+
+  {subtitle && <p class="text-gray-600 font-medium! mb-6">{subtitle}</p>}
+
+  <p class={`text-gray-600 font-medium! ${tags.length > 0 ? "mb-6" : ""}`}>
+    {description}
+  </p>
+
+  {
+    tags.length > 0 && (
+      <div class="flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span class="select-none text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded font-semibold">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )
+  }
+</div>

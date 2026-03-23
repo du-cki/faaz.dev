@@ -1,0 +1,52 @@
+---
+import { FRIENDS } from "../../../utils/constants";
+
+import { Icon } from "astro-icon/components";
+import Link from "../common/Link.astro";
+
+import About from "./About";
+import CodingStats from "./CodingStats";
+---
+
+<section>
+  <About client:load />
+</section>
+
+<section>
+  <CodingStats client:idle />
+</section>
+
+<section>
+  <h2 class="text-2xl font-medium mb-4">Friends</h2>
+
+  <div class="space-y-2">
+    {
+      FRIENDS.map(({ name, githubUsername, githubId, href }) => (
+        <Link text={name} description={`@${githubUsername}`} href={href}>
+          <img
+            src={`https://avatars.githubusercontent.com/u/${githubId}`}
+            alt={`${name}'s profile picture'`}
+            class="w-10 h-10 rounded-lg shadow-lg"
+            height={40}
+            width={40}
+            slot="icon"
+          />
+        </Link>
+      ))
+    }
+  </div>
+</section>
+
+<section>
+  <h2 class="text-2xl font-medium mb-4">Explore</h2>
+
+  <div class="space-y-2">
+    <Link text="Music" href="/me/music" description="My top songs and artists">
+      <Icon
+        name="lucide:music"
+        class="w-5 h-5 text-gray-600 group-hover:text-gray-800"
+        slot="icon"
+      />
+    </Link>
+  </div>
+</section>

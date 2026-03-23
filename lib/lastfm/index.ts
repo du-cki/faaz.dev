@@ -8,7 +8,7 @@ import type {
   UserInfoResponse,
 } from "./types";
 
-import { USER_AGENT } from "@/utils/constants";
+import { USER_AGENT } from "../../utils/constants";
 
 const BASE_URL = "http://ws.audioscrobbler.com/2.0";
 
@@ -36,10 +36,6 @@ class LastFMClient {
     const resp = await fetch(`${BASE_URL}/?${params.toString()}`, {
       headers: {
         "User-Agent": USER_AGENT,
-      },
-      next: {
-        tags: ["lastfm"],
-        revalidate: this.revalidateRequests,
       },
     });
 

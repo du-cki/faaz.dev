@@ -1,0 +1,29 @@
+---
+import "../styles/global.css";
+
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+const {
+  title = "faaz.dev",
+  description = "I'm a self-taught full-stack developer, who loves tinkering with stuff.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title} - faaz.dev</title>
+  </head>
+
+  <body class="bg-gray-50 text-gray-900 antialiased">
+    <main class="max-w-4xl mx-auto px-6 py-20 space-y-12">
+      <slot />
+    </main>
+  </body>
+</html>

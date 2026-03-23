@@ -1,0 +1,49 @@
+---
+import Timeline from "../common/Timeline.astro";
+import Activities from "./Activities";
+
+import { GET } from "../../pages/api/projects";
+import type { Project as ProjectT } from "../../../lib/github/types";
+
+const req = await GET(Astro);
+const projects = await req.json();
+---
+
+<section>
+  <Activities client:load />
+</section>
+
+<section>
+  {
+    projects && (
+      <div>
+        <h1>Projects</h1>
+
+        <div class="space-y-3">
+          {projects.map((project: ProjectT) => (
+            <Timeline
+              title={project.repo_name}
+              description={project.description}
+              href={project.repo_url}
+              tags={project.tags}
+              date={project.year}
+            />
+          ))}
+        </div>
+      </div>
+    )
+  }
+</section>
+
+<section>
+  <h1>Experience</h1>
+
+  <div class="space-y-3">
+    <Timeline
+      title="Lamna"
+      subtitle="Software Developer"
+      period={{ start: "2023", end: "Present" }}
+      description="A privacy-first, self-hostable chat app built as a hobby project, focused on encryption, user control, and data ownership."
+    />
+  </div>
+</section>

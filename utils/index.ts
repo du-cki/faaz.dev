@@ -1,6 +1,13 @@
-import moment from "moment-timezone";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import relativeTime from "dayjs/plugin/relativeTime";
 
-import type { DiscordActivity } from "@/lib/lanyard/types";
+import type { DiscordActivity } from "../lib/lanyard/types";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(relativeTime);
 
 export const getArticle = (num: number): string => {
   const spoken = num.toString();
@@ -30,14 +37,13 @@ export const st = (trackId: string): string => {
 };
 
 export const si = (raw_url: string): string => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, id] = raw_url.split(":");
   return `https://i.scdn.co/image/${id}`;
 };
 
 export const ai = (activity_id: string, image_id: string): string => {
   if (image_id.startsWith("mp:external")) {
-    const chunks = image_id.split("/").slice(3); // we don't want the first three elements
+    const chunks = image_id.split("/").slice(3);
 
     return `https://${chunks.join("/")}`;
   }
@@ -50,11 +56,11 @@ const parseUtcOffset = (offset: number): string => {
 };
 
 export const getRelativeTime = (date: string): string => {
-  return moment(date).fromNow();
+  return dayjs(date).fromNow();
 };
 
 export const getTimeForTimezone = (tz: string): string => {
-  const time = moment().tz(tz);
+  const time = dayjs().tz(tz);
   const offset = parseUtcOffset(time.utcOffset());
 
   return `${time.format("hh:mm A")} (${offset})`;

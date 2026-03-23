@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+import dayjs from "dayjs";
+import { getArticle } from "../../utils";
+
+import Socials from "../components/common/Socials.tsx";
+
+import LeftSide from "../components/home/LeftSide.astro";
+import RightSide from "../components/home/RightSide.astro";
+
+import { DATE_OF_BIRTH } from "../../utils/constants";
+
+const year_of_birth = dayjs().diff(DATE_OF_BIRTH, "years");
+---
+
+<Layout title="Home">
+  <section>
+    <h1 class="text-5xl!">
+      Hello, I'm{" "}
+      <span class="text-pink-500 font-medium">Faaz</span>!
+    </h1>
+
+    <p class="mb-6">
+      I am {getArticle(year_of_birth)}
+      {year_of_birth} year old full-stack developer from the United Arab Emirates
+      who loves programming both professionally and as a hobby.
+    </p>
+
+    <Socials client:load />
+  </section>
+
+  <section>
+    <div class="grid lg:grid-cols-3 gap-12">
+      <div class="lg:col-span-2 space-y-16">
+        <LeftSide />
+      </div>
+
+      <div class="space-y-8">
+        <RightSide />
+      </div>
+    </div>
+  </section>
+</Layout>

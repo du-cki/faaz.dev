@@ -1,5 +1,5 @@
-import { USER_AGENT } from "@/utils/constants";
-import { ListRepositoryPayload, Project } from "./types";
+import { USER_AGENT } from "../../utils/constants";
+import type { ListRepositoryPayload, Project } from "./types";
 
 class GithubClient {
   async getRepositories(
@@ -13,9 +13,6 @@ class GithubClient {
       {
         headers: {
           "User-Agent": USER_AGENT,
-        },
-        next: {
-          revalidate: 60,
         },
       }
     );
@@ -40,6 +37,7 @@ class GithubClient {
         license: data.license?.name,
         language: data.language || "Other",
         tags: data.topics,
+        fork: data.fork,
         year: Number(data.created_at.split("-")[0]),
       })
     );

@@ -1,0 +1,27 @@
+---
+import { Icon } from "astro-icon/components";
+
+import Layout from "../../../layouts/Layout.astro";
+import MusicGrid from "../../../components/music/MusicGrid";
+---
+
+<Layout title="Music">
+  <a
+    href="/"
+    class="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors mb-6"
+  >
+    <Icon name="lucide:arrow-left" class="w-4 h-4" />
+
+    <span>Back</span>
+  </a>
+
+  <section>
+    <h1 class="text-5xl!">
+      My <span class="text-pink-500 font-medium">Music</span> Taste
+    </h1>
+
+    <p class="mb-6">My latest listening activity on LastFM.</p>
+  </section>
+
+  <MusicGrid client:load />
+</Layout>

@@ -69,4 +69,5 @@ export type Project = {
   language: string;
   tags: string[];
   year: number;
+  fork: boolean;
 };

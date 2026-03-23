@@ -1,4 +1,4 @@
-import { USER_AGENT } from "@/utils/constants";
+import { USER_AGENT } from "../../utils/constants";
 
 import type {
   WakatimeProgramLanguagesResponse,
@@ -9,6 +9,7 @@ export const DEFAULT_LANGUAGE_COLOR = "#555555";
 
 class WakatimeClient {
   BASE_URL = "https://wakatime.com/api/v1";
+
   token: string;
 
   constructor(token: string) {
@@ -22,9 +23,6 @@ class WakatimeClient {
       headers: {
         "User-Agent": USER_AGENT,
         Authorization: `Basic ${this.token}`,
-      },
-      next: {
-        revalidate: 60,
       },
     });
 
@@ -41,7 +39,6 @@ class WakatimeClient {
         "User-Agent": USER_AGENT,
         Authorization: `Basic ${this.token}`,
       },
-      next: { revalidate: 86400 },
     });
 
     if (!res.ok) {
