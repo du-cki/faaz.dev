@@ -76,7 +76,7 @@ export const GET: APIRoute = async (request) => {
   }
 
   request.cache.set({
-    maxAge: 60 * 60,
+    maxAge: 5 * 60,
     tags: ["api", "stats"],
   });
 

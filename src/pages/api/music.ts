@@ -86,7 +86,7 @@ export const GET: APIRoute = async (request) => {
 
   if (minified) {
     request.cache.set({
-      maxAge: 60 * 60,
+      maxAge: 4 * 60,
       tags: ["api", "music", "minified"],
     });
 
@@ -112,7 +112,7 @@ export const GET: APIRoute = async (request) => {
   }));
 
   request.cache.set({
-    maxAge: 60 * 60,
+    maxAge: 4 * 60,
     tags: ["api", "music", "maximised"],
   });
 
