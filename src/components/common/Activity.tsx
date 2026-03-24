@@ -6,6 +6,7 @@ import { Gamepad, Music } from "lucide-react";
 import { ai, calculatePercentage, si, st } from "../../../utils";
 
 import type { DiscordActivity } from "../../../lib/lanyard/types";
+import type { ApplicationInfoResponse } from "../../pages/api/application-info";
 
 type SpotifyActivity = {
   type: "spotify";
@@ -98,6 +99,49 @@ function SpotifyActivity({
 }
 
 export default function Activity(activity: Props) {
+  const [coverImage, setCoverImage] = useState<string | null>(null);
+  const [isLoadingCover, setIsLoadingCover] = useState<boolean>(false);
+
+  const isPlaying = activity.type == "playing";
+  const activityId = isPlaying && activity.id;
+  const largeImage = isPlaying && activity.assets?.large_image;
+
+  useEffect(() => {
+    if (
+      activity.type !== "spotify" &&
+      activity.type !== "skeleton" &&
+      activity.id &&
+      !activity.assets?.large_image
+    ) {
+      let isMounted = true;
+      setIsLoadingCover(true);
+
+      const fetchCoverImage = async () => {
+        try {
+          const res = await fetch(`/api/application-info?id=${activity.id}`);
+
+          if (res.ok) {
+            const data: ApplicationInfoResponse | null = await res.json();
+
+            if (isMounted && data?.icon) {
+              setCoverImage(data.icon);
+            }
+          }
+        } finally {
+          if (isMounted) {
+            setIsLoadingCover(false);
+          }
+        }
+      };
+
+      fetchCoverImage();
+
+      return () => {
+        isMounted = false;
+      };
+    }
+  }, [isPlaying, activityId, largeImage]);
+
   if (activity.type === "spotify") {
     return <SpotifyActivity {...activity} />;
   }
@@ -118,13 +162,13 @@ export default function Activity(activity: Props) {
   return (
     <div className={clsx(commonClasses, "flex items-start p-4")}>
       {activity.assets?.large_image ? (
-        <div className="relative shadow-lg">
+        <div className="relative shadow-lg shrink-0">
           <img
             src={ai(activity.id, activity.assets.large_image)}
             alt={activity.text}
             width={40}
             height={40}
-            className="w-12 h-12 rounded object-cover shrink-0"
+            className="w-12 h-12 rounded object-cover"
           />
 
           {activity.assets.small_image && (
@@ -136,6 +180,18 @@ export default function Activity(activity: Props) {
               />
             </div>
           )}
+        </div>
+      ) : isLoadingCover ? (
+        <div className="bg-gray-200 animate-pulse w-12 h-12 rounded shadow-lg shrink-0" />
+      ) : coverImage ? (
+        <div className="relative shrink-0 bg-none">
+          <img
+            src={coverImage}
+            alt={activity.text}
+            width={40}
+            height={40}
+            className="w-12 h-12 rounded object-cover"
+          />
         </div>
       ) : (
         <Gamepad className="w-12 h-12 text-gray-600 mt-0.5 shrink-0" />

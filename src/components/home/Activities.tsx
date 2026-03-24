@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 
-import { Icon } from "astro-icon/components";
 import Activity from "../common/Activity";
+import { Moon } from "lucide-react";
 
 import { DISCORD_USER_ID, lanyard } from "../../../utils/constants";
-import { Moon } from "lucide-react";
 
 export default function Activities() {
   const [activities, setActivities] = useState<any[] | null>(null);
