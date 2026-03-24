@@ -75,7 +75,13 @@ class LanyardClient {
       const message: LanyardWSResponse = JSON.parse(event);
       if (message.op !== 0) return;
 
-      let userData = message.d[this.activeUser];
+      let userData: StatusData;
+      if (message.t === "INIT_STATE") {
+        userData = message.d[this.activeUser!];
+      } else if (message.t === "PRESENCE_UPDATE") {
+        userData = message.d;
+      }
+
       this.callbacks.forEach((callback) => {
         try {
           callback?.(userData);

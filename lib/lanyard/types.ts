@@ -63,10 +63,17 @@ export type StatusResponse = {
 
 export type MeKV = { timezone: string; region: string; updated_at: string };
 
-export type LanyardWSResponse = {
-  op: 0;
-  d: Record<string, StatusData>;
-};
+export type LanyardWSResponse =
+  | {
+      op: 0;
+      t: "INIT_STATE";
+      d: Record<string, StatusData>;
+    }
+  | {
+      op: 0;
+      t: "PRESENCE_UPDATE";
+      d: StatusData;
+    };
 
 export type ParsedSpotifyPayload = Omit<SpotifyPayload, "artist"> & {
   artist: string[];
