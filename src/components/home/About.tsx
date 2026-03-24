@@ -17,10 +17,10 @@ import { getRelativeTime, getTimeForTimezone } from "../../../utils";
 import { Tooltip } from "react-tooltip";
 
 export default function About() {
-  const [KV, setKV] = useState<MeKV | null>(null);
-  const [status, setStatus] = useState<DiscordStatus | null>(null);
+  const [KV, setKV] = useState<Option<MeKV>>(null);
+  const [status, setStatus] = useState<Option<DiscordStatus>>(null);
 
-  const [currentTime, setCurrentTime] = useState<string | null>(null);
+  const [currentTime, setCurrentTime] = useState<Option<string>>(null);
 
   const updateTime = () =>
     KV && setCurrentTime(getTimeForTimezone(KV.timezone));

@@ -24,7 +24,7 @@ export type ApplicationInfoResponse = {
   // last_30_days_rank: number;
 };
 
-const mapSku = (sku: ThirdPartySku): string | null => {
+const mapSku = (sku: ThirdPartySku): Option<string> => {
   switch (sku.distributor) {
     case "steam":
       return `https://store.steampowered.com/app/${sku.id}/`;

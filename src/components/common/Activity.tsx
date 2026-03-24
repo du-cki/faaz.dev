@@ -99,7 +99,7 @@ function SpotifyActivity({
 }
 
 export default function Activity(activity: Props) {
-  const [coverImage, setCoverImage] = useState<string | null>(null);
+  const [coverImage, setCoverImage] = useState<Option<string>>(null);
   const [isLoadingCover, setIsLoadingCover] = useState<boolean>(false);
 
   const isPlaying = activity.type == "playing";
@@ -121,7 +121,7 @@ export default function Activity(activity: Props) {
           const res = await fetch(`/api/application-info?id=${activity.id}`);
 
           if (res.ok) {
-            const data: ApplicationInfoResponse | null = await res.json();
+            const data: Option<ApplicationInfoResponse> = await res.json();
 
             if (isMounted && data?.icon) {
               setCoverImage(data.icon);

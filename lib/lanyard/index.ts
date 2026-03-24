@@ -7,8 +7,8 @@ type Callback = (data: StatusData) => unknown;
 class LanyardClient {
   private callbacks: Callback[] = [];
 
-  private socket: WebSocket | null = null;
-  private heartbeatInterval: NodeJS.Timeout | null = null;
+  private socket: Option<WebSocket> = null;
+  private heartbeatInterval: Option<NodeJS.Timeout> = null;
   private activeUser: string;
 
   private BASE_URL = "api.lanyard.rest";

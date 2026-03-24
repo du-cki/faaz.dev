@@ -6,7 +6,7 @@ import { Moon } from "lucide-react";
 import { DISCORD_USER_ID, lanyard } from "../../../utils/constants";
 
 export default function Activities() {
-  const [activities, setActivities] = useState<any[] | null>(null);
+  const [activities, setActivities] = useState<Option<any[]>>(null);
 
   useEffect(() => {
     const setLanyardActivities = (data: any) => {

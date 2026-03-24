@@ -55,7 +55,7 @@ function CodingTimeCard({
 }
 
 export default function CodingStats() {
-  const [wakaTimeData, setWakaTimeData] = useState<StatsResponse | null>(null);
+  const [wakaTimeData, setWakaTimeData] = useState<Option<StatsResponse>>(null);
   const [langEntries, setLangEntries] = useState<LangEntry[]>([]);
 
   useEffect(() => {

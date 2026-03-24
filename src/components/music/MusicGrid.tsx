@@ -7,7 +7,7 @@ import MusicItem from "./MusicItem";
 import type { MusicResponse } from "../../pages/api/music";
 
 export default function MusicGrid() {
-  const [lastFmData, setLastFmData] = useState<MusicResponse | null>(null);
+  const [lastFmData, setLastFmData] = useState<Option<MusicResponse>>(null);
 
   useEffect(() => {
     (async () => {

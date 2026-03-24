@@ -29,10 +29,12 @@ function SkeletonMusicItem({
   withCover,
   withPlaycount,
 }: SkeletonItem) {
-  const [randomWidths, setRandomWidths] = useState<{
-    title: number;
-    artist: number;
-  } | null>(null);
+  const [randomWidths, setRandomWidths] = useState<
+    Option<{
+      title: number;
+      artist: number;
+    }>
+  >(null);
 
   useEffect(() => {
     setRandomWidths({
