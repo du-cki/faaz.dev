@@ -1,49 +1,41 @@
 import { USER_AGENT } from "../../utils/constants";
 
-import type { StatusResponse, StatusData } from "./types";
+import type { StatusResponse, StatusData, LanyardWSResponse } from "./types";
 
 type Callback = (data: StatusData) => unknown;
 
 class LanyardClient {
-  private callbacks: Callback[];
+  private callbacks: Callback[] = [];
+
+  private socket: WebSocket | null = null;
+  private heartbeatInterval: NodeJS.Timeout | null = null;
+  private activeUser: string;
 
   private BASE_URL = "api.lanyard.rest";
 
-  constructor() {
-    this.callbacks = [];
+  constructor(activeUser: string) {
+    this.activeUser = activeUser;
+
+    // when user tabs and tabs back in, we need to reconnect
+    // the websocket connection if its disconnected.
+    if (typeof document !== "undefined") {
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible" && this.activeUser) {
+          this.checkAndReconnect();
+        }
+      });
+    }
   }
 
-  subscribe(users: string[]) {
-    const socket = new WebSocket(`wss://${this.BASE_URL}/socket`);
-
-    socket.addEventListener("open", () => {
-      socket.send(
-        JSON.stringify({
-          op: 2,
-          d: {
-            subscribe_to_ids: users,
-          },
-        }),
-      );
-
-      setInterval(() => {
-        socket.send(
-          JSON.stringify({
-            op: 3,
-          }),
-        );
-      }, 30000);
-    });
-
-    return socket;
-  }
-
-  async get_status(user: string): Promise<StatusResponse> {
-    const req = await fetch(`https://${this.BASE_URL}/v1/users/${user}`, {
-      headers: {
-        "User-Agent": USER_AGENT,
+  async get_status(): Promise<StatusResponse> {
+    const req = await fetch(
+      `https://${this.BASE_URL}/v1/users/${this.activeUser}`,
+      {
+        headers: {
+          "User-Agent": USER_AGENT,
+        },
       },
-    });
+    );
 
     if (!req.ok) {
       throw new Error(`${req.status}: ${req.statusText}`);
@@ -56,31 +48,74 @@ class LanyardClient {
     this.callbacks.push(callback);
   }
 
-  connect(user: string) {
-    const socket = this.subscribe([user]);
+  remove_callback(callback: Callback) {
+    this.callbacks = this.callbacks.filter((cb) => cb !== callback);
+  }
+
+  connect() {
+    this.disconnect();
+
+    const socket = new WebSocket(`wss://${this.BASE_URL}/socket`);
+    socket.addEventListener("open", () => {
+      socket.send(
+        JSON.stringify({
+          op: 2,
+          d: { subscribe_to_ids: [this.activeUser] },
+        }),
+      );
+
+      this.heartbeatInterval = setInterval(() => {
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify({ op: 3 }));
+        }
+      }, 30000);
+    });
 
     socket.addEventListener("message", ({ data: event }) => {
-      const message: { op: number; d: StatusData } = JSON.parse(event);
-
+      const message: LanyardWSResponse = JSON.parse(event);
       if (message.op !== 0) return;
 
-      let data = message.d;
-      // @ts-expect-error should be fine
-      if (data[user]) {
-        // @ts-expect-error should be fine
-        data = data[user];
-      }
-
+      let userData = message.d[this.activeUser];
       this.callbacks.forEach((callback) => {
         try {
-          callback?.(data);
+          callback?.(userData);
         } catch (e) {
           console.error(e);
         }
       });
     });
 
-    return socket;
+    socket.addEventListener("close", () => {
+      this.clearHeartbeat();
+    });
+
+    this.socket = socket;
+  }
+
+  disconnect() {
+    this.clearHeartbeat();
+
+    if (this.socket) {
+      this.socket.close();
+      this.socket = null;
+    }
+  }
+
+  private clearHeartbeat() {
+    if (this.heartbeatInterval) {
+      clearInterval(this.heartbeatInterval);
+      this.heartbeatInterval = null;
+    }
+  }
+
+  private checkAndReconnect() {
+    if (
+      !this.socket ||
+      this.socket.readyState === WebSocket.CLOSED ||
+      this.socket.readyState === WebSocket.CLOSING
+    ) {
+      this.connect();
+    }
   }
 }
 

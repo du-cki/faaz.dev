@@ -9,11 +9,17 @@ export default function Activities() {
   const [activities, setActivities] = useState<any[] | null>(null);
 
   useEffect(() => {
-    lanyard.add_callback((data: any) => {
+    const setLanyardActivities = (data: any) => {
       setActivities(data.activities);
-    });
+    };
 
-    lanyard.connect(DISCORD_USER_ID);
+    lanyard.add_callback(setLanyardActivities);
+    lanyard.connect();
+
+    return () => {
+      lanyard.remove_callback(setLanyardActivities);
+      lanyard.disconnect();
+    };
   }, []);
 
   const spotify = activities?.find(

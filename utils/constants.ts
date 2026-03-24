@@ -14,7 +14,7 @@ export const LASTFM_USERNAME = "du_cki";
 export const DATE_OF_BIRTH = "2006-12-01T20:00:00.000Z";
 export const DISCORD_USER_ID = "651454696208465941";
 
-export const lanyard = new LanyardClient();
+export const lanyard = new LanyardClient(DISCORD_USER_ID);
 export const github = new GithubClient();
 
 export const STATUS_COLORS: Record<DiscordStatus, string> = {

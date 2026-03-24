@@ -31,7 +31,7 @@ export default function About() {
 
     setCurrentTime(null);
 
-    const { data } = await lanyard.get_status(DISCORD_USER_ID);
+    const { data } = await lanyard.get_status();
 
     if (data.kv.me) setKV(JSON.parse(data.kv.me));
     if (data.discord_status) setStatus(data.discord_status);
