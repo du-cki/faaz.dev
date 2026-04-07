@@ -101,7 +101,7 @@ export const ActivityModal: React.FC<{ data: ApplicationInfoResponse }> = ({
             </p>
           </Section>
 
-          {data.screenshots.length > 0 && (
+          {data.screenshots?.length > 0 && (
             <Section title="Gallery">
               <div className="-mr-6 overflow-hidden">
                 <div className="flex gap-3 overflow-x-auto pb-3 snap-x pr-6">
