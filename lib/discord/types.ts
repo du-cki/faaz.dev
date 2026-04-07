@@ -1,4 +1,4 @@
-type Website = {
+export type Website = {
   url: string;
   // categories are as follows:
   // 1: official website

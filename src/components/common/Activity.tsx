@@ -7,6 +7,8 @@ import { ai, calculatePercentage, si, st } from "../../../utils";
 
 import type { DiscordActivity } from "../../../lib/lanyard/types";
 import type { ApplicationInfoResponse } from "../../pages/api/application-info";
+import { Modal } from "./Modal";
+import { ActivityModal } from "./ActivityModal";
 
 type SpotifyActivity = {
   type: "spotify";
@@ -99,8 +101,11 @@ function SpotifyActivity({
 }
 
 export default function Activity(activity: Props) {
-  const [coverImage, setCoverImage] = useState<Option<string>>(null);
+  const [activityData, setActivityData] =
+    useState<Option<ApplicationInfoResponse>>(null);
   const [isLoadingCover, setIsLoadingCover] = useState<boolean>(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isPlaying = activity.type == "playing";
   const activityId = isPlaying && activity.id;
@@ -116,15 +121,15 @@ export default function Activity(activity: Props) {
       let isMounted = true;
       setIsLoadingCover(true);
 
-      const fetchCoverImage = async () => {
+      const fetchActivityData = async () => {
         try {
           const res = await fetch(`/api/application-info?id=${activity.id}`);
 
           if (res.ok) {
             const data: Option<ApplicationInfoResponse> = await res.json();
 
-            if (isMounted && data?.icon) {
-              setCoverImage(data.icon);
+            if (isMounted && data) {
+              setActivityData(data);
             }
           }
         } finally {
@@ -134,7 +139,7 @@ export default function Activity(activity: Props) {
         }
       };
 
-      fetchCoverImage();
+      fetchActivityData();
 
       return () => {
         isMounted = false;
@@ -159,51 +164,71 @@ export default function Activity(activity: Props) {
     );
   }
 
+  const isClickable = !!activityData;
+
   return (
-    <div className={clsx(commonClasses, "flex items-start p-4")}>
-      {activity.assets?.large_image ? (
-        <div className="relative shadow-lg shrink-0">
-          <img
-            src={ai(activity.id, activity.assets.large_image)}
-            alt={activity.text}
-            width={40}
-            height={40}
-            className="w-12 h-12 rounded object-cover"
-          />
+    <>
+      <div
+        className={clsx(
+          commonClasses,
+          "flex items-start p-4",
+          isClickable && "cursor-pointer hover:shadow-lg",
+        )}
+        onClick={() => {
+          if (isClickable) setIsModalOpen(true);
+        }}
+        role={isClickable ? "button" : "presentation"}
+      >
+        {activity.assets?.large_image ? (
+          <div className="relative shadow-lg shrink-0">
+            <img
+              src={ai(activity.id, activity.assets.large_image)}
+              alt={activity.text}
+              width={40}
+              height={40}
+              className="w-12 h-12 rounded object-cover"
+            />
 
-          {activity.assets.small_image && (
-            <div className="absolute -bottom-1 -right-1 bg-gray-50 rounded-full">
-              <img
-                src={ai(activity.id, activity.assets.small_image)}
-                alt={activity.text}
-                className="w-5 h-5 text-gray-600 rounded-full border-gray-50 border-2"
-              />
-            </div>
-          )}
-        </div>
-      ) : isLoadingCover ? (
-        <div className="bg-gray-200 animate-pulse w-12 h-12 rounded shadow-lg shrink-0" />
-      ) : coverImage ? (
-        <div className="relative shrink-0 bg-none">
-          <img
-            src={coverImage}
-            alt={activity.text}
-            width={40}
-            height={40}
-            className="w-12 h-12 rounded object-cover"
-          />
-        </div>
-      ) : (
-        <Gamepad className="w-12 h-12 text-gray-600 mt-0.5 shrink-0" />
-      )}
+            {activity.assets.small_image && (
+              <div className="absolute -bottom-1 -right-1 bg-gray-50 rounded-full">
+                <img
+                  src={ai(activity.id, activity.assets.small_image)}
+                  alt={activity.text}
+                  className="w-5 h-5 text-gray-600 rounded-full border-gray-50 border-2"
+                />
+              </div>
+            )}
+          </div>
+        ) : isLoadingCover ? (
+          <div className="bg-gray-200 animate-pulse w-12 h-12 rounded shadow-lg shrink-0" />
+        ) : activityData ? (
+          <div className="relative shrink-0 bg-none">
+            <img
+              src={activityData.icon}
+              alt={activity.text}
+              width={40}
+              height={40}
+              className="w-12 h-12 rounded object-cover"
+            />
+          </div>
+        ) : (
+          <Gamepad className="w-12 h-12 text-gray-600 mt-0.5 shrink-0" />
+        )}
 
-      <div>
-        <div className="text-sm text-gray-500 mb-1 font-semibold">
-          {activity.status}
-        </div>
+        <div>
+          <div className="text-sm text-gray-500 mb-1 font-semibold">
+            {activity.status}
+          </div>
 
-        <div className="text-gray-900 font-semibold">{activity.text}</div>
+          <div className="text-gray-900 font-semibold">{activity.text}</div>
+        </div>
       </div>
-    </div>
+
+      {activityData && (
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+          <ActivityModal data={activityData} />
+        </Modal>
+      )}
+    </>
   );
 }

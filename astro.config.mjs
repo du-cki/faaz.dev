@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig, memoryCache } from "astro/config";
 
-import node from "@astrojs/node";
 import tailwindcss from "@tailwindcss/vite";
 
 import icon from "astro-icon";
