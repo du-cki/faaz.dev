@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { Clock, Clock2, MapPin } from "lucide-react";
 
-import {
-  DISCORD_USER_ID,
-  lanyard,
-  STATUS_COLORS,
-} from "../../../utils/constants";
+import { lanyard, StatusColor } from "../../../utils/constants";
 
 import type {
   DiscordStatus,
@@ -86,7 +82,7 @@ export default function About() {
         <span className="font-semibold block">
           I&apos;m currently{" "}
           {status ? (
-            <span style={{ color: STATUS_COLORS[status] }}>{status}</span>
+            <span style={{ color: StatusColor[status] }}>{status}</span>
           ) : (
             <div className="h-3.5 bg-gray-200 animate-pulse rounded-md w-14 inline-block translate-y-0.5" />
           )}

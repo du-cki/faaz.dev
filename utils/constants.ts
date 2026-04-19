@@ -17,14 +17,14 @@ export const DISCORD_USER_ID = "651454696208465941";
 export const lanyard = new LanyardClient(DISCORD_USER_ID);
 export const github = new GithubClient();
 
-export const STATUS_COLORS: Record<DiscordStatus, string> = {
-  online: "#41b682",
-  idle: "#f5a623",
-  dnd: "#ef4444",
-  offline: "#8f919e",
-};
+export enum StatusColor {
+  online = "#41b682",
+  idle = "#f5a623",
+  dnd = "#ef4444",
+  offline = "#8f919e",
+}
 
-export const SOCIALS: { name: string; href: string; icon: LucideIcon }[] = [
+export const Socials: { name: string; href: string; icon: LucideIcon }[] = [
   {
     name: "@du_cki",
     href: "https://discord.com/users/651454696208465941",

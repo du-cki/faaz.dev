@@ -1,12 +1,12 @@
 import { Tooltip } from "react-tooltip";
-import { SOCIALS } from "../../../utils/constants";
+import { Socials } from "../../../utils/constants";
 
 export default function SocialLinks() {
   return (
     <div className="flex gap-4 mb-8">
       <Tooltip id="connection-tooltip" style={{ padding: 5 }} />
 
-      {SOCIALS.map(({ name, href, icon: Icon }) => (
+      {Socials.map(({ name, href, icon: Icon }) => (
         <a
           key={name}
           href={href}
