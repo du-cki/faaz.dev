@@ -1,5 +1,5 @@
 ---
-import { FRIENDS } from "../../../utils/constants";
+import { Friends } from "../../../utils/constants";
 
 import { Icon } from "astro-icon/components";
 import Link from "../common/Link.astro";
@@ -21,10 +21,10 @@ import CodingStats from "./CodingStats";
 
   <div class="space-y-2">
     {
-      FRIENDS.map(({ name, githubUsername, githubId, href }) => (
+      Friends.map(({ name, githubUsername, href }) => (
         <Link text={name} description={`@${githubUsername}`} href={href}>
           <img
-            src={`https://avatars.githubusercontent.com/u/${githubId}`}
+            src={`https://github.com/${githubUsername}.png`}
             alt={`${name}'s profile picture'`}
             class="w-10 h-10 rounded-lg shadow-lg"
             height={40}

@@ -47,17 +47,15 @@ export const SOCIALS: { name: string; href: string; icon: LucideIcon }[] = [
   },
 ];
 
-export const FRIENDS = [
+export const Friends = [
   {
     name: "Willi",
     githubUsername: "itswilliboy",
-    githubId: 83978878,
     href: "https://itswilli.dev/",
   },
   {
     name: "Dep",
     githubUsername: "Deprecatism",
-    githubId: 70801324,
     href: "https://deppie-dev.vercel.app/",
   },
 ];
