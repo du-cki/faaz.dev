@@ -58,4 +58,10 @@ export const Friends = [
     githubUsername: "Deprecatism",
     href: "https://deppie-dev.vercel.app/",
   },
+  {
+    name: "Vahin",
+    githubUsername: "ShadowFox88",
+    href: "https://vahin.dev/",
+  },
 ];
+
