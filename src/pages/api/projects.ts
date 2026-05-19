@@ -3,17 +3,14 @@ import type { APIRoute } from "astro";
 import { github, GITHUB_USERNAME } from "../../../utils/constants";
 
 export const GET: APIRoute = async (request) => {
-  const projects = await github.getRepositories(GITHUB_USERNAME, {
-    type: "owner",
-    sort: "updated",
-    per_page: "8",
-  });
+  const projects = await github.searchRepositories(
+    `user:${GITHUB_USERNAME}&sort=stars&order=desc`,
+  );
 
   const filtered = projects
     .filter((project) => !project.fork)
     .filter((project) => !!project.description)
-    .sort((project) => project.stars)
-    .slice(-4);
+    .slice(0, 4);
 
   request.cache.set({
     maxAge: 60 * 60,
