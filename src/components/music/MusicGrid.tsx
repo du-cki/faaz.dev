@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from "react";
 
 import MusicItem from "./MusicItem";
@@ -28,8 +26,8 @@ export default function MusicGrid() {
               .slice(0, 6)
               .map((track, index) => (
                 <MusicItem
-                  type="music"
                   key={index}
+                  type="music"
                   name={track.name}
                   artist={track.artist!}
                   href={track.url}
@@ -42,6 +40,7 @@ export default function MusicGrid() {
                 <MusicItem
                   key={index}
                   type="skeleton"
+                  index={index}
                   withArtist
                   withPlaycount
                 />
@@ -60,8 +59,8 @@ export default function MusicGrid() {
               .slice(0, 4)
               .map((artist, index) => (
                 <MusicItem
-                  type="music"
                   key={index}
+                  type="music"
                   name={artist.name}
                   href={artist.url}
                   playcount={artist.playcount!}
@@ -70,7 +69,7 @@ export default function MusicGrid() {
           ) : (
             <>
               {Array.from({ length: 4 }).map((_, index) => (
-                <MusicItem key={index} type="skeleton" />
+                <MusicItem key={index} type="skeleton" index={index} />
               ))}
             </>
           )}
@@ -97,7 +96,13 @@ export default function MusicGrid() {
           ) : (
             <>
               {Array.from({ length: 16 }).map((_, index) => (
-                <MusicItem key={index} type="skeleton" withArtist withCover />
+                <MusicItem
+                  key={index}
+                  type="skeleton"
+                  index={index}
+                  withArtist
+                  withCover
+                />
               ))}
             </>
           )}

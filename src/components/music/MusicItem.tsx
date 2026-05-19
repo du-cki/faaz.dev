@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import clsx from "clsx";
 
 import { Heart } from "lucide-react";
-import { randomInt } from "../../../utils";
 
 type SkeletonItem = {
   type: "skeleton";
   withPlaycount?: boolean;
   withArtist?: boolean;
   withCover?: boolean;
+
+  index: number;
 };
 
 type MusicItem = {
@@ -24,24 +25,17 @@ type MusicItem = {
 
 type Props = SkeletonItem | MusicItem;
 
+const TITLE_WIDTHS = [220, 280, 210, 260, 240, 290, 230, 270];
+const ARTIST_WIDTHS = [70, 90, 60, 85, 100, 65, 80, 95];
+
 function SkeletonMusicItem({
   withArtist,
   withCover,
   withPlaycount,
+  index,
 }: SkeletonItem) {
-  const [randomWidths, setRandomWidths] = useState<
-    Option<{
-      title: number;
-      artist: number;
-    }>
-  >(null);
-
-  useEffect(() => {
-    setRandomWidths({
-      title: randomInt(200, 300),
-      artist: randomInt(50, 100),
-    });
-  }, []);
+  const titleWidth = TITLE_WIDTHS[index % TITLE_WIDTHS.length];
+  const artistWidth = ARTIST_WIDTHS[index % ARTIST_WIDTHS.length];
 
   return (
     <div className="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors group shadow-md">
@@ -52,9 +46,7 @@ function SkeletonMusicItem({
           <div className="min-w-0 flex-1">
             <div
               className="bg-gray-200 animate-pulse h-6 rounded-md"
-              style={{
-                width: randomWidths?.title,
-              }}
+              style={{ width: titleWidth }}
             />
 
             {withArtist && (
@@ -62,9 +54,7 @@ function SkeletonMusicItem({
                 by
                 <span
                   className="bg-gray-200 animate-pulse inline-block h-4.5 rounded-md ml-1"
-                  style={{
-                    width: randomWidths?.artist,
-                  }}
+                  style={{ width: artistWidth }}
                 />
               </span>
             )}
