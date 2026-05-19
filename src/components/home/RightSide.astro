@@ -22,7 +22,11 @@ import CodingStats from "./CodingStats";
   <div class="space-y-2">
     {
       Friends.map(({ name, githubUsername, href }) => (
-        <Link text={name} description={`@${githubUsername}`} href={href}>
+        <Link
+          text={name}
+          description={`@${githubUsername}`}
+          href={`${href}?utm_source=faaz.dev`}
+        >
           <img
             src={`https://github.com/${githubUsername}.png`}
             alt={`${name}'s profile picture'`}
