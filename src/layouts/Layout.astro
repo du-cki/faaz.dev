@@ -1,8 +1,6 @@
 ---
 import "../styles/global.css";
 
-import SpeedInsights from "@vercel/speed-insights/astro";
-
 type Props = {
   title?: string;
   description?: string;
@@ -26,14 +24,12 @@ const qualifiedUrl = `https://${url}/`;
 
     <meta name="description" content={description} />
 
-    <!-- Facebook -->
     <meta property="og:url" content={qualifiedUrl} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content="/favicon.ico" />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="twitter:domain" content={url} />
     <meta property="twitter:url" content={qualifiedUrl} />
@@ -47,7 +43,6 @@ const qualifiedUrl = `https://${url}/`;
   </head>
 
   <body class="bg-gray-50 text-gray-900 antialiased">
-    <SpeedInsights />
     <div id="modal-root"></div>
 
     <main class="max-w-4xl mx-auto px-6 py-20 space-y-12">
