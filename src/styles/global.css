@@ -1,5 +1,9 @@
 @import "tailwindcss";
-@import 'react-tooltip/dist/react-tooltip.css';
+@import "react-tooltip/dist/react-tooltip.css";
+
+@theme {
+  --color-spotify-green: #1db954;
+}
 
 h1,
 h2,

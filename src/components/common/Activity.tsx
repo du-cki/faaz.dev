@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import clsx from "clsx";
-import { Gamepad, Music } from "lucide-react";
+import { Gamepad } from "lucide-react";
 
 import { ai, calculatePercentage, si, st } from "../../../utils";
 
@@ -9,6 +9,7 @@ import type { DiscordActivity } from "../../../lib/lanyard/types";
 import type { ApplicationInfoResponse } from "../../pages/api/application-info";
 import { Modal } from "./Modal";
 import { ActivityModal } from "./ActivityModal";
+import { SiSpotify } from "@icons-pack/react-simple-icons";
 
 type SpotifyActivity = {
   type: "spotify";
@@ -67,8 +68,8 @@ function SpotifyActivity({
             className="min-w-12 min-h-12 rounded object-cover shrink-0"
           />
 
-          <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1">
-            <Music className="w-3.5 h-3.5 text-gray-600" />
+          <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5">
+            <SiSpotify className="w-4 h-4 text-spotify-green" />
           </div>
         </div>
 
@@ -93,7 +94,7 @@ function SpotifyActivity({
       </div>
 
       <div
-        className="h-1 bg-gray-200 group-hover:bg-green-500 transition-all rounded-r-full"
+        className="h-1 bg-gray-200 group-hover:bg-spotify-green transition-all rounded-r-full"
         style={{ width: `${perc}%` }}
       />
     </div>
