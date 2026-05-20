@@ -64,7 +64,7 @@ function SpotifyActivity({
             alt={`${text}'s album art`}
             width={40}
             height={40}
-            className="w-12 h-12 rounded object-cover shrink-0"
+            className="min-w-12 min-h-12 rounded object-cover shrink-0"
           />
 
           <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1">
