@@ -3,6 +3,13 @@
 
 @theme {
   --color-spotify-green: #1db954;
+
+  --color-background: #f9fafb;
+  --color-card-background: #fff;
+
+  --color-text: #101828;
+
+  --color-accent: #f6339a;
 }
 
 h1,

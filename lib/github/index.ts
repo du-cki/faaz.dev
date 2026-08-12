@@ -44,8 +44,6 @@ class GithubClient {
   }
 
   async searchRepositories(query: string): Promise<Project[]> {
-    console.log(`${this.BASE_URL}/search/repositories?${query}`);
-
     const req = await fetch(`${this.BASE_URL}/search/repositories?q=${query}`, {
       headers: {
         "User-Agent": USER_AGENT,

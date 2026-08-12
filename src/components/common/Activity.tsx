@@ -68,7 +68,7 @@ function SpotifyActivity({
             className="min-w-12 min-h-12 rounded object-cover shrink-0"
           />
 
-          <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5">
+          <div className="absolute -bottom-1 -right-1 bg-card-background rounded-full p-0.5">
             <SiSpotify className="w-4 h-4 text-spotify-green" />
           </div>
         </div>
@@ -82,7 +82,7 @@ function SpotifyActivity({
             href={st(href)}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-900 font-semibold hover:text-pink-500 transition-colors"
+            className="font-semibold hover:text-accent transition-colors"
           >
             {text}
           </a>
@@ -217,11 +217,13 @@ export default function Activity(activity: Props) {
         )}
 
         <div>
-          <div className="text-sm text-gray-500 mb-1 font-semibold">
+          <span className="text-sm text-gray-500 mb-1 font-semibold">
             {activity.status}
-          </div>
+          </span>
 
-          <div className="text-gray-900 font-semibold">{activity.text}</div>
+          <br />
+
+          <span className="font-semibold">{activity.text}</span>
         </div>
       </div>
 

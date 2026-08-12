@@ -97,9 +97,9 @@ export default function MusicItem(item: Props) {
           )}
 
           <div>
-            <h3 className="font-semibold! text-gray-900 line-clamp-1 group-hover:text-pink-500 transition-colors font-sans!">
+            <span className="font-semibold line-clamp-1 group-hover:text-accent transition-colors">
               {item.name}
-            </h3>
+            </span>
 
             {item.artist && (
               <p className="text-sm! text-gray-400 line-clamp-1">
@@ -111,7 +111,7 @@ export default function MusicItem(item: Props) {
 
         {item.playcount && (
           <div className="flex items-center gap-2 shrink-0">
-            <span className="px-2 py-1 bg-pink-100 text-pink-700 text-xs rounded-md font-medium font-mono! ml-2">
+            <span className="px-2 py-1 bg-accent/10 text-accent text-xs rounded-md font-medium font-mono! ml-2">
               {item.playcount} plays
             </span>
           </div>

@@ -62,7 +62,7 @@ export const ActivityModal: React.FC<{ data: ApplicationInfoResponse }> = ({
     data.screenshots?.length > 0 ? data.screenshots[1] : data.cover_image;
 
   return (
-    <div className="flex flex-col w-full bg-white text-gray-800 font-sans">
+    <div className="flex flex-col w-full bg-card-background text-gray-800">
       <div className="relative">
         <div className="relative w-full h-60 rounded-t-xl overflow-hidden">
           <img
