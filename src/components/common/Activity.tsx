@@ -1,7 +1,7 @@
-import React, { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import clsx from "clsx";
-import { Gamepad } from "lucide-react";
+import { Gamepad, Gamepad2 } from "lucide-react";
 
 import { ai, calculatePercentage, si, st } from "../../../utils";
 
@@ -15,6 +15,7 @@ import type { ApplicationInfoResponse } from "../../pages/api/application-info";
 import { Modal } from "./Modal";
 import { ActivityModal } from "./ActivityModal";
 import { SiSpotify } from "@icons-pack/react-simple-icons";
+import dayjs from "dayjs";
 
 type SpotifyActivity = {
   type: "spotify";
@@ -30,10 +31,11 @@ type BaseActivity = {
   type: "playing";
 
   id?: string;
-  status: string;
-  text: string;
   assets: BaseActivityT["assets"];
+  status: string;
+  text?: string;
   icon?: ReactNode;
+  start?: number;
 };
 
 type SkeletonActivity = {
@@ -41,6 +43,37 @@ type SkeletonActivity = {
 };
 
 type Props = SpotifyActivity | BaseActivity | SkeletonActivity;
+
+function ActivityTimer({ start }: { start: number | string | Date }) {
+  const [timeStr, setTimeStr] = useState<string>("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const diffMs = dayjs().diff(dayjs(start));
+      const totalSeconds = Math.max(0, Math.floor(diffMs / 1000));
+
+      const h = Math.floor(totalSeconds / 3600);
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+
+      const formattedM = m.toString().padStart(2, "0");
+      const formattedS = s.toString().padStart(2, "0");
+
+      if (h > 0) {
+        setTimeStr(`${h}:${formattedM}:${formattedS}`);
+      } else {
+        setTimeStr(`${formattedM}:${formattedS}`);
+      }
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+
+    return () => clearInterval(interval);
+  }, [start]);
+
+  return timeStr;
+}
 
 const commonClasses =
   "select-none gap-3 bg-gray-50 rounded-lg transform transition-all duration-500 ease-out overflow-clip shadow-md";
@@ -173,6 +206,15 @@ export default function Activity(activity: Props) {
 
   const isClickable = !!activityData;
 
+  const showTimer = !activity.text && !activity.icon && activity.start;
+
+  const displayIcon = showTimer ? <Gamepad2 /> : activity.icon;
+  const displayText = showTimer ? (
+    <ActivityTimer start={activity.start!} />
+  ) : (
+    activity.text
+  );
+
   return (
     <>
       <div
@@ -226,13 +268,13 @@ export default function Activity(activity: Props) {
           <span className="mb-1">{activity.status}</span>
 
           <span className="text-sm leading-none text-gray-500 inline-flex items-center gap-1">
-            {activity.icon && (
+            {displayIcon && (
               <span className="shrink-0 flex items-center justify-center [&_svg]:w-4 [&_svg]:h-4 translate-y-px">
-                {activity.icon}
+                {displayIcon}
               </span>
             )}
 
-            <span>{activity.text}</span>
+            {displayText && <span>{displayText}</span>}
           </span>
         </div>
       </div>

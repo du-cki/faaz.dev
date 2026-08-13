@@ -81,6 +81,7 @@ export default function Activities() {
               assets={activity.assets}
               status={activity.name}
               text={activity.details}
+              start={activity.timestamps.start}
               type="playing"
             />
           ))}
@@ -91,7 +92,9 @@ export default function Activities() {
               id={activity.application_id}
               assets={activity.assets}
               status={activity.name}
-              text={getRelativeTime(activity.timestamps.start / 1000)}
+              text={getRelativeTime(
+                (activity.timestamps.end || activity.timestamps.start) / 1000,
+              )}
               icon={<Gamepad2 className="w-3 h-3" />}
               type="playing"
             />
