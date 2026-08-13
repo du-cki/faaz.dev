@@ -36,7 +36,7 @@ const ICON_MAPPING = {
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section>
-      <h1 className="text-xs! text-gray-400 uppercase tracking-widest select-none">
+      <h1 className="text-xs! text-gray-400 tracking-widest select-none">
         {title}
       </h1>
 

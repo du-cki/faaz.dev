@@ -225,9 +225,9 @@ export default function Activity(activity: Props) {
         <div className="font-semibold flex flex-col">
           <span className="mb-1">{activity.status}</span>
 
-          <span className="text-sm text-gray-500 inline-flex items-center gap-1.5">
+          <span className="text-sm leading-none text-gray-500 inline-flex items-center gap-1">
             {activity.icon && (
-              <span className="shrink-0 flex items-center justify-center [&_svg]:w-4 [&_svg]:h-4">
+              <span className="shrink-0 flex items-center justify-center [&_svg]:w-4 [&_svg]:h-4 translate-y-px">
                 {activity.icon}
               </span>
             )}
