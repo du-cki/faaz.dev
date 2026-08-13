@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, type ReactNode } from "react";
 
 import clsx from "clsx";
 import { Gamepad } from "lucide-react";
 
 import { ai, calculatePercentage, si, st } from "../../../utils";
 
-import type { DiscordActivity } from "../../../lib/lanyard/types";
+import type {
+  BaseActivity as BaseActivityT,
+  SpotifyActivity as SpotifyActivityT,
+} from "../../../lib/api/types";
+
 import type { ApplicationInfoResponse } from "../../pages/api/application-info";
+
 import { Modal } from "./Modal";
 import { ActivityModal } from "./ActivityModal";
 import { SiSpotify } from "@icons-pack/react-simple-icons";
@@ -17,17 +22,18 @@ type SpotifyActivity = {
   text: string; // artist name
   artist: string;
   href: string;
-  timestamps: DiscordActivity["timestamps"];
+  timestamps: SpotifyActivityT["timestamps"];
   album_art: string;
 };
 
 type BaseActivity = {
   type: "playing";
 
-  id: string;
+  id?: string;
   status: string;
   text: string;
-  assets: DiscordActivity["assets"];
+  assets: BaseActivityT["assets"];
+  icon?: ReactNode;
 };
 
 type SkeletonActivity = {
@@ -183,7 +189,7 @@ export default function Activity(activity: Props) {
         {activity.assets?.large_image ? (
           <div className="relative shadow-lg shrink-0">
             <img
-              src={ai(activity.id, activity.assets.large_image)}
+              src={ai(activity.id!, activity.assets.large_image)}
               alt={activity.text}
               width={40}
               height={40}
@@ -193,7 +199,7 @@ export default function Activity(activity: Props) {
             {activity.assets.small_image && (
               <div className="absolute -bottom-1 -right-1 bg-gray-50 rounded-full">
                 <img
-                  src={ai(activity.id, activity.assets.small_image)}
+                  src={ai(activity.id!, activity.assets.small_image)}
                   alt={activity.text}
                   className="w-5 h-5 text-gray-600 rounded-full border-gray-50 border-2"
                 />
@@ -216,14 +222,18 @@ export default function Activity(activity: Props) {
           <Gamepad className="w-12 h-12 text-gray-600 mt-0.5 shrink-0" />
         )}
 
-        <div>
-          <span className="text-sm text-gray-500 mb-1 font-semibold">
-            {activity.status}
+        <div className="font-semibold flex flex-col">
+          <span className="mb-1">{activity.status}</span>
+
+          <span className="text-sm text-gray-500 inline-flex items-center gap-1.5">
+            {activity.icon && (
+              <span className="shrink-0 flex items-center justify-center [&_svg]:w-4 [&_svg]:h-4">
+                {activity.icon}
+              </span>
+            )}
+
+            <span>{activity.text}</span>
           </span>
-
-          <br />
-
-          <span className="font-semibold">{activity.text}</span>
         </div>
       </div>
 

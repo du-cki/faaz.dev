@@ -102,6 +102,18 @@ export type GameInfo = {
     id: string;
     type: number;
   }[];
+  media: {
+    cover_url: string;
+    artwork_urls: string[];
+    icon: {
+      type: string;
+      value: string;
+    };
+    cover: {
+      type: "url";
+      value: string;
+    };
+  };
   supplemental_game_data?: {
     application_id: string;
     igdb_game_id: string | null;

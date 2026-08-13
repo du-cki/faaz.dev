@@ -2,6 +2,8 @@ interface ImportMetaEnv {
   WAKATIME_API_KEY: string;
   LASTFM_API_KEY: string;
   TOKEN: string;
+
+  PUBLIC_API_URL: string;
 }
 
 interface ImportMeta {

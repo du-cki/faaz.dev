@@ -3,19 +3,15 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-import type { DiscordActivity } from "../lib/lanyard/types";
+import type { DiscordActivity } from "../lib/api/types";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(relativeTime);
 
 export const getArticle = (num: number): string => {
-  const spoken = num.toString();
-
-  const vowelSounds = ["8", "11", "18"];
-  const startsWithVowelSound = vowelSounds.some((v) => spoken.startsWith(v));
-
-  return startsWithVowelSound ? "an" : "a";
+  const vowelSounds = [8, 11, 18];
+  return vowelSounds.includes(num) ? "an" : "a";
 };
 
 export const calculatePercentage = ({
@@ -55,8 +51,8 @@ const parseUtcOffset = (offset: number): string => {
   return `${offset > 0 ? "GMT+" : "GMT-"}${Math.abs(offset / 60)}`;
 };
 
-export const getRelativeTime = (date: string): string => {
-  return dayjs(date).fromNow();
+export const getRelativeTime = (ts: number): string => {
+  return dayjs.unix(ts).fromNow();
 };
 
 export const getTimeForTimezone = (tz: string): string => {
@@ -69,3 +65,8 @@ export const getTimeForTimezone = (tz: string): string => {
 export const randomInt = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
+
+export const resolveUrl = (base: string, protocol: string): string =>
+  base.includes("localhost")
+    ? `${protocol}://${base}`
+    : `${protocol}s://${base}`;

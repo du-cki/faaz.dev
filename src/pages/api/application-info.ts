@@ -75,6 +75,7 @@ export const GET: APIRoute = async (request) => {
 
   const cover_image =
     application.supplemental_game_data?.cover_image_url ||
+    application.media.cover.value ||
     `https://cdn.discordapp.com/app-icons/${application.id}/${application.cover_image_hash}.png?size=1024&keep_aspect_ratio=true`;
 
   const resp: ApplicationInfoResponse = {

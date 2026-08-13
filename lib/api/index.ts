@@ -1,47 +1,60 @@
+import { resolveUrl } from "../../utils";
 import { USER_AGENT } from "../../utils/constants";
 
-import type { StatusResponse, StatusData, LanyardWSResponse } from "./types";
+import JSONBig from "json-bigint";
 
-type Callback = (data: StatusData) => unknown;
+import type { DiscordActivity, Location, Presence, WSMessage } from "./types";
 
-class LanyardClient {
+type Callback = (data: Presence) => unknown;
+
+export default class APIClient {
   private callbacks: Callback[] = [];
 
   private socket: Option<WebSocket> = null;
   private heartbeatInterval: Option<NodeJS.Timeout> = null;
-  private activeUser: string;
 
-  private BASE_URL = "api.lanyard.rest";
+  private BASE_URL = import.meta.env.PUBLIC_API_URL;
 
-  constructor(activeUser: string) {
-    this.activeUser = activeUser;
-
+  constructor() {
     // when user tabs and tabs back in, we need to reconnect
     // the websocket connection if its disconnected.
     if (typeof document !== "undefined") {
       document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "visible" && this.activeUser) {
+        if (document.visibilityState === "visible") {
           this.checkAndReconnect();
         }
       });
     }
   }
 
-  async get_status(): Promise<StatusResponse> {
-    const req = await fetch(
-      `https://${this.BASE_URL}/v1/users/${this.activeUser}`,
-      {
-        headers: {
-          "User-Agent": USER_AGENT,
-        },
+  async get_location(): Promise<Location> {
+    const req = await fetch(`${resolveUrl(this.BASE_URL, "http")}/location`, {
+      headers: {
+        "User-Agent": USER_AGENT,
       },
-    );
+    });
 
     if (!req.ok) {
       throw new Error(`${req.status}: ${req.statusText}`);
     }
 
-    return req.json();
+    const resp = await req.text();
+    return JSONBig.parse(resp);
+  }
+
+  async get_recent_activities(): Promise<DiscordActivity[]> {
+    const req = await fetch(`${resolveUrl(this.BASE_URL, "http")}/recent`, {
+      headers: {
+        "User-Agent": USER_AGENT,
+      },
+    });
+
+    if (!req.ok) {
+      throw new Error(`${req.status}: ${req.statusText}`);
+    }
+
+    const resp = await req.text();
+    return JSONBig.parse(resp);
   }
 
   add_callback(callback: Callback) {
@@ -55,36 +68,24 @@ class LanyardClient {
   connect() {
     this.disconnect();
 
-    const socket = new WebSocket(`wss://${this.BASE_URL}/socket`);
+    const socket = new WebSocket(`${resolveUrl(this.BASE_URL, "ws")}/ws`);
     socket.addEventListener("open", () => {
-      socket.send(
-        JSON.stringify({
-          op: 2,
-          d: { subscribe_to_ids: [this.activeUser] },
-        }),
-      );
-
       this.heartbeatInterval = setInterval(() => {
         if (socket.readyState === WebSocket.OPEN) {
-          socket.send(JSON.stringify({ op: 3 }));
+          socket.send(JSON.stringify({ type: "ping" }));
         }
-      }, 30000);
+      }, 5000);
     });
 
     socket.addEventListener("message", ({ data: event }) => {
-      const message: LanyardWSResponse = JSON.parse(event);
-      if (message.op !== 0) return;
-
-      let userData: StatusData;
-      if (message.t === "INIT_STATE") {
-        userData = message.d[this.activeUser!];
-      } else if (message.t === "PRESENCE_UPDATE") {
-        userData = message.d;
+      const message: WSMessage = JSONBig.parse(event);
+      if (message.type !== "INIT" && message.type !== "PRESENCE_UPDATE") {
+        return;
       }
 
       this.callbacks.forEach((callback) => {
         try {
-          callback?.(userData);
+          callback?.(message.data);
         } catch (e) {
           console.error(e);
         }
@@ -125,6 +126,4 @@ class LanyardClient {
   }
 }
 
-export default LanyardClient;
-
-export type { StatusData };
+export type { Presence };

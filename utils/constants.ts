@@ -1,10 +1,8 @@
-import LanyardClient from "../lib/lanyard";
 import GithubClient from "../lib/github";
-
-import type { DiscordStatus } from "../lib/lanyard/types";
 
 import { SiDiscord, SiGithub, SiSpotify } from "@icons-pack/react-simple-icons";
 import { Mail, type LucideIcon } from "lucide-react";
+import APIClient from "../lib/api";
 
 export const USER_AGENT = "faaz.dev (github.com/du-cki/faaz.dev)";
 
@@ -14,7 +12,7 @@ export const LASTFM_USERNAME = "du_cki";
 export const DATE_OF_BIRTH = "2006-12-01T20:00:00.000Z";
 export const DISCORD_USER_ID = "651454696208465941";
 
-export const lanyard = new LanyardClient(DISCORD_USER_ID);
+export const api = new APIClient();
 export const github = new GithubClient();
 
 export enum StatusColor {
@@ -27,7 +25,7 @@ export enum StatusColor {
 export const Socials: { name: string; href: string; icon: LucideIcon }[] = [
   {
     name: "@du_cki",
-    href: "https://discord.com/users/651454696208465941",
+    href: `https://discord.com/users/${DISCORD_USER_ID}`,
     icon: SiDiscord,
   },
   {
@@ -64,4 +62,3 @@ export const Friends = [
     href: "https://vahin.dev/",
   },
 ];
-
