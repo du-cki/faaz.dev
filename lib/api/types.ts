@@ -3,7 +3,7 @@ import { number } from "astro:schema";
 export type DiscordStatus = "online" | "dnd" | "idle" | "offline";
 
 export type BaseActivity = {
-  application_id: string;
+  application_id: number;
   type: number;
   timestamps: {
     start: number;
@@ -17,7 +17,7 @@ export type BaseActivity = {
   name: string;
   id: string;
   details: string;
-  created_at: string;
+  created_at: number;
   assets: {
     small_text?: string;
     small_image?: string;

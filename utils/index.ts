@@ -37,7 +37,7 @@ export const si = (raw_url: string): string => {
   return `https://i.scdn.co/image/${id}`;
 };
 
-export const ai = (activity_id: string, image_id: string): string => {
+export const ai = (activity_id: number, image_id: string): string => {
   if (image_id.startsWith("mp:external")) {
     const chunks = image_id.split("/").slice(3);
 

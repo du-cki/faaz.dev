@@ -30,7 +30,7 @@ type SpotifyActivity = {
 type BaseActivity = {
   type: "playing";
 
-  id?: string;
+  id?: number;
   assets: BaseActivityT["assets"];
   status: string;
   text?: string;

@@ -46,8 +46,8 @@ export default function Activities() {
   ) as BaseActivity[];
 
   const totalActivities =
-    ((spotify && 1) || 0) +
-    (otherActivities?.length || 0) +
+    (spotify ? 1 : 0) +
+    (otherActivities?.length ?? 0) +
     filteredRecentActivities.length;
 
   return (
@@ -81,7 +81,7 @@ export default function Activities() {
               assets={activity.assets}
               status={activity.name}
               text={activity.details}
-              start={activity.timestamps.start}
+              start={activity.timestamps?.start}
               type="playing"
             />
           ))}
@@ -93,7 +93,9 @@ export default function Activities() {
               assets={activity.assets}
               status={activity.name}
               text={getRelativeTime(
-                (activity.timestamps.end || activity.timestamps.start) / 1000,
+                (activity.timestamps?.end ||
+                  activity.timestamps?.start ||
+                  activity.created_at) / 1000,
               )}
               icon={<Gamepad2 className="w-3 h-3" />}
               type="playing"
