@@ -1,7 +1,11 @@
 ---
 import { Icon } from "astro-icon/components";
 
+import { LASTFM_USERNAME } from "../../../../utils/constants";
+
 import Layout from "../../../layouts/Layout.astro";
+import AnimatedAnchor from "../../../components/common/AnimatedAnchor";
+
 import MusicGrid from "../../../components/music/MusicGrid";
 ---
 
@@ -17,10 +21,17 @@ import MusicGrid from "../../../components/music/MusicGrid";
 
   <section>
     <h1 class="text-5xl!">
-      My <span class="text-acent font-medium">Music</span> Taste
+      My <span class="text-accent font-medium">Music</span> Taste
     </h1>
 
-    <p class="mb-6">My latest listening activity on LastFM.</p>
+    <p class="mb-6">
+      Latest listening activity on
+
+      <AnimatedAnchor
+        href={`https://last.fm/user/${LASTFM_USERNAME}`}
+        target="_blank">LastFM</AnimatedAnchor
+      >.
+    </p>
   </section>
 
   <MusicGrid client:load />
