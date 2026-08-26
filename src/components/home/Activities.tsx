@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import Activity from "../common/Activity";
 import { Gamepad2, Moon } from "lucide-react";
@@ -17,6 +17,8 @@ export default function Activities() {
     [],
   );
 
+  const prevActiveGames = useRef<string[] | null>(null);
+
   useEffect(() => {
     const setBackendActivities = (data: any) => {
       setActivities(data.activities);
@@ -32,6 +34,30 @@ export default function Activities() {
       api.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (!activities) return;
+
+    const currentGames = activities
+      .filter((activity) => activity.type !== 2 || activity.name !== "Spotify")
+      .map((activity) =>
+        "application_id" in activity ? activity.application_id : activity.name,
+      )
+      .sort();
+
+    const hasChanged =
+      prevActiveGames.current !== null &&
+      (prevActiveGames.current.length !== currentGames.length ||
+        prevActiveGames.current.some(
+          (id, index) => id !== currentGames[index],
+        ));
+
+    if (hasChanged) {
+      api.get_recent_activities().then(setRecentActivities);
+    }
+
+    prevActiveGames.current = currentGames as string[];
+  }, [activities]);
 
   const spotify = (activities?.find(
     (activity) => activity.type === 2 && activity.name === "Spotify",
