@@ -22,9 +22,14 @@ const year_of_birth = dayjs().diff(DATE_OF_BIRTH, "years");
     </h1>
 
     <p class="mb-6">
-      I am {getArticle(year_of_birth)}
-      {year_of_birth} year old full-stack developer from the United Arab Emirates
-      who loves programming both professionally and as a hobby.
+      I am
+      {" "}
+      {getArticle(year_of_birth)}
+      {" "}
+      {year_of_birth}
+      {" "}
+      year old full-stack developer from the United Arab Emirates who loves programming
+      both professionally and as a hobby.
     </p>
 
     <Socials client:load />
