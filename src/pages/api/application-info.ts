@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro";
 
-import DiscordClient from "../../../lib/discord";
-import type { ThirdPartySku, Website } from "../../../lib/discord/types";
+import DiscordClient from "@/lib/discord";
+import type { ThirdPartySku, Website } from "@/lib/discord/types";
 
 export type ApplicationInfoResponse = {
   name: string;

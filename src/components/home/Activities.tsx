@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 import Activity from "../common/Activity";
 import { Gamepad2, Moon } from "lucide-react";
 
-import { api } from "../../../utils/constants";
+import { api } from "@/utils/constants";
 import type {
   BaseActivity,
   DiscordActivity,
   SpotifyActivity,
-} from "../../../lib/api/types";
-import { getRelativeTime } from "../../../utils";
+} from "@/lib/api/types";
+import { getRelativeTime } from "@/utils/";
 
 export default function Activities() {
   const [activities, setActivities] = useState<Option<DiscordActivity[]>>(null);

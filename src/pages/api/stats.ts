@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import WakatimeClient, { DEFAULT_LANGUAGE_COLOR } from "../../../lib/wakatime";
+import WakatimeClient, { DEFAULT_LANGUAGE_COLOR } from "@/lib/wakatime";
 
 export type StatsResponse = {
   total_seconds: number;

@@ -1,4 +1,4 @@
-import { USER_AGENT } from "../../utils/constants";
+import { USER_AGENT } from "@/utils/constants";
 
 import type {
   WakatimeProgramLanguagesResponse,

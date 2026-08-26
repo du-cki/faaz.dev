@@ -1,21 +1,22 @@
 import { useEffect, useState, type ReactNode } from "react";
 
 import clsx from "clsx";
-import { Gamepad, Gamepad2 } from "lucide-react";
+import dayjs from "dayjs";
 
-import { ai, calculatePercentage, si, st } from "../../../utils";
+import { ai, calculatePercentage, si, st } from "@/utils/";
 
 import type {
   BaseActivity as BaseActivityT,
   SpotifyActivity as SpotifyActivityT,
-} from "../../../lib/api/types";
+} from "@/lib/api/types";
 
 import type { ApplicationInfoResponse } from "../../pages/api/application-info";
 
 import { Modal } from "./Modal";
 import { ActivityModal } from "./ActivityModal";
+
 import { SiSpotify } from "@icons-pack/react-simple-icons";
-import dayjs from "dayjs";
+import { Gamepad, Gamepad2 } from "lucide-react";
 
 type SpotifyActivity = {
   type: "spotify";

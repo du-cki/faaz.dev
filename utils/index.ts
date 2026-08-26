@@ -3,7 +3,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-import type { DiscordActivity } from "../lib/api/types";
+import type { DiscordActivity } from "@/lib/api/types";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);

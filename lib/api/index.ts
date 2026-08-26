@@ -1,5 +1,5 @@
-import { resolveUrl } from "../../utils";
-import { USER_AGENT } from "../../utils/constants";
+import { resolveUrl } from "@/utils/";
+import { USER_AGENT } from "@/utils/constants";
 
 import JSONBig from "json-bigint";
 

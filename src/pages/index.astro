@@ -1,15 +1,15 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "@/layouts/Layout.astro";
 
 import dayjs from "dayjs";
-import { getArticle } from "../../utils";
+import { getArticle } from "@/utils/";
 
-import Socials from "../components/common/Socials.tsx";
+import Socials from "@/components/common/Socials.tsx";
 
-import LeftSide from "../components/home/LeftSide.astro";
-import RightSide from "../components/home/RightSide.astro";
+import LeftSide from "@/components/home/LeftSide.astro";
+import RightSide from "@/components/home/RightSide.astro";
 
-import { DATE_OF_BIRTH } from "../../utils/constants";
+import { DATE_OF_BIRTH } from "@/utils/constants";
 
 const year_of_birth = dayjs().diff(DATE_OF_BIRTH, "years");
 ---

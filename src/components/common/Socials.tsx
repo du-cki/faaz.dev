@@ -1,5 +1,5 @@
 import { Tooltip } from "react-tooltip";
-import { Socials } from "../../../utils/constants";
+import { Socials } from "@/utils/constants";
 
 export default function SocialLinks() {
   return (

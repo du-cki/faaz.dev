@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 
-import { github, GITHUB_USERNAME } from "../../../utils/constants";
+import { github, GITHUB_USERNAME } from "@/utils/constants";
 
 export const GET: APIRoute = async (request) => {
   const projects = await github.searchRepositories(

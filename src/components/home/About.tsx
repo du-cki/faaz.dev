@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 
+import { getRelativeTime, getTimeForTimezone } from "@/utils/";
+import { api, StatusColor } from "@/utils/constants";
+
+import type { DiscordStatus, Presence, Location } from "@/lib/api/types";
+
 import { Clock, Clock2, MapPin } from "lucide-react";
-
-import { api, StatusColor } from "../../../utils/constants";
-
-import type { DiscordStatus, Presence, Location } from "../../../lib/api/types";
-
-import { getRelativeTime, getTimeForTimezone } from "../../../utils";
 import { Tooltip } from "react-tooltip";
 
 export default function About() {

@@ -1,8 +1,8 @@
-import GithubClient from "../lib/github";
+import GithubClient from "@/lib/github";
 
 import { SiDiscord, SiGithub, SiSpotify } from "@icons-pack/react-simple-icons";
 import { Mail, type LucideIcon } from "lucide-react";
-import APIClient from "../lib/api";
+import APIClient from "@/lib/api";
 
 export const USER_AGENT = "faaz.dev (github.com/du-cki/faaz.dev)";
 

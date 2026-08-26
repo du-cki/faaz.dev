@@ -1,8 +1,9 @@
 import type { APIRoute } from "astro";
-import LastFMClient from "../../../lib/lastfm";
 
-import type { Image } from "../../../lib/lastfm/types";
-import { LASTFM_USERNAME } from "../../../utils/constants";
+import { LASTFM_USERNAME } from "@/utils/constants";
+
+import LastFMClient from "@/lib/lastfm";
+import type { Image } from "@/lib/lastfm/types";
 
 type Track = {
   name: string;

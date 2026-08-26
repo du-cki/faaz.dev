@@ -8,7 +8,7 @@ import type {
   UserInfoResponse,
 } from "./types";
 
-import { USER_AGENT } from "../../utils/constants";
+import { USER_AGENT } from "@/utils/constants";
 
 class LastFMClient {
   private user: string;
