@@ -18,10 +18,8 @@ export default defineConfig({
     },
   }),
 
-  experimental: {
-    cache: {
-      provider: memoryCache(),
-    },
+  cache: {
+    provider: memoryCache(),
   },
 
   vite: {

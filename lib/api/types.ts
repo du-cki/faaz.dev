@@ -1,5 +1,3 @@
-import { number } from "astro:schema";
-
 export type DiscordStatus = "online" | "dnd" | "idle" | "offline";
 
 export type BaseActivity = {
