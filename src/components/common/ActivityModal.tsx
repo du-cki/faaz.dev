@@ -36,7 +36,7 @@ const ICON_MAPPING = {
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section>
-      <h1 className="text-xs! text-gray-400 tracking-widest select-none">
+      <h1 className="text-xs! text-gray-500 tracking-widest select-none">
         {title}
       </h1>
 
@@ -71,13 +71,13 @@ export const ActivityModal: React.FC<{ data: ApplicationInfoResponse }> = ({
             className="w-full h-full object-cover object-top"
           />
 
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-b from-white/0 to-white pointer-events-none" />
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-b from-white/0 to-card-background pointer-events-none" />
         </div>
 
         <img
           src={data.cover_image}
           alt={`${data.name} cover`}
-          className="absolute left-6 bottom-0 z-10 w-36 h-52 rounded-xl shadow-lg border-[3px] border-white object-cover"
+          className="absolute left-6 bottom-0 z-10 w-36 h-52 rounded-xl shadow-lg object-cover"
         />
       </div>
 
@@ -96,7 +96,7 @@ export const ActivityModal: React.FC<{ data: ApplicationInfoResponse }> = ({
       <div className="grid grid-cols-1 md:grid-cols-3">
         <div className="md:col-span-2 px-6 pb-8 space-y-8">
           <Section title="About">
-            <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+            <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
               {data.description}
             </p>
           </Section>
