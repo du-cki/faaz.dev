@@ -60,8 +60,8 @@ export const GET: APIRoute = async (request) => {
   const data = await client.gameInfo([id]);
 
   request.cache.set({
-    maxAge: 60 * 120,
-    tags: ["api", "application-info"],
+    maxAge: 60 * 60 * 24,
+    swr: 60 * 60 * 24 * 6,
   });
 
   const application = data[0];

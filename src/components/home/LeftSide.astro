@@ -5,11 +5,6 @@ import Activities from "./Activities";
 import { GET } from "../../pages/api/projects";
 import type { Project as ProjectT } from "@/lib/github/types";
 
-Astro.response.headers.set(
-  "CDN-Cache-Control",
-  "public, s-maxage=3600, stale-while-revalidate=86400",
-);
-
 const req = await GET(Astro);
 const projects = await req.json();
 ---

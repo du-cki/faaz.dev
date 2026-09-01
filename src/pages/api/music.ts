@@ -53,6 +53,11 @@ export const GET: APIRoute = async (request) => {
 
   const client = new LastFMClient(LASTFM_USERNAME, LASTFM_API_KEY);
 
+  const cache = {
+    maxAge: 60 * 30,
+    swr: 60 * 30,
+  };
+
   const { user: userInfo } = await client.userInfo();
 
   // since the API is inconsistent with its result and sometimes returns n+1 results
@@ -87,7 +92,7 @@ export const GET: APIRoute = async (request) => {
 
   if (minified) {
     request.cache.set({
-      maxAge: 4 * 60,
+      ...cache,
       tags: ["api", "music", "minified"],
     });
 
@@ -113,7 +118,7 @@ export const GET: APIRoute = async (request) => {
   }));
 
   request.cache.set({
-    maxAge: 4 * 60,
+    ...cache,
     tags: ["api", "music", "maximised"],
   });
 

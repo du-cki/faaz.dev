@@ -1,12 +1,14 @@
 // @ts-check
-import { defineConfig, memoryCache } from "astro/config";
+import { defineConfig } from "astro/config";
 
 import tailwindcss from "@tailwindcss/vite";
 
 import icon from "astro-icon";
 
 import react from "@astrojs/react";
+
 import vercel from "@astrojs/vercel";
+import { cacheVercel } from "@astrojs/vercel/cache";
 
 // https://astro.build/config
 export default defineConfig({
@@ -19,7 +21,7 @@ export default defineConfig({
   }),
 
   cache: {
-    provider: memoryCache(),
+    provider: cacheVercel(),
   },
 
   vite: {
