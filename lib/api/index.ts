@@ -28,7 +28,7 @@ export default class APIClient {
   }
 
   async get_location(): Promise<Location> {
-    const req = await fetch(`${resolveUrl(this.BASE_URL, "http")}/location`, {
+    const req = await fetch(`${resolveUrl(this.BASE_URL)}/location`, {
       headers: {
         "User-Agent": USER_AGENT,
       },
@@ -42,8 +42,19 @@ export default class APIClient {
     return JSONBig.parse(resp);
   }
 
-  async get_recent_activities(): Promise<DiscordActivity[]> {
-    const req = await fetch(`${resolveUrl(this.BASE_URL, "http")}/recent`, {
+  async get_recent_activities({
+    limit = 2,
+    excluded = [],
+  }: {
+    limit?: number;
+    excluded?: string[];
+  }): Promise<DiscordActivity[]> {
+    const params = new URLSearchParams({
+      limit: limit.toString(),
+      excluded: excluded.join(","),
+    });
+
+    const req = await fetch(`${resolveUrl(this.BASE_URL)}/recent?${params}`, {
       headers: {
         "User-Agent": USER_AGENT,
       },

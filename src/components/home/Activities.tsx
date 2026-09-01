@@ -11,6 +11,9 @@ import type {
 } from "@/lib/api/types";
 import { getRelativeTime } from "@/utils/";
 
+const ACTIVITIY_LIMIT = 2;
+const EXCL_ACTIVITIES = ["Spotify", "Visual Studio Code"];
+
 export default function Activities() {
   const [activities, setActivities] = useState<Option<DiscordActivity[]>>(null);
   const [recentActivities, setRecentActivities] = useState<DiscordActivity[]>(
@@ -27,7 +30,9 @@ export default function Activities() {
     api.add_callback(setBackendActivities);
     api.connect();
 
-    api.get_recent_activities().then(setRecentActivities);
+    api
+      .get_recent_activities({ excluded: EXCL_ACTIVITIES })
+      .then(setRecentActivities);
 
     return () => {
       api.remove_callback(setBackendActivities);
@@ -53,7 +58,9 @@ export default function Activities() {
         ));
 
     if (hasChanged) {
-      api.get_recent_activities().then(setRecentActivities);
+      api
+        .get_recent_activities({ excluded: EXCL_ACTIVITIES })
+        .then(setRecentActivities);
     }
 
     prevActiveGames.current = currentGames as string[];
