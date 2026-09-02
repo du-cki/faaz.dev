@@ -1,7 +1,8 @@
 import GithubClient from "@/lib/github";
 
 import { SiDiscord, SiGithub, SiSpotify } from "@icons-pack/react-simple-icons";
-import { Mail, type LucideIcon } from "lucide-react";
+import Mail from "@/components/icons/Mail.tsx";
+
 import APIClient from "@/lib/api";
 
 export const USER_AGENT = "faaz.dev (github.com/du-cki/faaz.dev)";
@@ -22,16 +23,20 @@ export enum StatusColor {
   offline = "#8f919e",
 }
 
-export const Socials: { name: string; href: string; icon: LucideIcon }[] = [
-  {
-    name: "@du_cki",
-    href: `https://discord.com/users/${DISCORD_USER_ID}`,
-    icon: SiDiscord,
-  },
+export const Socials: {
+  name: string;
+  href: string;
+  icon: React.ComponentType<React.ComponentProps<"svg">>;
+}[] = [
   {
     name: "@du-cki",
     href: "https://github.com/du-cki",
     icon: SiGithub,
+  },
+  {
+    name: "me@faaz.dev",
+    href: "mailto:me@faaz.dev",
+    icon: Mail,
   },
   {
     name: "@faaz",
@@ -39,9 +44,9 @@ export const Socials: { name: string; href: string; icon: LucideIcon }[] = [
     icon: SiSpotify,
   },
   {
-    name: "me@faaz.dev",
-    href: "mailto:me@faaz.dev",
-    icon: Mail,
+    name: "@du_cki",
+    href: `https://discord.com/users/${DISCORD_USER_ID}`,
+    icon: SiDiscord,
   },
 ];
 
