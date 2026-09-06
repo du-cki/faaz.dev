@@ -1,4 +1,4 @@
-import type { APIRoute } from "astro";
+import type { APIRoute, CacheOptions } from "astro";
 
 import { LASTFM_USERNAME } from "@/utils/constants";
 
@@ -53,9 +53,8 @@ export const GET: APIRoute = async (request) => {
 
   const client = new LastFMClient(LASTFM_USERNAME, LASTFM_API_KEY);
 
-  const cache = {
+  const cache: CacheOptions = {
     maxAge: 60 * 30,
-    swr: 60 * 30,
   };
 
   const { user: userInfo } = await client.userInfo();
