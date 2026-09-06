@@ -1,0 +1,21 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = {} & HTMLAttributes<"a">;
+
+const { class: className, ...props } = Astro.props;
+---
+
+<a
+  {...props}
+  class:list={[
+    "group font-medium text-accent transition-all duration-300 ease-in-out",
+    className,
+  ]}
+>
+  <span
+    class="bg-bottom-left bg-linear-to-r from-accent to-accent bg-size-[0%_2px] bg-no-repeat group-hover:bg-size-[100%_2px] transition-all duration-500 ease-out rounded"
+  >
+    <slot />
+  </span>
+</a>
