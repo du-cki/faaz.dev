@@ -24,27 +24,26 @@ export enum StatusColor {
 }
 
 export const Socials: {
-  name: string;
+  accent?: string;
   href: string;
   icon: React.ComponentType<React.ComponentProps<"svg">>;
 }[] = [
   {
-    name: "@du-cki",
+    accent: "var(--color-brand-github)",
     href: "https://github.com/du-cki",
     icon: SiGithub,
   },
   {
-    name: "me@faaz.dev",
     href: "mailto:me@faaz.dev",
     icon: Mail,
   },
   {
-    name: "@faaz",
+    accent: "var(--color-brand-spotify)",
     href: "https://open.spotify.com/user/mjbcspgcrzp4188egf1zo6c9s",
     icon: SiSpotify,
   },
   {
-    name: "@du_cki",
+    accent: "var(--color-brand-discord)",
     href: `https://discord.com/users/${DISCORD_USER_ID}`,
     icon: SiDiscord,
   },

@@ -4,7 +4,7 @@ import Layout from "@/layouts/Layout.astro";
 import dayjs from "dayjs";
 import { getArticle } from "@/utils/";
 
-import Socials from "@/components/common/Socials.tsx";
+import Socials from "@/components/home/Socials.astro";
 
 import LeftSide from "@/components/home/LeftSide.astro";
 import RightSide from "@/components/home/RightSide.astro";
@@ -32,7 +32,7 @@ const year_of_birth = dayjs().diff(DATE_OF_BIRTH, "years");
       both professionally and as a hobby.
     </p>
 
-    <Socials client:load />
+    <Socials />
   </section>
 
   <section>

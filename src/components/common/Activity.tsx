@@ -109,7 +109,7 @@ function SpotifyActivity({
           />
 
           <div className="absolute -bottom-1 -right-1 bg-card-background rounded-full p-0.5">
-            <SiSpotify className="w-4 h-4 text-spotify-green" />
+            <SiSpotify className="w-4 h-4 text-brand-spotify" />
           </div>
         </div>
 
@@ -134,7 +134,7 @@ function SpotifyActivity({
       </div>
 
       <div
-        className="h-1 bg-gray-200 group-hover:bg-spotify-green transition-all rounded-r-full"
+        className="h-1 bg-gray-200 group-hover:bg-brand-spotify transition-all rounded-r-full"
         style={{ width: `${perc}%` }}
       />
     </div>

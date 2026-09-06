@@ -2,7 +2,9 @@
 @import "react-tooltip/dist/react-tooltip.css";
 
 @theme {
-  --color-spotify-green: #1db954;
+  --color-brand-github: #181717;
+  --color-brand-spotify: #1db954;
+  --color-brand-discord: #5865f2;
 
   --color-background: #f3f4f6;
   --color-card-background: #e5e7eb;

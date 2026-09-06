@@ -1,0 +1,19 @@
+---
+import { Socials as socials } from "@/utils/constants";
+---
+
+<div class="flex gap-4 mb-8">
+  {
+    socials.map(({ href, icon: Icon, accent }) => (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-gray-500 transition-all duration-200 hover:scale-110 hover:text-(--accent-color)"
+        style={accent ? `--accent-color: ${accent}` : null}
+      >
+        <Icon className="w-6 h-6" />
+      </a>
+    ))
+  }
+</div>
