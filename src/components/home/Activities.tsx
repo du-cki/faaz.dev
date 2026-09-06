@@ -11,8 +11,7 @@ import type {
 } from "@/lib/api/types";
 import { getRelativeTime } from "@/utils/";
 
-const ACTIVITIY_LIMIT = 2;
-const EXCL_ACTIVITIES = ["Spotify", "Visual Studio Code"];
+const EXCL_ACTIVITIES = ["Spotify", "Visual Studio Code", "Wordle"];
 
 export default function Activities() {
   const [activities, setActivities] = useState<Option<DiscordActivity[]>>(null);
