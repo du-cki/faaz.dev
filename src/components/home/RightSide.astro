@@ -2,10 +2,26 @@
 import { Friends } from "@/utils/constants";
 
 import { Icon } from "astro-icon/components";
-import Link from "../common/Link.astro";
 
 import About from "./About";
 import CodingStats from "./CodingStats";
+
+import Link from "../common/Link.astro";
+import ExploreLink from "../common/ExploreLink.astro";
+
+const Explore: {
+  href: string;
+  label: string;
+  description: string;
+  icon: string;
+}[] = [
+  {
+    href: "/me/music",
+    label: "Music",
+    description: "Top Songs & Artists",
+    icon: "lucide:music",
+  },
+];
 ---
 
 <section>
@@ -45,12 +61,20 @@ import CodingStats from "./CodingStats";
   <h2 class="text-2xl font-medium mb-4">Explore</h2>
 
   <div class="space-y-2">
-    <Link text="Music" href="/me/music" description="Top Songs & Artists">
-      <Icon
-        name="lucide:music"
-        class="w-5 h-5 text-gray-600 group-hover:text-gray-800"
-        slot="icon"
-      />
-    </Link>
+    {
+      Explore.map((page) => (
+        <ExploreLink
+          text={page.label}
+          href={page.href}
+          description={page.description}
+        >
+          <Icon
+            name={page.icon}
+            class="w-5 h-5 text-gray-600 group-hover:text-gray-800"
+            slot="icon"
+          />
+        </ExploreLink>
+      ))
+    }
   </div>
 </section>
