@@ -7,6 +7,17 @@ import type { Project as ProjectT } from "@/lib/github/types";
 
 const req = await GET(Astro);
 const projects = await req.json();
+
+const experience = [
+  {
+    title: "Lamna",
+    subtitle: "Software Developer",
+    period: { start: "2023", end: "Present" },
+    href: "https://lamna.app",
+    description:
+      "A privacy-first, self-hostable chat app built as a hobby project, focused on encryption, user control, and data ownership.",
+  },
+];
 ---
 
 <section>
@@ -41,11 +52,13 @@ const projects = await req.json();
   <h1>Experience</h1>
 
   <div class="space-y-3">
-    <Timeline
-      title="Lamna"
-      subtitle="Software Developer"
-      period={{ start: "2023", end: "Present" }}
-      description="A privacy-first, self-hostable chat app built as a hobby project, focused on encryption, user control, and data ownership."
-    />
+    {
+      experience.map((exp) => (
+        <Timeline
+          {...exp}
+          icon={`https://www.google.com/s2/favicons?domain=${exp.href}&sz=256`}
+        />
+      ))
+    }
   </div>
 </section>
