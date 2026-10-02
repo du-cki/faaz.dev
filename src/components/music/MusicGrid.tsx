@@ -9,7 +9,7 @@ export default function MusicGrid() {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch("/api/music?minified=false");
+      const response = await fetch("/api/music");
       const data = await response.json();
       setLastFmData(data);
     })();
