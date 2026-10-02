@@ -23,25 +23,12 @@ type Artist = {
 };
 
 export type MusicResponse = {
-  user: {
-    name: string;
-    playcount: string;
-    artist_count: string;
-    track_count: string;
-    album_count: string;
-    image: Image[];
-    created_at: number;
-    url: string;
-  };
   recentTracks: Track[];
   topTracks: Track[];
   topArtists: Artist[];
 };
 
 export const GET: APIRoute = async (request) => {
-  const { searchParams } = request.url;
-  const minified = !(searchParams.get("minified") === "false");
-
   const { LASTFM_API_KEY } = import.meta.env;
 
   if (!LASTFM_API_KEY) {
@@ -57,8 +44,6 @@ export const GET: APIRoute = async (request) => {
     maxAge: 60 * 30,
   };
 
-  const { user: userInfo } = await client.userInfo();
-
   // since the API is inconsistent with its result and sometimes returns n+1 results
   const rt = await client.getRecentTracks(16 - 1);
   const cutoff =
@@ -67,16 +52,6 @@ export const GET: APIRoute = async (request) => {
       : rt.recenttracks.track.length - 1;
 
   const response: MusicResponse = {
-    user: {
-      name: userInfo.name,
-      playcount: userInfo.playcount,
-      artist_count: userInfo.artist_count,
-      track_count: userInfo.track_count,
-      album_count: userInfo.album_count,
-      image: userInfo.image,
-      created_at: userInfo.registered["#text"],
-      url: userInfo.url,
-    },
     recentTracks: rt.recenttracks.track.slice(-cutoff).map((t) => ({
       name: t.name,
       image: t.image,
@@ -88,15 +63,6 @@ export const GET: APIRoute = async (request) => {
     topTracks: [],
     topArtists: [],
   };
-
-  if (minified) {
-    request.cache.set({
-      ...cache,
-      tags: ["api", "music", "minified"],
-    });
-
-    return Response.json(response);
-  }
 
   const tt = await client.getTopTracks("7day");
   const ta = await client.getTopArtists("7day");
@@ -118,7 +84,7 @@ export const GET: APIRoute = async (request) => {
 
   request.cache.set({
     ...cache,
-    tags: ["api", "music", "maximised"],
+    tags: ["api", "music"],
   });
 
   return Response.json(response);
