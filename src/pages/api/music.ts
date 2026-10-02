@@ -23,9 +23,9 @@ type Artist = {
 };
 
 export type MusicResponse = {
-  recentTracks: Track[];
   topTracks: Track[];
   topArtists: Artist[];
+  recentTracks: Track[];
 };
 
 export const GET: APIRoute = async (request) => {
@@ -40,34 +40,11 @@ export const GET: APIRoute = async (request) => {
 
   const client = new LastFMClient(LASTFM_USERNAME, LASTFM_API_KEY);
 
-  const cache: CacheOptions = {
-    maxAge: 60 * 30,
-  };
+  const tt = await client.getTopTracks({ period: "7day", limit: 6 });
+  const ta = await client.getTopArtists({ period: "7day", limit: 4 });
+  const rt = await client.getRecentTracks({ extended: true, limit: 16 });
 
-  // since the API is inconsistent with its result and sometimes returns n+1 results
-  const rt = await client.getRecentTracks(16 - 1);
-  const cutoff =
-    rt.recenttracks.track.length % 2 == 0
-      ? rt.recenttracks.track.length
-      : rt.recenttracks.track.length - 1;
-
-  const response: MusicResponse = {
-    recentTracks: rt.recenttracks.track.slice(-cutoff).map((t) => ({
-      name: t.name,
-      image: t.image,
-      artist: t.artist.name,
-      album: t.album["#text"],
-      url: t.url,
-      loved: t.loved == "1",
-    })),
-    topTracks: [],
-    topArtists: [],
-  };
-
-  const tt = await client.getTopTracks("7day");
-  const ta = await client.getTopArtists("7day");
-
-  response.topTracks = tt.toptracks.track.map((t) => ({
+  const topTracks: Track[] = tt.toptracks.track.map((t) => ({
     name: t.name,
     image: t.image,
     artist: t.artist.name,
@@ -75,15 +52,37 @@ export const GET: APIRoute = async (request) => {
     playcount: t.playcount,
   }));
 
-  response.topArtists = ta.topartists.artist.map((a) => ({
+  const topArtists: Artist[] = ta.topartists.artist.map((a) => ({
     name: a.name,
     image: a.image,
     url: a.url,
     playcount: a.playcount,
   }));
 
+  const cutoff =
+    rt.recenttracks.track.length % 2 == 0
+      ? rt.recenttracks.track.length
+      : rt.recenttracks.track.length - 1;
+
+  const recentTracks: Track[] = rt.recenttracks.track
+    .slice(-cutoff)
+    .map((t) => ({
+      name: t.name,
+      image: t.image,
+      artist: t.artist.name,
+      album: t.album["#text"],
+      url: t.url,
+      loved: t.loved == "1",
+    }));
+
+  const response: MusicResponse = {
+    topTracks,
+    topArtists,
+    recentTracks,
+  };
+
   request.cache.set({
-    ...cache,
+    maxAge: 60 * 30,
     tags: ["api", "music"],
   });
 

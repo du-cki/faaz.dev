@@ -22,18 +22,16 @@ export default function MusicGrid() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {lastFmData ? (
-            lastFmData.topTracks
-              .slice(0, 6)
-              .map((track, index) => (
-                <MusicItem
-                  key={index}
-                  type="music"
-                  name={track.name}
-                  artist={track.artist!}
-                  href={track.url}
-                  playcount={track.playcount!}
-                />
-              ))
+            lastFmData.topTracks.map((track, index) => (
+              <MusicItem
+                key={index}
+                type="music"
+                name={track.name}
+                artist={track.artist!}
+                href={track.url}
+                playcount={track.playcount!}
+              />
+            ))
           ) : (
             <>
               {Array.from({ length: 6 }).map((_, index) => (
@@ -55,17 +53,15 @@ export default function MusicGrid() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {lastFmData ? (
-            lastFmData.topArtists
-              .slice(0, 4)
-              .map((artist, index) => (
-                <MusicItem
-                  key={index}
-                  type="music"
-                  name={artist.name}
-                  href={artist.url}
-                  playcount={artist.playcount!}
-                />
-              ))
+            lastFmData.topArtists.map((artist, index) => (
+              <MusicItem
+                key={index}
+                type="music"
+                name={artist.name}
+                href={artist.url}
+                playcount={artist.playcount!}
+              />
+            ))
           ) : (
             <>
               {Array.from({ length: 4 }).map((_, index) => (

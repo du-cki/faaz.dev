@@ -10,6 +10,16 @@ import type {
 
 import { USER_AGENT } from "@/utils/constants";
 
+const _ = <T extends Record<string, undefined | string>>(
+  obj: T,
+): Record<string, string> => {
+  const filteredObj = Object.fromEntries(
+    Object.entries(obj).filter(([_, value]) => value != undefined),
+  );
+
+  return filteredObj as any;
+};
+
 class LastFMClient {
   private user: string;
   private apiKey: string;
@@ -41,51 +51,70 @@ class LastFMClient {
     return await resp.json();
   }
 
-  async getRecentTracks(
-    limit: number = 15,
-    page: number = 1,
-    from: number = 0,
-    extended: 0 | 1 = 1,
-  ): Promise<RecentTracksResponse> {
-    const params = new URLSearchParams({
-      method: "user.getrecenttracks",
-      page: page.toString(),
-      limit: limit.toString(),
-      from: from.toString(),
-      extended: extended.toString(),
-    });
+  async getRecentTracks({
+    from,
+    limit,
+    page = 1,
+    extended = false,
+  }: {
+    limit?: number;
+    page?: number;
+    from?: number;
+    extended?: boolean;
+  }): Promise<RecentTracksResponse> {
+    const params = new URLSearchParams(
+      _({
+        method: "user.getrecenttracks",
+        page: page?.toString(),
+        limit: limit?.toString(),
+        from: from?.toString(),
+        extended: extended ? "1" : "0",
+      }),
+    );
 
     return this.request<RecentTracksResponse>(params);
   }
 
-  async getTopArtists(
-    period: Period,
-    limit: number = 15,
-    page: number = 1,
-  ): Promise<RecentArtistsResponse> {
-    const params = new URLSearchParams({
-      method: "user.gettopartists",
-      limit: limit.toString(),
-      page: page.toString(),
-      period,
-    });
-
-    return this.request<RecentArtistsResponse>(params);
-  }
-
-  async getTopTracks(
-    period: Period,
-    limit: number = 15,
-    page: number = 1,
-  ): Promise<TopTracksResponse> {
-    const params = new URLSearchParams({
-      method: "user.gettoptracks",
-      period,
-      limit: limit.toString(),
-      page: page.toString(),
-    });
+  async getTopTracks({
+    period,
+    limit,
+    page = 1,
+  }: {
+    period: Period;
+    limit: number;
+    page?: number;
+  }): Promise<TopTracksResponse> {
+    const params = new URLSearchParams(
+      _({
+        method: "user.gettoptracks",
+        period,
+        limit: limit?.toString(),
+        page: page?.toString(),
+      }),
+    );
 
     return this.request<TopTracksResponse>(params);
+  }
+
+  async getTopArtists({
+    period,
+    limit,
+    page = 1,
+  }: {
+    period: Period;
+    limit: number;
+    page?: number;
+  }): Promise<RecentArtistsResponse> {
+    const params = new URLSearchParams(
+      _({
+        method: "user.gettopartists",
+        period,
+        limit: limit?.toString(),
+        page: page?.toString(),
+      }),
+    );
+
+    return this.request<RecentArtistsResponse>(params);
   }
 
   async userInfo(user?: string): Promise<UserInfoResponse> {
