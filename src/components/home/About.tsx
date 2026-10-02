@@ -6,7 +6,7 @@ import { api, StatusColor } from "@/utils/constants";
 import type { DiscordStatus, Presence, Location } from "@/lib/api/types";
 
 import { Clock, Clock2, MapPin } from "lucide-react";
-import { Tooltip } from "react-tooltip";
+import Popover from "@/components/common/Popover";
 
 export default function About() {
   const [location, setLocation] = useState<Option<Location>>(null);
@@ -51,20 +51,19 @@ export default function About() {
 
   return (
     <>
-      <Tooltip id="about-tooltip" style={{ padding: 5 }} />
-
-      <h1>
+      <h1 className="gap-1">
         About{" "}
         {location?.recorded_at && (
-          <Clock2
-            className="w-4 h-4 ml-1 inline-block text-gray-600 hover:text-black transition-all"
-            data-tooltip-id="about-tooltip"
-            data-tooltip-content={`last updated ${getRelativeTime(
-              location.recorded_at / 1000,
-            )}`}
-            data-tooltip-place="top"
-            onClick={() => updateLocation()}
-          />
+          <Popover
+            align="center"
+            underline={false}
+            content={`last updated ${getRelativeTime(location.recorded_at / 1000)}`}
+          >
+            <Clock2
+              className="w-4 h-4 block text-gray-600 hover:text-black transition-all"
+              onClick={() => updateLocation()}
+            />
+          </Popover>
         )}
       </h1>
 

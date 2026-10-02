@@ -4,7 +4,7 @@ import { Icon } from "astro-icon/components";
 import { LASTFM_USERNAME } from "@/utils/constants";
 
 import Layout from "@/layouts/Layout.astro";
-import AnimatedAnchor from "@/components/common/AnimatedAnchor.astro";
+import Popover from "@/components/common/Popover";
 
 import MusicGrid from "@/components/music/MusicGrid";
 ---
@@ -26,11 +26,8 @@ import MusicGrid from "@/components/music/MusicGrid";
 
     <p class="mb-6">
       Latest listening activity on{" "}
-      <AnimatedAnchor
-        href={`https://last.fm/user/${LASTFM_USERNAME}`}
-        target="_blank"
-      >
-        LastFM</AnimatedAnchor
+      <Popover href={`https://last.fm/user/${LASTFM_USERNAME}`} target="_blank">
+        LastFM</Popover
       >.
     </p>
   </section>

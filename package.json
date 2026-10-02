@@ -28,7 +28,6 @@
     "lucide-react": "^0.577.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "react-tooltip": "^5.30.0",
     "tailwindcss": "^4.2.1"
   }
 }

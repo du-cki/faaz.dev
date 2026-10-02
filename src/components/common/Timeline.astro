@@ -1,6 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
 
+import clsx from "clsx";
+
 interface Props {
   title: string;
   description: string;
@@ -67,7 +69,7 @@ const {
 
   {subtitle && <p class="text-gray-600 font-medium! mb-6">{subtitle}</p>}
 
-  <p class={`text-gray-600 font-medium! ${tags.length > 0 ? "mb-6" : ""}`}>
+  <p class={clsx("text-gray-600 font-medium!", tags.length > 0 && "mb-6")}>
     {description}
   </p>
 

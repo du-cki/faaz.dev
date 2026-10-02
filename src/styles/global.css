@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "react-tooltip/dist/react-tooltip.css";
 
 @theme {
   --color-brand-github: #181717;
