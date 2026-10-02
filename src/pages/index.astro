@@ -26,13 +26,9 @@ const name = {
       Hello! I'm{" "}
       <Popover align="center" client:idle>
         {name.romanization}
-        <span slot="content" class="flex divide-x divide-neutral-200">
-          <span lang="ar" class="pr-3 text-2xl">{name.native}</span>
-          <span
-            class="flex items-center pl-3 text-sm tracking-wide text-neutral-500 font-mono"
-          >
-            /{name.ipa}/
-          </span>
+        <span slot="content" class="flex divide-x divide-neutral-200 font-mono">
+          <span class="text-2xl pr-3" lang="ar">{name.native}</span>
+          <span class="self-center pl-3 text-neutral-500">/{name.ipa}/</span>
         </span>
       </Popover>.
     </h1>
